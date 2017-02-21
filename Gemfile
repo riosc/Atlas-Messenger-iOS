@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 ruby '2.3.1'
 
+gem 'fastlane'
 gem 'byebug'
 gem 'json'
 gem 'rake'
