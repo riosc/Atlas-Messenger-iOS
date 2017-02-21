@@ -23,6 +23,8 @@
 #import <LayerKit/LYRClient.h>
 #import "ATLMAuthenticationProvider.h"
 
+@class ATLMUserCredentials;
+
 extern NSString * _Nonnull const ATLMConversationMetadataDidChangeNotification;
 extern NSString * _Nonnull const ATLMConversationParticipantsDidChangeNotification;
 extern NSString * _Nonnull const ATLMConversationDeletedNotification;
@@ -92,7 +94,7 @@ typedef NS_ENUM(NSUInteger, ATLMLayerControllerError) {
  @param credentials An `NSDictionary` containing authetication credentials. 
  @param completions A block to be called upon completion of the operation.
  */
-- (void)authenticateWithCredentials:(nonnull NSDictionary *)credentials completion:(nonnull void (^)(LYRSession * _Nonnull session, NSError *_Nullable error))completion;
+- (void)authenticateWithCredentials:(nonnull ATLMUserCredentials *)credentials completion:(nonnull void (^)(LYRSession * _Nonnull session, NSError *_Nullable error))completion;
 
 /**
  @abstract Updates the remote notification device token on the underlying `LYRClient` insance.

@@ -23,6 +23,7 @@
 #import "ATLMErrors.h"
 #import "ATLMConstants.h"
 #import "ATLMessagingUtilities.h"
+#import "ATLMUserCredentials.h"
 
 NSString *const ATLMConversationMetadataDidChangeNotification = @"LSConversationMetadataDidChangeNotification";
 NSString *const ATLMConversationParticipantsDidChangeNotification = @"LSConversationParticipantsDidChangeNotification";
@@ -60,14 +61,14 @@ NSString *const ATLMLayerControllerErrorDomain = @"ATLMLayerControllerErrorDomai
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)authenticateWithCredentials:(NSDictionary *)credentials completion:(void (^)(LYRSession *session, NSError *error))completion
+- (void)authenticateWithCredentials:(ATLMUserCredentials *)credentials completion:(void (^)(LYRSession *session, NSError *error))completion
 {
     [self.layerClient requestAuthenticationNonceWithCompletion:^(NSString * _Nullable nonce, NSError * _Nullable error) {
         if (!nonce) {
             completion(nil, error);
             return;
         }
-        [self.authenticationProvider authenticateWithCredentials:credentials nonce:nonce completion:^(NSString * _Nonnull identityToken, NSError * _Nonnull error) {
+        [self.authenticationProvider authenticateWithCredentials:[credentials asDictionary] nonce:nonce completion:^(NSString * _Nonnull identityToken, NSError * _Nonnull error) {
             if (!identityToken) {
                 completion(nil, error);
                 return;

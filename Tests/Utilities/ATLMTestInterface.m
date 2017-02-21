@@ -45,7 +45,10 @@
         ATLMLayerClient *client = [ATLMLayerClient clientWithAppID:appID];
         _applicationController.layerClient = client;
         
-        ATLMAPIManager *manager = [ATLMAPIManager managerWithBaseURL:ATLMRailsBaseURL(ATLMEnvironmentProduction) layerClient:client];
+        NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"LayerConfiguration.json" withExtension:nil];
+        ATLMConfiguration *configuration = [[ATLMConfiguration alloc] initWithFileURL:fileURL];
+        
+        ATLMAPIManager *manager = [ATLMAPIManager managerWithBaseURL:(configuration.identityProviderURL ?: ATLMRailsBaseURL(ATLMEnvironmentProduction)) layerClient:client];
         _applicationController.APIManager = manager;
         
         _contentFactory = [ATLMLayerContentFactory layerContentFactoryWithLayerClient:applicationController.layerClient];

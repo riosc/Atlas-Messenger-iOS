@@ -20,21 +20,33 @@
 
 #import <Foundation/Foundation.h>
 #import "ATLMAuthenticating.h"
+#import "ATLMConfiguration.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*
- @abstract A key whose value should be the first name of an authenticating user.
+ @abstract A key whose value should be the email address of an authenticating user.
  */
-extern NSString * _Nonnull const ATLMFirstNameKey;
+extern NSString * _Nonnull const ATLMEmailKey;
 
 /*
- @abstract A key whose value should be the last name of an authenticating user.
+ @abstract A key whose value should be the password of an authenticating user.
  */
-extern NSString * _Nonnull const ATLMLastNameKey;
+extern NSString * _Nonnull const ATLMPasswordKey;
 
 /**
  @abstract The `ATLMAuthenticationProvider` conforms to the `ATLMAuthenticating` protocol. It provides for making requests to the Layer Identity Provider in order to request identity tokens needed of LayerKit authentication.
  */
 @interface ATLMAuthenticationProvider : NSObject <ATLMAuthenticating>
+
+@property (nonatomic, copy, readonly) NSURL *layerAppID;
+
+/**
+ @abstract Initializes a `ATLMAuthenticationProvider` with a `ATLMConfiguration`
+ */
+- (instancetype)initWithConfiguration:(ATLMConfiguration *)configuration;
+- (instancetype)initWithBaseURL:(nonnull NSURL *)baseURL layerAppID:(NSURL *)layerAppID NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  @abstract The initializer for the `ATLMAuthenticationProvider`.
@@ -43,3 +55,4 @@ extern NSString * _Nonnull const ATLMLastNameKey;
 + (nonnull instancetype)providerWithBaseURL:(nonnull NSURL *)baseURL layerAppID:(nonnull NSURL *)layerAppID;
 
 @end
+NS_ASSUME_NONNULL_END

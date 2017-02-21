@@ -9,21 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "ATLMLayerController.h"
 
-@class ATLMApplicationViewController;
-
-@protocol ATLMApplicationControllerDelegate <NSObject>
-
-@required
-
-/**
- @abstract Informs the delegate that the application has obtained a Layer app ID.
- @param applicationController The controller that collected the Layer app ID.
- @param layerAppID The Layer app ID that was collected.
- */
-- (void)applicationController:(nonnull ATLMApplicationViewController *)applicationController didCollectLayerAppID:(nonnull NSURL *)layerAppID;
-
-@end
-
 /**
  @abstract The `ATLMApplicationViewController` is responsible for taking care
    of the UI. It listens on the `ATLMLayerController` state changes and
@@ -31,8 +16,6 @@
    setup remote notification registration and updating the icon badge counts.
  */
 @interface ATLMApplicationViewController : UIViewController <ATLMLayerControllerDelegate>
-
-@property (nullable, nonatomic, weak) id<ATLMApplicationControllerDelegate> delegate;
 
 /**
  @abstract Reference to the application controller view controller works with

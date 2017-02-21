@@ -8,12 +8,12 @@
 
 #import "ATLMApplicationViewController.h"
 #import "ATLMSplashView.h"
-#import "ATLMQRScannerController.h"
 #import "ATLMRegistrationViewController.h"
 #import "ATLMConversationListViewController.h"
 #import "ATLMConversationViewController.h"
 #import "ATLMUtilities.h"
 #import "ATLMNavigationController.h"
+#import "ATLMUserCredentials.h"
 
 ///-------------------------
 /// @name Application States
@@ -23,32 +23,26 @@ typedef NS_ENUM(NSUInteger, ATLMApplicationState) {
     /**
      @abstract A state where the app has not yet established a state.
      */
-    ATLMApplicationStateIndeterminate           = 0,
-    
-    /**
-     @abstract A state where the app doesn't have a Layer appID yet.
-     */
-    ATLMApplicationStateAppIDNotSet             = 1,
+    ATLMApplicationStateIndeterminate,
     
     /**
      @abstract A state where the app has the appID, but no user credentials.
      */
-    ATLMApplicationStateCredentialsRequired     = 2,
+    ATLMApplicationStateCredentialsRequired,
     
     /**
      @abstract A state where the app is fully authenticated.
      */
-    ATLMApplicationStateAuthenticated           = 3
+    ATLMApplicationStateAuthenticated
 };
 
 static NSString *const ATLMPushNotificationSoundName = @"layerbell.caf";
 static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationViewControllerObservationContext;
 
-@interface ATLMApplicationViewController () <ATLMQRScannerControllerDelegate, ATLMRegistrationViewControllerDelegate, ATLMConversationListViewControllerPresentationDelegate>
+@interface ATLMApplicationViewController () <ATLMRegistrationViewControllerDelegate, ATLMConversationListViewControllerPresentationDelegate>
 
 @property (assign, nonatomic, readwrite) ATLMApplicationState state;
 @property (nullable, nonatomic) ATLMSplashView *splashView;
-@property (nullable, nonatomic) ATLMQRScannerController *QRCodeScannerController;
 @property (nullable, nonatomic) UINavigationController *registrationNavigationController;
 @property (nullable, nonatomic) ATLMConversationListViewController *conversationListViewController;
 
@@ -73,14 +67,10 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
 
 - (ATLMApplicationState)determineInitialApplicationState
 {
-    if (self.layerController == nil) {
-        return ATLMApplicationStateAppIDNotSet;
+    if (self.layerController.layerClient.authenticatedUser == nil) {
+        return ATLMApplicationStateCredentialsRequired;
     } else {
-        if (self.layerController.layerClient.authenticatedUser == nil) {
-            return ATLMApplicationStateCredentialsRequired;
-        } else {
-            return ATLMApplicationStateAuthenticated;
-        }
+        return ATLMApplicationStateAuthenticated;
     }
 }
 
@@ -146,16 +136,6 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
     }
 }
 
-- (void)presentQRCodeScannerViewController
-{
-    if (!self.registrationNavigationController) {
-        [self presentRegistrationNavigationController];
-    }
-    ATLMQRScannerController *QRCodeScannerController = [ATLMQRScannerController new];
-    QRCodeScannerController.delegate = self;
-    [self.registrationNavigationController pushViewController:QRCodeScannerController animated:NO];
-}
-
 - (void)presentRegistrationViewController
 {
     if (!self.registrationNavigationController) {
@@ -183,10 +163,6 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
 {
     [self makeSplashViewVisible:YES];
     switch (self.state) {
-        case ATLMApplicationStateAppIDNotSet:{
-            [self presentQRCodeScannerViewController];
-            break;
-        }
         case ATLMApplicationStateCredentialsRequired: {
             [self presentRegistrationViewController];
             break;
@@ -199,33 +175,6 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
             [NSException raise:NSInternalInconsistencyException format:@"Unhandled ATLMApplicationState value=%lu", (unsigned long)self.state];
             break;
     }
-}
-
-#pragma mark - ATLMQRScannerControllerDelegate implementation
-
-- (void)scannerController:(ATLMQRScannerController *)scannerController didScanLayerAppID:(NSURL *)appID
-{
-    NSLog(@"Received an appID=%@ from the scannerController=%@", appID, scannerController);
-    [self.delegate applicationController:self didCollectLayerAppID:appID];
-}
-
-- (void)scannerController:(ATLMQRScannerController *)scannerController didFailWithError:(NSError *)error
-{
-    ATLMAlertWithError(error);
-}
-
-#pragma mark - ATLMRegistrationViewControllerDelegate implementation
-
-- (void)registrationViewController:(ATLMRegistrationViewController *)registrationViewController didSubmitCredentials:(NSDictionary *)credentials
-{
-    [self.layerController authenticateWithCredentials:credentials completion:^(LYRSession *_Nonnull session, NSError *_Nullable error) {
-        if (session) {
-            self.state = ATLMApplicationStateAuthenticated;
-        } else {
-            NSLog(@"Failed to authenticate with credentials=%@. errors=%@", credentials, error);
-            ATLMAlertWithError(error);
-        }
-    }];
 }
 
 #pragma mark - ATLMConversationListViewControllerPresentationDelegate implementation
@@ -343,6 +292,20 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
 - (void)handleLayerClientDidDeauthenticateNotification:(NSNotification *)notification
 {
     self.state = ATLMApplicationStateCredentialsRequired;
+}
+
+#pragma mark - ATLMRegistrationViewControllerDelegate implementation
+
+- (void)registrationViewController:(ATLMRegistrationViewController *)registrationViewController didSubmitCredentials:(ATLMUserCredentials *)credentials
+{
+    [self.layerController authenticateWithCredentials:credentials completion:^(LYRSession *_Nonnull session, NSError *_Nullable error) {
+        if (session) {
+            self.state = ATLMApplicationStateAuthenticated;
+        } else {
+            NSLog(@"Failed to authenticate with credentials=%@. errors=%@", credentials, error);
+            ATLMAlertWithError(error);
+        }
+    }];
 }
 
 @end
