@@ -1,3 +1,5 @@
+
+[![Build Status](https://circleci.com/gh/layerhq/Atlas-Messenger-iOS.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/layerhq/Atlas-Messenger-iOS)
 ![Atlas Header](Resources/atlas-github-header.png)
 
 # Atlas Messenger iOS
