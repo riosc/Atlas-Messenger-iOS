@@ -11,5 +11,32 @@ platform :ios do
   lane :test do
     scan
   end
+  
+  desc "Deploys Atlas Messenger to HockeyApp"
+  lane :deploy do
+    configureApp
+    cert
+    sigh
+
+    # Circle CI handles setting the CODE_SIGN_IDENTITY
+    gym(
+      xcargs: "PROVISIONING_PROFILE=\"#{ENV["ATLM_PROVISIONING_PROFILE"]}\""
+    )
+    hockey(
+      notes: File.read("../CHANGELOG.md")
+    )
+  end
+
+  def configureApp 
+    require 'json'
+    configuration = {
+      :app_id => ENV["ATLM_APP_ID"], 
+      :identity_provider_url => ENV["ATLM_IDENTITY_PROVIDER_URL"]
+    }.to_json
+ 
+    File.open("../LayerConfiguration.json", "w") do |f|
+      f.write configuration
+    end    
+  end
 end
 

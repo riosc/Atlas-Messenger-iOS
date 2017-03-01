@@ -1,6 +1,8 @@
 Pods
 Releases
 xcodebuild.log
+*.cer
+*.mobileprovision
 
 # Created by https://www.gitignore.io/api/xcode,swift,fastlane,carthage,appcode,ruby
 
