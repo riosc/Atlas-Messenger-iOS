@@ -45,6 +45,7 @@
 		251D8DDA1A9688C50000BFA2 /* ATLMStyleValue1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 251D8DBD1A9688C40000BFA2 /* ATLMStyleValue1TableViewCell.m */; };
 		251D8DDB1A9688C50000BFA2 /* ATLMOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251D8DBF1A9688C40000BFA2 /* ATLMOverlayView.m */; };
 		259A57741950EB83000E27B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259A576E1950EB83000E27B0 /* InfoPlist.strings */; };
+		402EC5431E673F96003238BE /* TestLayerConfiguration-notArray.json in Resources */ = {isa = PBXBuildFile; fileRef = 402EC5411E673EA0003238BE /* TestLayerConfiguration-notArray.json */; };
 		408588481E3C097700C7831C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 408588471E3C097700C7831C /* main.m */; };
 		4085884E1E3C0A1500C7831C /* ATLMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4085884D1E3C0A1500C7831C /* ATLMConfiguration.m */; };
 		4085884F1E3C0A9000C7831C /* ATLMAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4085884B1E3C09F800C7831C /* ATLMAuthenticationProvider.m */; };
@@ -152,6 +153,7 @@
 		259A577B1950EB92000E27B0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25BB93551D3D70A200F90484 /* Atlas Messenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Atlas Messenger.entitlements"; sourceTree = "<group>"; };
 		32F8ECB5C359B9ED2B2D3DD3 /* Pods-Atlas Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Atlas Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Atlas Messenger/Pods-Atlas Messenger.release.xcconfig"; sourceTree = "<group>"; };
+		402EC5411E673EA0003238BE /* TestLayerConfiguration-notArray.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TestLayerConfiguration-notArray.json"; sourceTree = "<group>"; };
 		408588471E3C097700C7831C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		408588491E3C09B400C7831C /* ATLMAuthenticating.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATLMAuthenticating.h; sourceTree = "<group>"; };
 		4085884A1E3C09F800C7831C /* ATLMAuthenticationProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATLMAuthenticationProvider.h; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				D0C483DF1E55428000DB02CF /* TestLayerConfiguration-identityProviderURLNull.json */,
 				D0C483D61E553E5300DB02CF /* TestLayerConfiguration-invalid.json */,
 				409121191E45127200CB0BBE /* TestLayerConfiguration.json */,
+				402EC5411E673EA0003238BE /* TestLayerConfiguration-notArray.json */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				402EC5431E673F96003238BE /* TestLayerConfiguration-notArray.json in Resources */,
 				D0C483E41E55428000DB02CF /* TestLayerConfiguration-appIDNull.json in Resources */,
 				D0C483DC1E55413800DB02CF /* TestLayerConfiguration-identityProviderURLNotSet.json in Resources */,
 				D0C483DA1E55408100DB02CF /* TestLayerConfiguration-appIDNotSet.json in Resources */,

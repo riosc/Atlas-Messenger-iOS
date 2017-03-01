@@ -37,20 +37,31 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
 
     // Load the content of the file in memory.
     NSError *fileReadError;
-    NSString *configurationJSON = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&fileReadError];
-    if (configurationJSON == nil) {
+    NSString *configurationsJSON = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&fileReadError];
+    if (configurationsJSON == nil) {
         // File read failure.
         [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file could not be read; error=%@", self.class, fileReadError];
     }
     
     // Deserialize the content of the input file.
     NSError *JSONDeserializationError;
-    NSDictionary *configuration;
-    configuration = [NSJSONSerialization JSONObjectWithData:[configurationJSON dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&JSONDeserializationError];
-    if (!configuration) {
+    NSArray *configurations;
+    configurations = [NSJSONSerialization JSONObjectWithData:[configurationsJSON dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&JSONDeserializationError];
+    if (!configurations) {
         // Deserialization failure.
         [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file could not be deserialized; error=%@", self.class, JSONDeserializationError];
     }
+    
+    if (![configurations isKindOfClass:[NSArray class]]) {
+        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file JSON root was not an array", self.class];
+    }
+    
+    if (configurations.count == 0) {
+        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file JSON root array was empty", self.class];
+    }
+    
+    // Abstract the first, and for now only, configuration from the array.
+    NSDictionary *configuration = configurations[0];
     
     // Extract the appID.
     NSString *appIDString = configuration[ATLMConfigurationAppIDKey];

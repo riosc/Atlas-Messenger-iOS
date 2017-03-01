@@ -111,6 +111,14 @@ NSURL *ATLMConfigurationTestsDefaultConfigurationPath(NSString *__nullable suffi
     }).to.raiseWithReason(NSInternalInconsistencyException, @"Failed to initialize `ATLMConfiguration` because `identity_provider_url` key value in the input file was not a valid URL. identityProviderURL=' '");
 }
 
+- (void)testInitFailingDueToJSONNotAnArray
+{
+    // Pass a non-readable path as fileURL.
+    expect(^{
+        __unused id noresult = [[ATLMConfiguration alloc] initWithFileURL:ATLMConfigurationTestsDefaultConfigurationPath(@"notArray")];
+    }).to.raiseWithReason(NSInternalInconsistencyException, @"Failed to initialize `ATLMConfiguration` because the input file JSON root was not an array");
+}
+
 - (void)testInitSuccessfullyDeserializesValidConfigurationFile
 {
     ATLMConfiguration *configuration = [[ATLMConfiguration alloc] initWithFileURL:ATLMConfigurationTestsDefaultConfigurationPath(nil)];
