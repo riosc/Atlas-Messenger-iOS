@@ -119,11 +119,20 @@ NSURL *ATLMConfigurationTestsDefaultConfigurationPath(NSString *__nullable suffi
     }).to.raiseWithReason(NSInternalInconsistencyException, @"Failed to initialize `ATLMConfiguration` because the input file JSON root was not an array");
 }
 
+- (void)testInitFailingDueToNameNotString
+{
+    // Pass a non-readable path as fileURL.
+    expect(^{
+        __unused id noresult = [[ATLMConfiguration alloc] initWithFileURL:ATLMConfigurationTestsDefaultConfigurationPath(@"nameNotString")];
+    }).to.raiseWithReason(NSInternalInconsistencyException, @"Failed to initialize `ATLMConfiguration` because `name` key in the input file was not an NSString.");
+}
+
 - (void)testInitSuccessfullyDeserializesValidConfigurationFile
 {
     ATLMConfiguration *configuration = [[ATLMConfiguration alloc] initWithFileURL:ATLMConfigurationTestsDefaultConfigurationPath(nil)];
     expect(configuration.appID.absoluteString).to.equal(@"layer:///apps/staging/test");
     expect(configuration.identityProviderURL.absoluteString).to.equal(@"https://test.herokuapp.com");
+    expect(configuration.name).to.equal(@"TestApp");
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  ATLMUtilities.h
+//  ATLMConfiguration.m
 //  Atlas Messenger
 //
 //  Created by JP McGlone 01/04/2017
@@ -19,6 +19,7 @@
 //
 #import "ATLMConfiguration.h"
 
+NSString *const ATLMConfigurationNameKey = @"name";
 NSString *const ATLMConfigurationAppIDKey = @"app_id";
 NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_url";
 
@@ -29,7 +30,7 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
     if (fileURL == nil) {
         [NSException raise:NSInvalidArgumentException format:@"Failed to initialize `%@` because the `fileURL` argument was `nil`.", self.class];
     }
-
+    
     self = [super init];
     if (self == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@`.", self.class] userInfo:nil];
@@ -61,8 +62,18 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
     }
     
     // Abstract the first, and for now only, configuration from the array.
-    NSDictionary *configuration = configurations[0];
+    NSDictionary *configuration = configurations.firstObject;
     
+    // Extract the name.
+    NSString *name = configuration[ATLMConfigurationNameKey];
+    if ((id)name == [NSNull null]) {
+        _name = nil;
+    } else if (name != nil && ![name isKindOfClass:[NSString class]]) {
+        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `name` key in the input file was not an NSString.", self.class];
+    } else {
+        _name = name;
+    }
+
     // Extract the appID.
     NSString *appIDString = configuration[ATLMConfigurationAppIDKey];
     if (!appIDString) {

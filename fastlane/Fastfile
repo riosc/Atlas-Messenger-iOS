@@ -33,6 +33,7 @@ platform :ios do
     puts "Configuring Atlas Messenger..."
     require 'json'
     configuration = [{
+      :name => ENV["ATLM_APP_NAME"],
       :app_id => ENV["ATLM_APP_ID"], 
       :identity_provider_url => ENV["ATLM_IDENTITY_PROVIDER_URL"]
     }].to_json

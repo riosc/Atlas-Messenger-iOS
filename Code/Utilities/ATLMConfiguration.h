@@ -1,5 +1,5 @@
 //
-//  ATLMUtilities.h
+//  ATLMConfiguration.h
 //  Atlas Messenger
 //
 //  Created by JP McGlone 01/04/2017
@@ -37,6 +37,13 @@ NS_ASSUME_NONNULL_BEGIN
  @endcode
  */
 @interface ATLMConfiguration : NSObject
+
+/**
+ @abstract The optional deserialized value of the `name` found in the input
+ JSON configuration file.
+ @see -initWithFileURL:
+ */
+@property (nullable, nonatomic, readonly) NSString *name;
 
 /**
  @abstract The deserialized value of the `appID` found in the input
