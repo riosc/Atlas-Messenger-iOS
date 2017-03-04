@@ -5,13 +5,13 @@ require 'byebug'
 def set(key, value) 
   file = File.open("LayerConfiguration.json", "rb")
   json_string = file.read
-  json = JSON.parse(json_string)
+  json = JSON.parse(json_string)[0]
   if value == nil
     json.delete(key)
   else
     json[key] = value
   end
-  json_string = JSON.pretty_generate(json)
+  json_string = JSON.pretty_generate([json])
   File.open('LayerConfiguration.json', 'w') { |file| file.write(json_string) }
   puts(json_string)
 end

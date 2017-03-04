@@ -45,15 +45,33 @@ These commands will clone Atlas Messenger from Github, configure the Atlas submo
 $ open "Atlas Messenger.xcworkspace"
 ```
 
-#### Setting the App ID
+### Setting the App ID
 
-Before running Atlas Messenger from source code you must configure the Layer App ID. To do so, switch to the Project Navigator by selecting the **View** menu > **Navigators** > **Show Project Navigator** (or type `⌘1`) and expand the items **Atlas Messenger** and **Code**. Tap on `ATLMAppDelegate.m` to open the application delegate code and locate the following code near the top of the file:
+Before running Atlas Messenger from source code you must configure the Layer App ID and Identity Provider URL. To do so, follow these steps:
 
-Run `rake configure:set["appID", "{YOUR_APP_ID}"]` to set the appID in your Layerfile, or set it manually by editing 'Layerfile' directly.
+##### App ID
+
+Run `rake configure:set_app_id["{YOUR_APP_ID}"]` to set the App ID in 'LayerConfiguration.json', or set it manually by editing 'LayerConfiguration.json' directly.
 
 Replace `{YOUR_APP_ID}` with your appID, obtained from the [Atlas keys](https://developer.layer.com/projects/keys) page.
 
-Note: The current Atlas Messenger project is designed to only work with a special `Atlas Messenger` project.  To create this special App ID you must go to the [Atlas build](https://developer.layer.com/dashboard/atlas/build)  page. If you use a different App ID you will see a "Request failed: forbidden" error when you launch the app.
+##### Identity Provider URL
+
+Run `rake configure:set_identity_provider_url["{YOUR_IDENTITY_PROVIDER_URL}"]` to set the Identity Provider URL in 'LayerConfiguration.json', or set it manually by editing 'LayerConfiguration.json' directly.
+
+Replace `{YOUR_IDENTITY_PROVIDER_URL}` with your Identity Provider URL, obtained from the [Instastart Identity Provider](https://github.com/layerhq/instastart-identity-provider) page.
+
+##### Example
+This is an example of what your `LayerConfiguration.json` file might look like. Notice that the root of the JSON file is an Array.
+```json
+[
+  { 
+    "name": "Example App",
+    "app_id": "layer://example/example",
+    "provider_url": "https://www.yourproviderurl.com/example"
+  }
+]
+```
 
 You can now proceed with building and running Atlas Messenger. Select **Run** from the **Product** menu (or type `⌘R`). After the build completes, Atlas Messenger will launch launch in your iOS Simulator.
 
