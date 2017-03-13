@@ -31,7 +31,6 @@ NSString *const ATLMPasswordKey = @"ATLMPasswordKey";
 NSString *const ATLMCredentialsKey = @"ATLMCredentialsKey";
 static NSString *const ATLMAtlasIdentityTokenKey = @"identity_token";
 
-NSString *const ATLMAuthenticatedEndpoint = @"/authenticate";
 NSString *const ATLMListUsersEndpoint = @"/users.json";
 
 @interface ATLMAuthenticationProvider ();
@@ -72,8 +71,10 @@ NSString *const ATLMListUsersEndpoint = @"/users.json";
         _layerAppID = layerAppID;
         
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        
+        // X_LAYER_APP_ID is for Legacy Identity Provider
         configuration.HTTPAdditionalHeaders = @{ @"Accept": @"application/json",
-                                                 @"X_LAYER_APP_ID": self.layerAppID.absoluteString };
+                                                 @"X_LAYER_APP_ID": self.layerAppID.absoluteString.lastPathComponent };
         _URLSession = [NSURLSession sessionWithConfiguration:configuration];
     }
     return self;
@@ -88,10 +89,13 @@ NSString *const ATLMListUsersEndpoint = @"/users.json";
 
 - (void)authenticateWithCredentials:(NSDictionary *)credentials nonce:(NSString *)nonce completion:(void (^)(NSString *identityToken, NSError *error))completion
 {
-    NSURL *authenticateURL = [NSURL URLWithString:ATLMAuthenticatedEndpoint relativeToURL:self.baseURL];
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:credentials];
     [payload setObject:nonce forKey:@"nonce"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:authenticateURL];
+    
+    // This is to support Legacy Identity Provider protocol
+    [payload setObject:credentials forKey:@"user"];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL];
     request.HTTPMethod = @"POST";
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -124,7 +128,8 @@ NSString *const ATLMListUsersEndpoint = @"/users.json";
             return;
         }
         
-        NSString *identityToken = rawResponse[@"identity_token"];
+        // Legacy identity provider uses layer_identity_token
+        NSString *identityToken = rawResponse[@"identity_token"] ?: rawResponse[@"layer_identity_token"];
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(identityToken, nil);
         });
