@@ -16,12 +16,50 @@ def set(key, value)
   puts(json_string)
 end
 
+namespace :init do
+
+  desc "Initialize the project for development including Layer and/or LayerUI as development pods from their submodules. Examples:" +
+  "\n\n\tuse public LayerUI CocoaPod release, with Layer submodule as a development pod:" +
+  "\n\n\t\trake init:submodules core=1" +
+  "\n\n\tuse both Layer and LayerUI submodules as development pods:" +
+  "\n\n\t\trake init:submodules core=1 ui=1"
+  task :submodules do
+    layer_core_submodule = ENV['core'] == '1'
+    layer_ui_submodule = ENV['ui'] == '1'
+    
+    if layer_core_submodule then
+      submodule_update = 'git submodule update --init Libraries/LayerKit'
+      puts green(submodule_update)
+      system submodule_update
+    end
+    
+    if layer_ui_submodule then
+      submodule_update = 'git submodule update --init Libraries/Atlas'
+      puts green(submodule_update)
+      system submodule_update
+    end
+
+    core_submodule_flag = layer_core_submodule ? 'LAYER_USE_CORE_SDK_SUBMODULE=1 ' : ''
+    ui_submodule_flag = layer_ui_submodule ? 'LAYER_USE_UI_SDK_SUBMODULE=1 ' : ''
+    pod_update = "#{core_submodule_flag}#{ui_submodule_flag}rbenv exec pod update"
+    puts green(pod_update)
+    system pod_update
+    
+    show_config_instructions
+  end
+  
+end
+
 desc "Initialize the project for the first time"
 task :init do
   pod_update = "rbenv exec pod update"
   puts green(pod_update)
   system pod_update
  
+  show_config_instructions
+end
+
+def show_config_instructions
   puts green("Configure your App ID") 
   puts "To set your app ID please run:"
   puts

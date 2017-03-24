@@ -1,3 +1,6 @@
 [submodule "Libraries/Atlas"]
 	path = Libraries/Atlas
 	url = git@github.com:layerhq/Atlas-iOS.git 
+[submodule "Libraries/LayerKit"]
+	path = Libraries/LayerKit
+	url = git@github.com:layerhq/LayerKit.git
