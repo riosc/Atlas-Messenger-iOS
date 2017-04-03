@@ -3,12 +3,18 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 use_frameworks!
 target 'Atlas Messenger' do
+
   if ENV['LAYER_USE_UI_SDK_SUBMODULE'].blank? then
     pod 'Atlas'
   else
     pod 'Atlas', path: 'Libraries/Atlas'
   end
-  pod 'LayerKit', path: 'Libraries/LayerKit' unless ENV['LAYER_USE_CORE_SDK_SUBMODULE'].blank?
+  
+  if !ENV['LAYER_USE_CORE_SDK_SUBMODULE'].blank? then
+    source 'git@github.com:layerhq/cocoapods-specs.git'
+    pod 'LayerKit', path: 'Libraries/LayerKit'
+  end
+  
   pod 'SVProgressHUD'
   pod 'ClusterPrePermissions', '~> 0.1'
   
