@@ -10,9 +10,9 @@ target 'Atlas Messenger' do
     pod 'Atlas', path: 'Libraries/Atlas'
   end
   
-  if !ENV['LAYER_USE_CORE_SDK_SUBMODULE'].blank? then
+  if !ENV['LAYER_USE_CORE_SDK_LOCATION'].blank? then
     source 'git@github.com:layerhq/cocoapods-specs.git'
-    pod 'LayerKit', path: 'Libraries/LayerKit'
+    pod 'LayerKit', path: ENV['LAYER_USE_CORE_SDK_LOCATION']
   end
   
   pod 'SVProgressHUD'
@@ -29,7 +29,7 @@ target 'Atlas Messenger' do
 end
 
 # If we are building LayerKit from source then we need a post install hook to handle non-modular SQLite imports
-unless ENV['LAYER_USE_CORE_SDK_SUBMODULE'].blank?
+unless ENV['LAYER_USE_CORE_SDK_LOCATION'].blank?
   post_install do |installer|
     installer.pods_project.build_configuration_list.build_configurations.each do |configuration|
       configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'

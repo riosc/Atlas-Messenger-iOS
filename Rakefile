@@ -19,17 +19,16 @@ end
 namespace :init do
 
   desc "Initialize the project for development including Layer and/or LayerUI as development pods from their submodules. Examples:" +
-  "\n\n\tuse public LayerUI CocoaPod release, with Layer submodule as a development pod:" +
-  "\n\n\t\trake init:submodules core=1" +
-  "\n\n\tuse both Layer and LayerUI submodules as development pods:" +
-  "\n\n\t\trake init:submodules core=1 ui=1"
+  "\n\n\tuse the Atlas submodule as a development pod:" +
+  "\n\n\t\trake init:submodules ui=1" +
+  "\n\n\tuse both Layer and LayerUI submodules as development pods, by providing a location for LayerKit:" +
+  "\n\n\t\trake init:submodules ui=1 core=/path/to/.../LayerKit"
   task :submodules do
-    layer_core_submodule = ENV['core'] == '1'
+    layer_core_location = ENV['core']
     layer_ui_submodule = ENV['ui'] == '1'
     
-    if layer_core_submodule then
-      puts green('Using LayerKit submodule as a development pod.')
-      system 'git submodule update --init Libraries/LayerKit'
+    if !layer_core_location.blank? > 0 && File.directory?(layer_core_location) then
+      puts green("Using LayerKit repository at #{layer_core_location} as a development pod.")
     else
       puts green('Using public LayerKit CocoaPod release.')
     end
@@ -41,7 +40,7 @@ namespace :init do
       puts green('Using public Atlas CocoaPod release.')
     end
 
-    core_submodule_flag = layer_core_submodule ? 'LAYER_USE_CORE_SDK_SUBMODULE=1 ' : ''
+    core_submodule_flag = layer_core_submodule ? "LAYER_USE_CORE_SDK_LOCATION=#{layer_core_location} " : ''
     ui_submodule_flag = layer_ui_submodule ? 'LAYER_USE_UI_SDK_SUBMODULE=1 ' : ''
     pod_update = "#{core_submodule_flag}#{ui_submodule_flag}rbenv exec pod update"
     puts green(pod_update)
