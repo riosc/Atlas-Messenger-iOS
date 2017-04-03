@@ -28,15 +28,17 @@ namespace :init do
     layer_ui_submodule = ENV['ui'] == '1'
     
     if layer_core_submodule then
-      submodule_update = 'git submodule update --init Libraries/LayerKit'
-      puts green(submodule_update)
-      system submodule_update
+      puts green('Using LayerKit submodule as a development pod.')
+      system 'git submodule update --init Libraries/LayerKit'
+    else
+      puts green('Using public LayerKit CocoaPod release.')
     end
     
     if layer_ui_submodule then
-      submodule_update = 'git submodule update --init Libraries/Atlas'
-      puts green(submodule_update)
-      system submodule_update
+      puts green('Using Atlas submodule as a development pod.')
+      system 'git submodule update --init Libraries/Atlas'
+    else
+      puts green('Using public Atlas CocoaPod release.')
     end
 
     core_submodule_flag = layer_core_submodule ? 'LAYER_USE_CORE_SDK_SUBMODULE=1 ' : ''
