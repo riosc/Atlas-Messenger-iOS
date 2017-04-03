@@ -55,6 +55,15 @@ rake init:submodules ui=1
 
 Then, the Atlas source code will appear in the Xcode _Project Navigator_ under `Pods > Development Pods > Atlas`.
 
+**Note:**
+ 
+To use the internal LayerKit repository as a development pod, provide the location to the local working copy like so:
+
+```sh
+rake init:submodules [ui=1] core=/path/to/.../LayerKit
+```
+`/path/to/.../LayerKit` must be a full canonical path, no relative or `~` paths.
+
 ### Setting the App ID
 
 Before running Atlas Messenger from source code you must configure the Layer App ID and Identity Provider URL. To do so, follow these steps:
