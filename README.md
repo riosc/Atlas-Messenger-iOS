@@ -36,7 +36,7 @@ Once you have installed the prerequisites, you can proceed with cloning and conf
 ```sh
 $ git clone --recursive https://github.com/layerhq/Atlas-Messenger-iOS.git
 $ cd Atlas-Messenger-iOS
-$ pod install
+$ rake init
 ```
 
 These commands will clone Atlas Messenger from Github, configure the Atlas submodule in the `Libraries` sub-directory, and then install all library dependencies via CocoaPods. Once these steps have completed without error, you can open the workspace by executing:
@@ -44,6 +44,16 @@ These commands will clone Atlas Messenger from Github, configure the Atlas submo
 ```sh
 $ open "Atlas Messenger.xcworkspace"
 ```
+
+##### Using git submodules and development pods
+
+You may wish to develop/debug Atlas in tandem with Atlas-Messenger-iOS. To do so, use the `submodule` variant of the `rake init` task:
+
+```sh
+rake init:submodules ui=1
+```
+
+Then, the Atlas source code will appear in the Xcode _Project Navigator_ under `Pods > Development Pods > Atlas`.
 
 ### Setting the App ID
 
