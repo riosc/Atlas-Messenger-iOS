@@ -16,12 +16,54 @@ def set(key, value)
   puts(json_string)
 end
 
+namespace :init do
+
+  desc "Initialize the project for development including Layer and/or LayerUI as development pods from their submodules. Examples:" +
+  "\n\n\tuse the Atlas submodule as a development pod:" +
+  "\n\n\t\trake init:submodules ui=1" +
+  "\n\n\tuse both Layer and LayerUI submodules as development pods, by providing a location for LayerKit:" +
+  "\n\n\t\trake init:submodules ui=1 core=/path/to/.../LayerKit"
+  task :submodules do
+    layer_core_location = ENV['core']
+    core_submodule_flag = ''
+
+    layer_ui_submodule = ENV['ui'] == '1'
+    ui_submodule_flag = ''
+
+    if File.directory?(layer_core_location) then
+      puts green("Using LayerKit repository at #{layer_core_location} as a development pod.")
+      core_submodule_flag = "LAYER_USE_CORE_SDK_LOCATION=#{layer_core_location} "
+    else
+      puts green('Using public LayerKit CocoaPod release.')
+    end
+
+    if layer_ui_submodule then
+      puts green('Using Atlas submodule as a development pod.')
+      system 'git submodule update --init Libraries/Atlas'
+      ui_submodule_flag = 'LAYER_USE_UI_SDK_SUBMODULE=1 '
+    else
+      puts green('Using public Atlas CocoaPod release.')
+    end
+
+    pod_update = "#{core_submodule_flag}#{ui_submodule_flag}rbenv exec pod update"
+    puts green(pod_update)
+    system pod_update
+
+    show_config_instructions
+  end
+  
+end
+
 desc "Initialize the project for the first time"
 task :init do
   pod_update = "rbenv exec pod update"
   puts green(pod_update)
   system pod_update
  
+  show_config_instructions
+end
+
+def show_config_instructions
   puts green("Configure your App ID") 
   puts "To set your app ID please run:"
   puts
