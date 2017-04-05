@@ -27,10 +27,16 @@
 #import "ATLLogoView.h"
 
 typedef NS_ENUM(NSInteger, ATLMSettingsTableSection) {
+    ATLMSettingsTableSectionPresenceStatus,
     ATLMSettingsTableSectionInfo,
     ATLMSettingsTableSectionLegal,
     ATLMSettingsTableSectionLogout,
     ATLMSettingsTableSectionCount,
+};
+
+typedef NS_ENUM(NSInteger, ATLMPresenceStatusTableRow) {
+    ATLMPresenceStatusTableRowPicker,
+    ATLMPresenceStatusTableRowCount,
 };
 
 typedef NS_ENUM(NSInteger, ATLMInfoTableRow) {
@@ -164,6 +170,9 @@ NSString *const ATLMConnecting = @"Connecting";
         case ATLMSettingsTableSectionInfo:
             return ATLMInfoTableRowCount;
             
+        case ATLMSettingsTableSectionPresenceStatus:
+            return ATLMPresenceStatusTableRowCount;
+            
         case ATLMSettingsTableSectionLegal:
             return ATLMLegalTableRowCount;
             
@@ -183,7 +192,7 @@ NSString *const ATLMConnecting = @"Connecting";
                     cell.textLabel.text = @"Atlas Version";
                     cell.detailTextLabel.text = ATLVersionString;
                     break;
-
+                    
                 case ATLMInfoTableRowLayerKitVersion:
                     cell.textLabel.text = @"LayerKit Version";
                     cell.detailTextLabel.text = LYRSDKVersionString;
@@ -200,7 +209,20 @@ NSString *const ATLMConnecting = @"Connecting";
             }
             return cell;
         }
-            
+           
+        case ATLMSettingsTableSectionPresenceStatus: {
+            UITableViewCell *cell = [self defaultCellForIndexPath:indexPath];
+            switch (indexPath.row) {
+                case ATLMPresenceStatusTableRowPicker:
+                    cell.textLabel.text = @"Presence Status";
+                    cell.detailTextLabel.text = @"Unavailable";
+                    break;
+                    
+                case ATLMPresenceStatusTableRowCount:
+                    break;
+            }
+        }
+           
         case ATLMSettingsTableSectionLegal: {
             UITableViewCell *cell = [self defaultCellForIndexPath:indexPath];
             switch (indexPath.row) {
@@ -242,6 +264,7 @@ NSString *const ATLMConnecting = @"Connecting";
 
         case ATLMSettingsTableSectionLogout:
         case ATLMSettingsTableSectionCount:
+        case ATLMSettingsTableSectionPresenceStatus:
             return nil;
     }
     return nil;
@@ -280,6 +303,9 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
+        case ATLMPresenceStatusTableRowPicker:
+            NSLog(@"Changing Presence Status");
+            break;
         case ATLMSettingsTableSectionLogout:
             [self logOut];
             break;

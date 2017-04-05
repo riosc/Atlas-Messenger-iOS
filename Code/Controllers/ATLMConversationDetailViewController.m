@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+@import Atlas.ATLPresenceStatusView;
+
 #import "ATLMConversationDetailViewController.h"
 #import "ATLMUtilities.h"
 #import "ATLMCenterTextTableViewCell.h"
@@ -548,7 +550,8 @@ static NSString *const ATLMBlockIconName = @"AtlasResource.bundle/block";
     [[ATLParticipantTableViewCell appearanceWhenContainedIn:[self class], nil] setTitleColor:[UIColor blackColor]];
     [[ATLParticipantTableViewCell appearanceWhenContainedIn:[self class], nil] setTitleFont:[UIFont systemFontOfSize:17]];
     [[ATLParticipantTableViewCell appearanceWhenContainedIn:[self class], nil] setBoldTitleFont:[UIFont systemFontOfSize:17]];
-    [[ATLAvatarImageView appearanceWhenContainedIn:[ATLParticipantTableViewCell class], nil] setAvatarImageViewDiameter:32];
+    
+    [[ATLPresenceStatusView appearance] setStatusBackgroundColor:[UIColor whiteColor]];
 }
 
 - (void)registerNotificationObservers

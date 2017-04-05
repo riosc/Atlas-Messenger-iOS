@@ -24,7 +24,7 @@
 @interface ATLMSettingsHeaderView ()
 
 @property (nonatomic) LYRIdentity *user;
-@property (nonatomic) ATLAvatarImageView *imageView;
+@property (nonatomic) ATLAvatarView *avatarView;
 @property (nonatomic) UILabel *nameLabel;
 @property (nonatomic) UILabel *connectionStateLabel;
 @property (nonatomic) UIView *bottomBorder;
@@ -47,14 +47,12 @@ static CGFloat const ATLMAvatarDiameter = 72;
         _user = user;
         self.backgroundColor = [UIColor whiteColor];
 
-        _imageView = [[ATLAvatarImageView alloc] init];
-        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _imageView.initialsFont = ATLLightFont(22);
-        _imageView.initialsColor = ATLGrayColor();
-        _imageView.backgroundColor = ATLLightGrayColor();
-        _imageView.layer.cornerRadius = ATLMAvatarDiameter / 2;
-        _imageView.avatarItem = (id<ATLAvatarItem>)user;
-        [self addSubview:_imageView];
+        _avatarView = [[ATLAvatarView alloc] init];
+        _avatarView.translatesAutoresizingMaskIntoConstraints = NO;
+        _avatarView.initialsFont = ATLLightFont(22);
+        _avatarView.initialsColor = ATLGrayColor();
+        _avatarView.avatarItem = (id<ATLAvatarItem>)user;
+        [self addSubview:_avatarView];
         
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -76,7 +74,7 @@ static CGFloat const ATLMAvatarDiameter = 72;
         _bottomBorder.backgroundColor = ATLGrayColor();
         [self addSubview:_bottomBorder];
 
-        [self configureAvatarImageViewConstraints];
+        [self configureAvatarViewConstraints];
         [self configureNameLabelConstraints];
         [self configureConnectionLabelConstraints];
         [self configureBottomBorderConstraints];
@@ -84,12 +82,12 @@ static CGFloat const ATLMAvatarDiameter = 72;
     return self;
 }
 
-- (void)configureAvatarImageViewConstraints
+- (void)configureAvatarViewConstraints
 {
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMAvatarDiameter]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMAvatarDiameter]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:20]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMAvatarDiameter]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMAvatarDiameter]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:20]];
 }
 
 - (void)configureNameLabelConstraints
@@ -97,7 +95,7 @@ static CGFloat const ATLMAvatarDiameter = 72;
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:20]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:4]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.avatarView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:4]];
 }
 
 - (void)configureConnectionLabelConstraints
