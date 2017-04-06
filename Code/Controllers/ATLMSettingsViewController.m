@@ -214,13 +214,35 @@ NSString *const ATLMConnecting = @"Connecting";
             UITableViewCell *cell = [self defaultCellForIndexPath:indexPath];
             switch (indexPath.row) {
                 case ATLMPresenceStatusTableRowPicker:
+                {
                     cell.textLabel.text = @"Presence Status";
-                    cell.detailTextLabel.text = @"Unavailable";
+                    
+                    NSString *text;
+                    switch (self.layerClient.authenticatedUser.presenceStatus) {
+                        case LYRIdentityPresenceStatusAvailable:
+                            text = @"Available";
+                            break;
+                        case LYRIdentityPresenceStatusInvisible:
+                            text = @"Invisible";
+                            break;
+                        case LYRIdentityPresenceStatusAway:
+                            text = @"Idle";
+                            break;
+                        case LYRIdentityPresenceStatusBusy:
+                            text = @"Busy";
+                            break;
+                        case LYRIdentityPresenceStatusUnavailable:
+                            text = @"Offline";
+                            break;
+                    }
+                    cell.detailTextLabel.text = text;
                     break;
+                }
                     
                 case ATLMPresenceStatusTableRowCount:
                     break;
             }
+            return cell;
         }
            
         case ATLMSettingsTableSectionLegal: {
@@ -304,7 +326,7 @@ NSString *const ATLMConnecting = @"Connecting";
 {
     switch (indexPath.section) {
         case ATLMPresenceStatusTableRowPicker:
-            NSLog(@"Changing Presence Status");
+            [self updatePresenceStatus];
             break;
         case ATLMSettingsTableSectionLogout:
             [self logOut];
@@ -318,6 +340,41 @@ NSString *const ATLMConnecting = @"Connecting";
 }
 
 #pragma mark - Actions
+
+- (void)updatePresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
+{
+    self.layerClient.presenceStatus = presenceStatus;
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:ATLMPresenceStatusTableRowPicker inSection:ATLMSettingsTableSectionPresenceStatus]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [((ATLMSettingsHeaderView *)self.headerView) reload];
+}
+
+- (void)updatePresenceStatus
+{
+    UIAlertController *alertController = [[UIAlertController alloc] init];
+    
+    __weak ATLMSettingsViewController *weakSelf = self;
+    UIAlertAction *availableAction = [UIAlertAction actionWithTitle:@"Available" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusAvailable];
+    }];
+    UIAlertAction *busyAction = [UIAlertAction actionWithTitle:@"Busy" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusBusy];
+    }];
+    UIAlertAction *idleAction = [UIAlertAction actionWithTitle:@"Idle" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusAway];
+    }];
+    UIAlertAction *invisibleAction = [UIAlertAction actionWithTitle:@"Invisible" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusInvisible];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    
+    [alertController addAction:availableAction];
+    [alertController addAction:busyAction];
+    [alertController addAction:idleAction];
+    [alertController addAction:invisibleAction];
+    [alertController addAction:cancelAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 - (void)doneTapped:(UIControl *)sender
 {

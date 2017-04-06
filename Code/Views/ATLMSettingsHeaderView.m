@@ -119,4 +119,9 @@ static CGFloat const ATLMAvatarDiameter = 72;
     self.connectionStateLabel.text = string;
 }
 
+- (void)reload
+{
+    _avatarView.presenceStatus = _user.presenceStatus;
+}
+
 @end
