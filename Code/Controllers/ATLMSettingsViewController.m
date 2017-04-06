@@ -25,6 +25,7 @@
 #import "ATLMCenterTextTableViewCell.h"
 #import "ATLMStyleValue1TableViewCell.h"
 #import "ATLLogoView.h"
+#import "ATLMUtilities.h"
 
 typedef NS_ENUM(NSInteger, ATLMSettingsTableSection) {
     ATLMSettingsTableSectionPresenceStatus,
@@ -216,26 +217,7 @@ NSString *const ATLMConnecting = @"Connecting";
                 case ATLMPresenceStatusTableRowPicker:
                 {
                     cell.textLabel.text = @"Presence Status";
-                    
-                    NSString *text;
-                    switch (self.layerClient.authenticatedUser.presenceStatus) {
-                        case LYRIdentityPresenceStatusAvailable:
-                            text = @"Available";
-                            break;
-                        case LYRIdentityPresenceStatusInvisible:
-                            text = @"Invisible";
-                            break;
-                        case LYRIdentityPresenceStatusAway:
-                            text = @"Idle";
-                            break;
-                        case LYRIdentityPresenceStatusBusy:
-                            text = @"Busy";
-                            break;
-                        case LYRIdentityPresenceStatusUnavailable:
-                            text = @"Offline";
-                            break;
-                    }
-                    cell.detailTextLabel.text = text;
+                    cell.detailTextLabel.text = NSStringForPresenceStatus(self.layerClient.authenticatedUser.presenceStatus);
                     break;
                 }
                     
@@ -348,29 +330,26 @@ NSString *const ATLMConnecting = @"Connecting";
     [((ATLMSettingsHeaderView *)self.headerView) reload];
 }
 
+- (UIAlertAction *)actionForPresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
+{
+    __weak ATLMSettingsViewController *weakSelf = self;
+    return [UIAlertAction actionWithTitle:NSStringForPresenceStatus(presenceStatus) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf updatePresenceStatus:presenceStatus];
+    }];
+}
+
 - (void)updatePresenceStatus
 {
     UIAlertController *alertController = [[UIAlertController alloc] init];
     
-    __weak ATLMSettingsViewController *weakSelf = self;
-    UIAlertAction *availableAction = [UIAlertAction actionWithTitle:@"Available" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusAvailable];
-    }];
-    UIAlertAction *busyAction = [UIAlertAction actionWithTitle:@"Busy" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusBusy];
-    }];
-    UIAlertAction *idleAction = [UIAlertAction actionWithTitle:@"Idle" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusAway];
-    }];
-    UIAlertAction *invisibleAction = [UIAlertAction actionWithTitle:@"Invisible" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [weakSelf updatePresenceStatus:LYRIdentityPresenceStatusInvisible];
-    }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    // Presence Statuses
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusAvailable]];
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusBusy]];
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusAway]];
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusInvisible]];
     
-    [alertController addAction:availableAction];
-    [alertController addAction:busyAction];
-    [alertController addAction:idleAction];
-    [alertController addAction:invisibleAction];
+    // Cnacel
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:cancelAction];
 
     [self presentViewController:alertController animated:YES completion:nil];
