@@ -78,6 +78,8 @@ static CGFloat const ATLMAvatarDiameter = 72;
         [self configureNameLabelConstraints];
         [self configureConnectionLabelConstraints];
         [self configureBottomBorderConstraints];
+        
+        [self reload];
     }
     return self;
 }
