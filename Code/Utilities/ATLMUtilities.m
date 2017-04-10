@@ -63,6 +63,12 @@ UIAlertView *ATLMAlertWithError(NSError *error)
 NSString *NSStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus)
 {
     switch (presenceStatus) {
+        case LYRIdentityPresenceStatusUnknown:
+            return @"Unknown";
+        case LYRIdentityPresenceStatusIdle:
+            return @"Idle";
+        case LYRIdentityPresenceStatusUnset:
+            return @"Unset";
         case LYRIdentityPresenceStatusAvailable:
             return @"Available";
         case LYRIdentityPresenceStatusInvisible:
@@ -71,7 +77,7 @@ NSString *NSStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus)
             return @"Idle";
         case LYRIdentityPresenceStatusBusy:
             return @"Busy";
-        case LYRIdentityPresenceStatusUnavailable:
+        case LYRIdentityPresenceStatusOffline:
             return @"Offline";
     }
 }
