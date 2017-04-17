@@ -325,7 +325,7 @@ NSString *const ATLMConnecting = @"Connecting";
 
 - (void)updatePresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
 {
-    self.layerClient.presenceStatus = presenceStatus;
+    [self.layerClient setPresenceStatus:presenceStatus error:nil];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:ATLMPresenceStatusTableRowPicker inSection:ATLMSettingsTableSectionPresenceStatus]] withRowAnimation:UITableViewRowAnimationAutomatic];
     [((ATLMSettingsHeaderView *)self.headerView) reload];
 }
