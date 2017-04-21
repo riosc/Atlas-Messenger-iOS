@@ -26,6 +26,5 @@
 + (instancetype)headerViewWithUser:(LYRIdentity *)user;
 
 - (void)updateConnectedStateWithString:(NSString *)string;
-- (void)reload;
 
 @end

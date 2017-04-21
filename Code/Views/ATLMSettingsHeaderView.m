@@ -78,8 +78,6 @@ static CGFloat const ATLMAvatarDiameter = 72;
         [self configureNameLabelConstraints];
         [self configureConnectionLabelConstraints];
         [self configureBottomBorderConstraints];
-        
-        [self reload];
     }
     return self;
 }
@@ -121,9 +119,10 @@ static CGFloat const ATLMAvatarDiameter = 72;
     self.connectionStateLabel.text = string;
 }
 
-- (void)reload
+- (void)setNeedsDisplay
 {
-    _avatarView.presenceStatus = _user.presenceStatus;
+    self.avatarView.avatarItem = (id<ATLAvatarItem>)self.user;
+    [super setNeedsDisplay];
 }
 
 @end
