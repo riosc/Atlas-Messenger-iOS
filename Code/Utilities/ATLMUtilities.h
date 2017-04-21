@@ -35,4 +35,4 @@ NSString *ATLMApplicationDataDirectory();
 
 UIAlertView *ATLMAlertWithError(NSError *error);
 
-NSString *NSStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus);
+NSString *ATLStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus);

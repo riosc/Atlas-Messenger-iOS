@@ -60,7 +60,7 @@ UIAlertView *ATLMAlertWithError(NSError *error)
     return alertView;
 }
 
-NSString *NSStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus)
+NSString *ATLStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus)
 {
     switch (presenceStatus) {
             return @"Unset";
