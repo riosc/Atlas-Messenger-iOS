@@ -156,6 +156,7 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.layerClient.authenticatedUser removeObserver:self forKeyPath:@"presenceStatus"];
 }
 
 #pragma mark - UITableViewDataSource
@@ -217,7 +218,7 @@ NSString *const ATLMConnecting = @"Connecting";
                 case ATLMPresenceStatusTableRowPicker:
                 {
                     cell.textLabel.text = @"Presence Status";
-                    cell.detailTextLabel.text = NSStringForPresenceStatus(self.layerClient.authenticatedUser.presenceStatus);
+                    cell.detailTextLabel.text = ATLStringForPresenceStatus(self.layerClient.authenticatedUser.presenceStatus);
                     break;
                 }
                     
@@ -326,14 +327,19 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)updatePresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
 {
     [self.layerClient setPresenceStatus:presenceStatus error:nil];
+    [self reloadPresenceStatus];
+}
+
+- (void)reloadPresenceStatus
+{
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:ATLMPresenceStatusTableRowPicker inSection:ATLMSettingsTableSectionPresenceStatus]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [((ATLMSettingsHeaderView *)self.headerView) reload];
+    [self.headerView setNeedsDisplay];
 }
 
 - (UIAlertAction *)actionForPresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
 {
     __weak ATLMSettingsViewController *weakSelf = self;
-    return [UIAlertAction actionWithTitle:NSStringForPresenceStatus(presenceStatus) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    return [UIAlertAction actionWithTitle:ATLStringForPresenceStatus(presenceStatus) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf updatePresenceStatus:presenceStatus];
     }];
 }
@@ -392,6 +398,14 @@ NSString *const ATLMConnecting = @"Connecting";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerDidDisconnect:) name:LYRClientDidDisconnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerIsConnecting:) name:LYRClientWillAttemptToConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerDidLoseConnection:) name:LYRClientDidLoseConnectionNotification object:nil];
+    [self.layerClient.authenticatedUser addObserver:self forKeyPath:@"presenceStatus" options:(NSKeyValueObservingOptionNew) context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadPresenceStatus];
+    });
 }
 
 - (void)layerDidConnect:(NSNotification *)notification
