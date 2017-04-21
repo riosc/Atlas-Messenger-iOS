@@ -308,7 +308,7 @@ NSString *const ATLMConnecting = @"Connecting";
 {
     switch (indexPath.section) {
         case ATLMPresenceStatusTableRowPicker:
-            [self updatePresenceStatus];
+            [self presentPresencePicker];
             break;
         case ATLMSettingsTableSectionLogout:
             [self logOut];
@@ -338,7 +338,7 @@ NSString *const ATLMConnecting = @"Connecting";
     }];
 }
 
-- (void)updatePresenceStatus
+- (void)presentPresencePicker
 {
     UIAlertController *alertController = [[UIAlertController alloc] init];
     
