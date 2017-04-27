@@ -63,6 +63,7 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeObserver:self forKeyPath:@"state"];
 }
 
 - (ATLMApplicationState)determineInitialApplicationState
