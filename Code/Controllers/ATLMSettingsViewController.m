@@ -339,9 +339,17 @@ NSString *const ATLMConnecting = @"Connecting";
 - (UIAlertAction *)actionForPresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
 {
     __weak ATLMSettingsViewController *weakSelf = self;
-    return [UIAlertAction actionWithTitle:ATLStringForPresenceStatus(presenceStatus) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action = [UIAlertAction actionWithTitle:ATLStringForPresenceStatus(presenceStatus) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf updatePresenceStatus:presenceStatus];
     }];
+    
+    if (presenceStatus == self.layerClient.authenticatedUser.presenceStatus) {
+        UIImage *checkmark = [UIImage imageNamed:@"checkmark"];
+        UIImage *scaledCheckmark = [UIImage imageWithCGImage:[checkmark CGImage] scale:(checkmark.scale * 3) orientation:checkmark.imageOrientation];
+        [action setValue:scaledCheckmark forKey:@"_image"];
+    }
+    
+    return action;
 }
 
 - (void)presentPresencePicker

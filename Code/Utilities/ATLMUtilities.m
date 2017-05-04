@@ -69,7 +69,7 @@ NSString *ATLStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus)
         case LYRIdentityPresenceStatusInvisible:
             return @"Invisible";
         case LYRIdentityPresenceStatusAway:
-            return @"Idle";
+            return @"Away";
         case LYRIdentityPresenceStatusBusy:
             return @"Busy";
         case LYRIdentityPresenceStatusOffline:
