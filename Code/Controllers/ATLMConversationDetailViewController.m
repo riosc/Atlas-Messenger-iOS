@@ -18,14 +18,13 @@
 //  limitations under the License.
 //
 
-@import Atlas.ATLPresenceStatusView;
-
 #import "ATLMConversationDetailViewController.h"
 #import "ATLMUtilities.h"
 #import "ATLMCenterTextTableViewCell.h"
 #import "ATLMInputTableViewCell.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "ATLMParticipantTableViewController.h"
+#import "ATLPresenceStatusView.h"
 #import "LYRIdentity+ATLParticipant.h"
 
 typedef NS_ENUM(NSInteger, ATLMConversationDetailTableSection) {

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-@import Atlas.ATLParticipantPresenting;
+#import <Atlas/ATLParticipantPresenting.h>
 #import "ATLMConversationViewController.h"
 #import "ATLMConversationDetailViewController.h"
 #import "ATLMMediaViewController.h"
