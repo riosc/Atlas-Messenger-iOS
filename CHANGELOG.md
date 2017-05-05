@@ -1,5 +1,12 @@
 # Atlas Messenger Changelog
 
+## 1.1.0
+
+### Enhancements
+* All avatars now include presence status indicators by default.
+* Adds the ability to set your presence status in `ATLMSettingsViewController`.
+* Adds an activity indicator during authentication.
+
 ## 0.9.6
 
 ### Enhancements
