@@ -299,7 +299,9 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
 
 - (void)registrationViewController:(ATLMRegistrationViewController *)registrationViewController didSubmitCredentials:(ATLMUserCredentials *)credentials
 {
+    [SVProgressHUD showWithStatus:@"Authenticating with Layer"];
     [self.layerController authenticateWithCredentials:credentials completion:^(LYRSession *_Nonnull session, NSError *_Nullable error) {
+        [SVProgressHUD dismiss];
         if (session) {
             self.state = ATLMApplicationStateAuthenticated;
         } else {
