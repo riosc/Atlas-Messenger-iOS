@@ -1,77 +1,31 @@
 PODS:
-  - Atlas (1.0.32):
-    - LayerKit (>= 0.25.0)
+  - Atlas (1.1.0):
+    - LayerKit (>= 0.26.2)
   - ClusterPrePermissions (0.8.1)
-  - CocoaLumberjack (2.2.0):
-    - CocoaLumberjack/Default (= 2.2.0)
-    - CocoaLumberjack/Extensions (= 2.2.0)
-  - CocoaLumberjack/Core (2.2.0)
-  - CocoaLumberjack/Default (2.2.0):
-    - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.2.0):
-    - CocoaLumberjack/Default
-  - CocoaSPDY (20151203203757026)
   - Expecta (1.0.5)
-  - FMDB/standard (2.5-20151203150449028)
-  - FMDBMigrationManager/System (1.4.1):
-    - FMDB/standard (>= 2.3)
-  - GCNetworkReachability (1.3.2)
-  - KIF (3.5.1):
-    - KIF/Core (= 3.5.1)
-  - KIF/Core (3.5.1)
+  - KIF (3.5.2):
+    - KIF/Core (= 3.5.2)
+  - KIF/Core (3.5.2)
   - KIFViewControllerActions (1.0.2):
     - KIF (>= 2.0.0)
-  - layer-client-messaging-schema (20170327121113144)
-  - LayerKit (0.25.3-pre1):
-    - CocoaLumberjack (~> 2.2.0)
-    - CocoaSPDY (= 20151203203757026)
-    - FMDB/standard (= 2.5-20151203150449028)
-    - FMDBMigrationManager/System (~> 1.4.1)
-    - GCNetworkReachability (~> 1.3.2)
-    - layer-client-messaging-schema (= 20170327121113144)
-    - LayerKit/Public (= 0.25.3-pre1)
-    - LayerThrift (= 0.93.0)
-    - thrift (~> 0.9.3)
-    - TransitionKit (~> 2.2.1)
-    - ZipArchive (~> 1.4)
-  - LayerKit/Public (0.25.3-pre1):
-    - CocoaLumberjack (~> 2.2.0)
-    - CocoaSPDY (= 20151203203757026)
-    - FMDB/standard (= 2.5-20151203150449028)
-    - FMDBMigrationManager/System (~> 1.4.1)
-    - GCNetworkReachability (~> 1.3.2)
-    - layer-client-messaging-schema (= 20170327121113144)
-    - LayerThrift (= 0.93.0)
-    - thrift (~> 0.9.3)
-    - TransitionKit (~> 2.2.1)
-    - ZipArchive (~> 1.4)
-  - LayerThrift (0.93.0):
-    - thrift (~> 0.9.3)
+  - LayerKit (0.26.2)
   - LYRCountDownLatch (0.9.0)
   - OCMock (3.4)
   - SVProgressHUD (2.1.2)
-  - thrift (0.9.3)
-  - TransitionKit (2.2.1)
-  - ZipArchive (1.4.0)
 
 DEPENDENCIES:
-  - Atlas (from `Libraries/Atlas`)
+  - Atlas
   - ClusterPrePermissions (~> 0.1)
   - Expecta
   - KIF
   - KIFViewControllerActions (from `https://github.com/blakewatters/KIFViewControllerActions.git`)
-  - LayerKit (from `../future/LayerKit`)
   - LYRCountDownLatch
   - OCMock
   - SVProgressHUD
 
 EXTERNAL SOURCES:
-  Atlas:
-    :path: Libraries/Atlas
   KIFViewControllerActions:
     :git: https://github.com/blakewatters/KIFViewControllerActions.git
-  LayerKit:
-    :path: "../future/LayerKit"
 
 CHECKOUT OPTIONS:
   KIFViewControllerActions:
@@ -79,26 +33,16 @@ CHECKOUT OPTIONS:
     :git: https://github.com/blakewatters/KIFViewControllerActions.git
 
 SPEC CHECKSUMS:
-  Atlas: a4052ee9f8eb0f044b0d03ba21c0300742a8332b
+  Atlas: 15932c6132b724d46d65868edc9ab2489416c24e
   ClusterPrePermissions: 168c127a658e423062550dd9c56fe26042a58bce
-  CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
-  CocoaSPDY: 0b06986c8eed0240ee1c3893415675106d3a44cf
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
-  FMDB: d635067c2ae14f3e1884d31d1ecaad2d2f2d9399
-  FMDBMigrationManager: d52007f328ea0665e8985ca8a33500707aef084f
-  GCNetworkReachability: 2a7dd53d362220326b3e38df68c91b3ef84418d1
-  KIF: '082eb65279e51c3092923802849eb796a04982ab'
+  KIF: f2a6025bb3f11692df675054a134d43a9ec2d7db
   KIFViewControllerActions: 923795dc4bd4ca5657841ce7455ce67447693861
-  layer-client-messaging-schema: a04d387d1dcbb026628110e926b40851817e0c25
-  LayerKit: 661a9a78b440febdc3e0f798c3e31d0af39e58cc
-  LayerThrift: 216f85b2c3b99e90890938c610acb1870655bd09
+  LayerKit: 1e50befac52ee79ef8234a646a7fd38197946929
   LYRCountDownLatch: 72a444f729ca5a8c6157c0b58f335a44e6702b48
   OCMock: 35ae71d6a8fcc1b59434d561d1520b9dd4f15765
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
-  thrift: 206849d78773b19e1be3cc1bbe094371c0adfbe2
-  TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
-  ZipArchive: e25a4373192673e3229ac8d6e9f64a3e5713c966
 
 PODFILE CHECKSUM: 958c174a55a3c0c044b8a34debe17382627b81ea
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.1.1
