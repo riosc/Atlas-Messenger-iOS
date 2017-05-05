@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, ATLMSettingsTableSection) {
     ATLMSettingsTableSectionInfo,
     ATLMSettingsTableSectionLegal,
     ATLMSettingsTableSectionLogout,
-    ATLMSettingsTableSectionCount,
+    ATLMSettingsTableSectionCount
 };
 
 typedef NS_ENUM(NSInteger, ATLMPresenceStatusTableRow) {
@@ -74,6 +74,8 @@ NSString *const ATLMConnected = @"Connected";
 NSString *const ATLMDisconnected = @"Disconnected";
 NSString *const ATLMLostConnection = @"Lost Connection";
 NSString *const ATLMConnecting = @"Connecting";
+
+NSString *const ATLMPresenceStatusKey = @"presenceStatus";
 
 - (id)initWithStyle:(UITableViewStyle)style layerClient:(nonnull LYRClient *)layerClient
 {
@@ -156,7 +158,7 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.layerClient.authenticatedUser removeObserver:self forKeyPath:@"presenceStatus"];
+    [self.layerClient.authenticatedUser removeObserver:self forKeyPath:ATLMPresenceStatusKey];
 }
 
 #pragma mark - UITableViewDataSource
@@ -406,7 +408,7 @@ NSString *const ATLMConnecting = @"Connecting";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerDidDisconnect:) name:LYRClientDidDisconnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerIsConnecting:) name:LYRClientWillAttemptToConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerDidLoseConnection:) name:LYRClientDidLoseConnectionNotification object:nil];
-    [self.layerClient.authenticatedUser addObserver:self forKeyPath:@"presenceStatus" options:(NSKeyValueObservingOptionNew) context:nil];
+    [self.layerClient.authenticatedUser addObserver:self forKeyPath:ATLMPresenceStatusKey options:(NSKeyValueObservingOptionNew) context:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
