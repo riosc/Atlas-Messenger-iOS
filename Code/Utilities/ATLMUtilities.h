@@ -20,6 +20,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <LayerKit/LayerKit.h>
 
 typedef NS_ENUM(NSInteger, ATLMEnvironment) {
     ATLMEnvironmentProduction = 0,
@@ -33,3 +34,5 @@ NSURL *ATLMRailsBaseURL(ATLMEnvironment environment);
 NSString *ATLMApplicationDataDirectory();
 
 UIAlertView *ATLMAlertWithError(NSError *error);
+
+NSString *ATLStringForPresenceStatus(LYRIdentityPresenceStatus presenceStatus);

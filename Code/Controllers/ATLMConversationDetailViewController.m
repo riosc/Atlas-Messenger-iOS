@@ -18,12 +18,13 @@
 //  limitations under the License.
 //
 
-#import "ATLMConversationDetailViewController.h"
-#import "ATLMUtilities.h"
-#import "ATLMCenterTextTableViewCell.h"
-#import "ATLMInputTableViewCell.h"
+#import <Atlas/ATLPresenceStatusView.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "ATLMCenterTextTableViewCell.h"
+#import "ATLMConversationDetailViewController.h"
+#import "ATLMInputTableViewCell.h"
 #import "ATLMParticipantTableViewController.h"
+#import "ATLMUtilities.h"
 #import "LYRIdentity+ATLParticipant.h"
 
 typedef NS_ENUM(NSInteger, ATLMConversationDetailTableSection) {
@@ -548,7 +549,8 @@ static NSString *const ATLMBlockIconName = @"AtlasResource.bundle/block";
     [[ATLParticipantTableViewCell appearanceWhenContainedIn:[self class], nil] setTitleColor:[UIColor blackColor]];
     [[ATLParticipantTableViewCell appearanceWhenContainedIn:[self class], nil] setTitleFont:[UIFont systemFontOfSize:17]];
     [[ATLParticipantTableViewCell appearanceWhenContainedIn:[self class], nil] setBoldTitleFont:[UIFont systemFontOfSize:17]];
-    [[ATLAvatarImageView appearanceWhenContainedIn:[ATLParticipantTableViewCell class], nil] setAvatarImageViewDiameter:32];
+    
+    [[ATLPresenceStatusView appearance] setStatusBackgroundColor:[UIColor whiteColor]];
 }
 
 - (void)registerNotificationObservers

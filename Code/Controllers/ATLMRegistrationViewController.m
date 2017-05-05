@@ -81,6 +81,11 @@ CGFloat const ATLMEmailTextFieldBottomPadding = 20;
     [self.emailTextField becomeFirstResponder];
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     CGRect rect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];

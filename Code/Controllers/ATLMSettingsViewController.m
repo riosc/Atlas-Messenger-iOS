@@ -25,12 +25,19 @@
 #import "ATLMCenterTextTableViewCell.h"
 #import "ATLMStyleValue1TableViewCell.h"
 #import "ATLLogoView.h"
+#import "ATLMUtilities.h"
 
 typedef NS_ENUM(NSInteger, ATLMSettingsTableSection) {
+    ATLMSettingsTableSectionPresenceStatus,
     ATLMSettingsTableSectionInfo,
     ATLMSettingsTableSectionLegal,
     ATLMSettingsTableSectionLogout,
-    ATLMSettingsTableSectionCount,
+    ATLMSettingsTableSectionCount
+};
+
+typedef NS_ENUM(NSInteger, ATLMPresenceStatusTableRow) {
+    ATLMPresenceStatusTableRowPicker,
+    ATLMPresenceStatusTableRowCount,
 };
 
 typedef NS_ENUM(NSInteger, ATLMInfoTableRow) {
@@ -67,6 +74,8 @@ NSString *const ATLMConnected = @"Connected";
 NSString *const ATLMDisconnected = @"Disconnected";
 NSString *const ATLMLostConnection = @"Lost Connection";
 NSString *const ATLMConnecting = @"Connecting";
+
+NSString *const ATLMPresenceStatusKey = @"presenceStatus";
 
 - (id)initWithStyle:(UITableViewStyle)style layerClient:(nonnull LYRClient *)layerClient
 {
@@ -149,6 +158,7 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.layerClient.authenticatedUser removeObserver:self forKeyPath:ATLMPresenceStatusKey];
 }
 
 #pragma mark - UITableViewDataSource
@@ -163,6 +173,9 @@ NSString *const ATLMConnecting = @"Connecting";
     switch (section) {
         case ATLMSettingsTableSectionInfo:
             return ATLMInfoTableRowCount;
+            
+        case ATLMSettingsTableSectionPresenceStatus:
+            return ATLMPresenceStatusTableRowCount;
             
         case ATLMSettingsTableSectionLegal:
             return ATLMLegalTableRowCount;
@@ -183,7 +196,7 @@ NSString *const ATLMConnecting = @"Connecting";
                     cell.textLabel.text = @"Atlas Version";
                     cell.detailTextLabel.text = ATLVersionString;
                     break;
-
+                    
                 case ATLMInfoTableRowLayerKitVersion:
                     cell.textLabel.text = @"LayerKit Version";
                     cell.detailTextLabel.text = LYRSDKVersionString;
@@ -200,7 +213,23 @@ NSString *const ATLMConnecting = @"Connecting";
             }
             return cell;
         }
-            
+           
+        case ATLMSettingsTableSectionPresenceStatus: {
+            UITableViewCell *cell = [self defaultCellForIndexPath:indexPath];
+            switch (indexPath.row) {
+                case ATLMPresenceStatusTableRowPicker:
+                {
+                    cell.textLabel.text = @"Presence Status";
+                    cell.detailTextLabel.text = ATLStringForPresenceStatus(self.layerClient.authenticatedUser.presenceStatus);
+                    break;
+                }
+                    
+                case ATLMPresenceStatusTableRowCount:
+                    break;
+            }
+            return cell;
+        }
+           
         case ATLMSettingsTableSectionLegal: {
             UITableViewCell *cell = [self defaultCellForIndexPath:indexPath];
             switch (indexPath.row) {
@@ -242,6 +271,7 @@ NSString *const ATLMConnecting = @"Connecting";
 
         case ATLMSettingsTableSectionLogout:
         case ATLMSettingsTableSectionCount:
+        case ATLMSettingsTableSectionPresenceStatus:
             return nil;
     }
     return nil;
@@ -280,6 +310,9 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
+        case ATLMPresenceStatusTableRowPicker:
+            [self presentPresencePicker];
+            break;
         case ATLMSettingsTableSectionLogout:
             [self logOut];
             break;
@@ -292,6 +325,51 @@ NSString *const ATLMConnecting = @"Connecting";
 }
 
 #pragma mark - Actions
+
+- (void)updatePresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
+{
+    [self.layerClient setPresenceStatus:presenceStatus error:nil];
+    [self reloadPresenceStatus];
+}
+
+- (void)reloadPresenceStatus
+{
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:ATLMPresenceStatusTableRowPicker inSection:ATLMSettingsTableSectionPresenceStatus]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.headerView setNeedsDisplay];
+}
+
+- (UIAlertAction *)actionForPresenceStatus:(LYRIdentityPresenceStatus)presenceStatus
+{
+    __weak ATLMSettingsViewController *weakSelf = self;
+    UIAlertAction *action = [UIAlertAction actionWithTitle:ATLStringForPresenceStatus(presenceStatus) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf updatePresenceStatus:presenceStatus];
+    }];
+    
+    if (presenceStatus == self.layerClient.authenticatedUser.presenceStatus) {
+        UIImage *checkmark = [UIImage imageNamed:@"checkmark"];
+        UIImage *scaledCheckmark = [UIImage imageWithCGImage:[checkmark CGImage] scale:(checkmark.scale * 3) orientation:checkmark.imageOrientation];
+        [action setValue:scaledCheckmark forKey:@"_image"];
+    }
+    
+    return action;
+}
+
+- (void)presentPresencePicker
+{
+    UIAlertController *alertController = [[UIAlertController alloc] init];
+    
+    // Presence Statuses
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusAvailable]];
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusBusy]];
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusAway]];
+    [alertController addAction:[self actionForPresenceStatus:LYRIdentityPresenceStatusInvisible]];
+    
+    // Cnacel
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 - (void)doneTapped:(UIControl *)sender
 {
@@ -330,6 +408,14 @@ NSString *const ATLMConnecting = @"Connecting";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerDidDisconnect:) name:LYRClientDidDisconnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerIsConnecting:) name:LYRClientWillAttemptToConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layerDidLoseConnection:) name:LYRClientDidLoseConnectionNotification object:nil];
+    [self.layerClient.authenticatedUser addObserver:self forKeyPath:ATLMPresenceStatusKey options:(NSKeyValueObservingOptionNew) context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadPresenceStatus];
+    });
 }
 
 - (void)layerDidConnect:(NSNotification *)notification

@@ -61,6 +61,7 @@ NSString *const ATLMComposeButtonAccessibilityLabel = @"Compose Button";
     self.delegate = self;
     self.dataSource = self;
     self.allowsEditing = YES;
+    self.displaysAvatarItem = YES;
     
     // Left navigation item
     UIButton* infoButton= [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -226,6 +227,8 @@ NSString *const ATLMComposeButtonAccessibilityLabel = @"Compose Button";
         if ([weakSelf.presentationDelegate respondsToSelector:@selector(conversationListViewControllerWillBeDismissed:)]) {
             [weakSelf.presentationDelegate conversationListViewControllerWillBeDismissed:weakSelf];
         }
+        
+        [self.layerClient.authenticatedUser removeObserver:settingsViewController forKeyPath:@"presenceStatus"];
         [self.layerClient deauthenticateWithCompletion:^(BOOL success, NSError *error) {
             [SVProgressHUD dismiss];
             [settingsViewController dismissViewControllerAnimated:YES completion:^{
