@@ -103,6 +103,10 @@
     LYRClientOptions *clientOptions = [LYRClientOptions new];
     clientOptions.synchronizationPolicy = LYRClientSynchronizationPolicyPartialHistory;
     clientOptions.partialHistoryMessageCount = 20;
+    clientOptions.configurationEndpoint = configuration.configurationEndpoint;
+    clientOptions.certificatesEndpoint = configuration.certificatesEndpoint;
+    clientOptions.authenticationEndpoint = configuration.authenticationEndpoint;
+    clientOptions.synchronizationEndpoint = configuration.synchronizationEndpoint;
 
     // Create the application controller.
     self.layerController = [ATLMLayerController applicationControllerWithLayerAppID:appID clientOptions:clientOptions authenticationProvider:authenticationProvider];
