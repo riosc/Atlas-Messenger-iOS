@@ -71,7 +71,7 @@
     NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"LayerConfiguration.json" withExtension:nil];
     ATLMConfigurationSet *configuration = [[ATLMConfigurationSet alloc] initWithFileURL:fileURL];
     
-    ATLMAuthenticationProvider *authenticationProvider = [[ATLMAuthenticationProvider alloc] initWithConfigurationSet:configuration];
+    ATLMAuthenticationProvider *authenticationProvider = [[ATLMAuthenticationProvider alloc] initWithConfiguration:configuration.configurations.anyObject];
     
     NSURL *appID = authenticationProvider.layerAppID;
     

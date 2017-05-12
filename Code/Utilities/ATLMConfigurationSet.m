@@ -17,11 +17,9 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-#import "ATLMConfigurationSet.h"
 
-NSString *const ATLMConfigurationNameKey = @"name";
-NSString *const ATLMConfigurationAppIDKey = @"app_id";
-NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_url";
+#import "ATLMConfiguration.h"
+#import "ATLMConfigurationSet.h"
 
 @implementation ATLMConfigurationSet
 
@@ -36,14 +34,11 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@`.", self.class] userInfo:nil];
     }
 
-    NSArray *configurations = [self extractConfigurationsFromFileURL:fileURL];
-    
-    // Extract the first, and for now only, configuration from the array.
-    NSDictionary *configuration = configurations.firstObject;
-
-    _name = [self extractStringWithKey:ATLMConfigurationNameKey fromConfiguration:configuration];
-    _appID = [self extractURLWithKey:ATLMConfigurationAppIDKey fromConfiguration:configuration];
-    _identityProviderURL = [self extractURLWithKey:ATLMConfigurationIdentityProviderURLKey fromConfiguration:configuration];
+    NSMutableSet<ATLMConfiguration *> *configurations = [NSMutableSet set];
+    for (NSDictionary *dictionary in [self extractConfigurationsFromFileURL:fileURL]) {
+        [configurations addObject:[[ATLMConfiguration alloc] initWithDictionary:dictionary]];
+    }
+    _configurations = configurations;
     
     return self;
 }
@@ -85,31 +80,6 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
     }
 
     return configurations;
-}
-
-- (NSString *)extractStringWithKey:(NSString *)key fromConfiguration:(NSDictionary *)configuration
-{
-    NSString *string = configuration[key];
-    if (string == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file was not set.", self.class, key] userInfo:nil];
-    }
-    else if ((id)string == [NSNull null]) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key value in the input file was `null`.", self.class, key] userInfo:nil];
-    }
-    else if (![string isKindOfClass:[NSString class]]) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file was not an NSString.", self.class, key] userInfo:nil];
-    }
-    return string;
-}
-
-- (NSURL *)extractURLWithKey:(NSString *)key fromConfiguration:(NSDictionary *)configuration
-{
-    NSString *urlString = [self extractStringWithKey:key fromConfiguration:configuration];
-    NSURL *url = [NSURL URLWithString:urlString];
-    if (!url) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key value (`%@`) in the input file was not a valid URL.", self.class, key, urlString] userInfo:nil];
-    }
-    return url;
 }
 
 @end

@@ -56,6 +56,8 @@
 		4091211A1E45127200CB0BBE /* TestLayerConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 409121191E45127200CB0BBE /* TestLayerConfiguration.json */; };
 		49CED6901EC63C6000A18AFD /* TestLayerConfiguration-nameMissing.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CED68F1EC63C5B00A18AFD /* TestLayerConfiguration-nameMissing.json */; };
 		49CED6921EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */; };
+		49CED6951EC63DB400A18AFD /* ATLMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CED6941EC63DB400A18AFD /* ATLMConfiguration.m */; };
+		49CED6961EC6414F00A18AFD /* ATLMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CED6941EC63DB400A18AFD /* ATLMConfiguration.m */; };
 		94659349D388E71A781C94F1 /* Pods_Atlas_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BF955CF4F1A14162C00D1E /* Pods_Atlas_MessengerTests.framework */; };
 		AA1DC2791E3C05060034CFD5 /* ATLMLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1DC2781E3C05060034CFD5 /* ATLMLocationViewController.m */; };
 		AA441A931DD4D94D00F93295 /* ATLMUserCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = AA441A921DD4D94D00F93295 /* ATLMUserCredentials.m */; };
@@ -170,6 +172,8 @@
 		43BF955CF4F1A14162C00D1E /* Pods_Atlas_MessengerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Atlas_MessengerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CED68F1EC63C5B00A18AFD /* TestLayerConfiguration-nameMissing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "TestLayerConfiguration-nameMissing.json"; sourceTree = "<group>"; };
 		49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TestLayerConfiguration-nameNull.json"; sourceTree = "<group>"; };
+		49CED6931EC63DB400A18AFD /* ATLMConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMConfiguration.h; sourceTree = "<group>"; };
+		49CED6941EC63DB400A18AFD /* ATLMConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMConfiguration.m; sourceTree = "<group>"; };
 		65FCD7A52CE01ADCCBE0E151 /* Pods-Atlas MessengerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Atlas MessengerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Atlas MessengerTests/Pods-Atlas MessengerTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F6E0263378540FD98CB9AC6 /* Pods-Atlas MessengerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Atlas MessengerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Atlas MessengerTests/Pods-Atlas MessengerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AA1DC2771E3C05060034CFD5 /* ATLMLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMLocationViewController.h; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 		251D8DA41A9688C40000BFA2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				49CED6931EC63DB400A18AFD /* ATLMConfiguration.h */,
+				49CED6941EC63DB400A18AFD /* ATLMConfiguration.m */,
 				4085884C1E3C0A1500C7831C /* ATLMConfigurationSet.h */,
 				4085884D1E3C0A1500C7831C /* ATLMConfigurationSet.m */,
 				251D8DA51A9688C40000BFA2 /* ATLMConstants.h */,
@@ -769,6 +775,7 @@
 				251D8DC61A9688C50000BFA2 /* ATLMMediaViewController.m in Sources */,
 				251D8DCF1A9688C50000BFA2 /* ATLMConstants.m in Sources */,
 				AA1DC2791E3C05060034CFD5 /* ATLMLocationViewController.m in Sources */,
+				49CED6951EC63DB400A18AFD /* ATLMConfiguration.m in Sources */,
 				251D8DDA1A9688C50000BFA2 /* ATLMStyleValue1TableViewCell.m in Sources */,
 				251D8DC81A9688C50000BFA2 /* ATLMParticipantTableViewController.m in Sources */,
 				251D8DC41A9688C50000BFA2 /* ATLMConversationListViewController.m in Sources */,
@@ -792,6 +799,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				402A39EE1E68EE020033EEF8 /* ATLMConfigurationSet.m in Sources */,
+				49CED6961EC6414F00A18AFD /* ATLMConfiguration.m in Sources */,
 				409121181E4511E500CB0BBE /* ATLMConfigurationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
