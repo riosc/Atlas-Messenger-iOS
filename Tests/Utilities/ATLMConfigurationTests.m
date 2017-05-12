@@ -78,6 +78,14 @@ NSURL *ATLMConfigurationTestsDefaultConfigurationPath(NSString *__nullable suffi
 
 #pragma mark Null values
 
+- (void)testInitFailingDueToNullName
+{
+    // Pass a non-readable path as fileURL.
+    expect(^{
+        __unused id noresult = [[ATLMConfigurationSet alloc] initWithFileURL:ATLMConfigurationTestsDefaultConfigurationPath(@"nameNull")];
+    }).to.raiseWithReason(NSInternalInconsistencyException, @"Failed to initialize `ATLMConfigurationSet` because `name` key value in the input file was `null`.");
+}
+
 - (void)testInitFailingDueToNullAppID
 {
     // Pass a non-readable path as fileURL.
@@ -113,6 +121,14 @@ NSURL *ATLMConfigurationTestsDefaultConfigurationPath(NSString *__nullable suffi
 }
 
 #pragma mark Missing values
+
+- (void)testInitFailingDueToNameMissing
+{
+    // Pass a non-readable path as fileURL.
+    expect(^{
+        __unused id noresult = [[ATLMConfigurationSet alloc] initWithFileURL:ATLMConfigurationTestsDefaultConfigurationPath(@"nameMissing")];
+    }).to.raiseWithReason(NSInternalInconsistencyException, @"Failed to initialize `ATLMConfigurationSet` because `name` key in the input file was not set.");
+}
 
 - (void)testInitFailingDueToIdentityProviderURLMissing
 {

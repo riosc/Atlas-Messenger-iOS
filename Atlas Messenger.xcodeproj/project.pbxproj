@@ -54,6 +54,8 @@
 		408588511E3C0B7800C7831C /* LayerConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 408588501E3C0B7800C7831C /* LayerConfiguration.json */; };
 		409121181E4511E500CB0BBE /* ATLMConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 409121171E4511E500CB0BBE /* ATLMConfigurationTests.m */; };
 		4091211A1E45127200CB0BBE /* TestLayerConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 409121191E45127200CB0BBE /* TestLayerConfiguration.json */; };
+		49CED6901EC63C6000A18AFD /* TestLayerConfiguration-nameMissing.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CED68F1EC63C5B00A18AFD /* TestLayerConfiguration-nameMissing.json */; };
+		49CED6921EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */; };
 		94659349D388E71A781C94F1 /* Pods_Atlas_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BF955CF4F1A14162C00D1E /* Pods_Atlas_MessengerTests.framework */; };
 		AA1DC2791E3C05060034CFD5 /* ATLMLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1DC2781E3C05060034CFD5 /* ATLMLocationViewController.m */; };
 		AA441A931DD4D94D00F93295 /* ATLMUserCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = AA441A921DD4D94D00F93295 /* ATLMUserCredentials.m */; };
@@ -166,6 +168,8 @@
 		409121171E4511E500CB0BBE /* ATLMConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMConfigurationTests.m; sourceTree = "<group>"; };
 		409121191E45127200CB0BBE /* TestLayerConfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestLayerConfiguration.json; sourceTree = "<group>"; };
 		43BF955CF4F1A14162C00D1E /* Pods_Atlas_MessengerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Atlas_MessengerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49CED68F1EC63C5B00A18AFD /* TestLayerConfiguration-nameMissing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "TestLayerConfiguration-nameMissing.json"; sourceTree = "<group>"; };
+		49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TestLayerConfiguration-nameNull.json"; sourceTree = "<group>"; };
 		65FCD7A52CE01ADCCBE0E151 /* Pods-Atlas MessengerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Atlas MessengerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Atlas MessengerTests/Pods-Atlas MessengerTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F6E0263378540FD98CB9AC6 /* Pods-Atlas MessengerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Atlas MessengerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Atlas MessengerTests/Pods-Atlas MessengerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AA1DC2771E3C05060034CFD5 /* ATLMLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMLocationViewController.h; sourceTree = "<group>"; };
@@ -490,7 +494,9 @@
 				D0C483DF1E55428000DB02CF /* TestLayerConfiguration-identityProviderURLNull.json */,
 				D0C483D61E553E5300DB02CF /* TestLayerConfiguration-invalid.json */,
 				409121191E45127200CB0BBE /* TestLayerConfiguration.json */,
+				49CED68F1EC63C5B00A18AFD /* TestLayerConfiguration-nameMissing.json */,
 				402A39F01E68FA180033EEF8 /* TestLayerConfiguration-nameNotString.json */,
+				49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */,
 				402EC5411E673EA0003238BE /* TestLayerConfiguration-notArray.json */,
 			);
 			path = Utilities;
@@ -638,12 +644,14 @@
 			files = (
 				402EC5431E673F96003238BE /* TestLayerConfiguration-notArray.json in Resources */,
 				D0C483E41E55428000DB02CF /* TestLayerConfiguration-appIDNull.json in Resources */,
+				49CED6921EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json in Resources */,
 				D0C483DC1E55413800DB02CF /* TestLayerConfiguration-identityProviderURLNotSet.json in Resources */,
 				D0C483DA1E55408100DB02CF /* TestLayerConfiguration-appIDNotSet.json in Resources */,
 				D0C483D81E553F8D00DB02CF /* TestLayerConfiguration-invalid.json in Resources */,
 				D0C483E31E55428000DB02CF /* TestLayerConfiguration-identityProviderURLNull.json in Resources */,
 				D0C483E21E55428000DB02CF /* TestLayerConfiguration-identityProviderURLInvalid.json in Resources */,
 				D0C483E11E55428000DB02CF /* TestLayerConfiguration-appIDInvalid.json in Resources */,
+				49CED6901EC63C6000A18AFD /* TestLayerConfiguration-nameMissing.json in Resources */,
 				402A39F11E68FA180033EEF8 /* TestLayerConfiguration-nameNotString.json in Resources */,
 				4091211A1E45127200CB0BBE /* TestLayerConfiguration.json in Resources */,
 			);
