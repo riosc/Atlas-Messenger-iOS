@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Prod1-Staging",
+    "app_id": "layer:///apps/staging/9ec30af8-5591-11e4-af9e-f7a201004a3b",
+    "identity_provider_url": "http://layer-identity-provider.herokuapp.com/users/sign_in.json",
+    "platform": {
+        "url": "https://api.layer.com/apps",
+        "token": "ecbqFMoUasP7OcpK7anHbW5vmrBYmUvxG6gy7upQoDE008rc"
+    },
+    "endpoint": {
+        "conf": "https://conf.lyr8.net/conf",
+        "cert": "https://certs.lyr8.net/certificates",
+        "auth": "https://sync.lyr8.net",
+        "sync": "https://sync.lyr8.net/"
+    }
+  }
+]

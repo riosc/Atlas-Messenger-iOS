@@ -38,6 +38,19 @@ NSURL *ATLMConfigurationTestsDefaultConfigurationPath(NSString *__nullable suffi
     expect(configuration.configurations.anyObject.name).to.equal(@"TestApp");
 }
 
+- (void)testConfigurationWithEndpointOverrides
+{
+    ATLMConfigurationSet *configuration = [[ATLMConfigurationSet alloc] initWithFileURL:ATLMConfigurationTestsDefaultConfigurationPath(@"withEndpoints")];
+    expect(configuration.configurations.anyObject.appID.absoluteString).to.equal(@"layer:///apps/staging/9ec30af8-5591-11e4-af9e-f7a201004a3b");
+    expect(configuration.configurations.anyObject.identityProviderURL.absoluteString).to.equal(@"http://layer-identity-provider.herokuapp.com/users/sign_in.json");
+    expect(configuration.configurations.anyObject.name).to.equal(@"Prod1-Staging");
+
+    expect(configuration.configurations.anyObject.configurationEndpoint).to.equal([NSURL URLWithString:@"https://conf.lyr8.net/conf"]);
+    expect(configuration.configurations.anyObject.certificatesEndpoint).to.equal([NSURL URLWithString:@"https://certs.lyr8.net/certificates"]);
+    expect(configuration.configurations.anyObject.authenticationEndpoint).to.equal([NSURL URLWithString:@"https://sync.lyr8.net"]);
+    expect(configuration.configurations.anyObject.synchronizationEndpoint).to.equal([NSURL URLWithString:@"https://sync.lyr8.net/"]);
+}
+
 #pragma mark - Failure modes
 #pragma mark - 
 

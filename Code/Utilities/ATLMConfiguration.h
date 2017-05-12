@@ -10,10 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXPORT NSString *const ATLMConfigurationNameKey;
-FOUNDATION_EXPORT NSString *const ATLMConfigurationAppIDKey;
-FOUNDATION_EXPORT NSString *const ATLMConfigurationIdentityProviderURLKey;
-
 @interface ATLMConfiguration : NSObject
 
 /**
@@ -30,6 +26,11 @@ FOUNDATION_EXPORT NSString *const ATLMConfigurationIdentityProviderURLKey;
  @abstract The deserialized value of the `identityProviderURL` found in the input JSON configuration file.
  */
 @property (nonatomic, readonly) NSURL *identityProviderURL;
+
+@property (nonatomic, readonly, nullable) NSURL *configurationEndpoint;
+@property (nonatomic, readonly, nullable) NSURL *certificatesEndpoint;
+@property (nonatomic, readonly, nullable) NSURL *authenticationEndpoint;
+@property (nonatomic, readonly, nullable) NSURL *synchronizationEndpoint;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (instancetype)init NS_UNAVAILABLE;
