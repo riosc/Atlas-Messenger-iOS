@@ -30,6 +30,7 @@
 #import "ATLMConstants.h"
 #import "ATLMAuthenticationProvider.h"
 #import "ATLMApplicationViewController.h"
+#import "ATLMConfiguration.h"
 #import "ATLMConfigurationSet.h"
 
 
@@ -50,40 +51,63 @@
     
     // Create the view controller that will also be the root view controller of the app.
     self.applicationViewController = [ATLMApplicationViewController new];
-    
-    [self initializeLayer];
+
+    self.window = [UIWindow new];
+    self.window.frame = [[UIScreen mainScreen] bounds];
+
+    [self initializeEnvironmentsWithCompletion:^{
+        self.window.rootViewController = self.applicationViewController;
+        [self.window makeKeyAndVisible];
+    }];
     
     // Push Notifications follow authentication state
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerForRemoteNotifications) name:LYRClientDidAuthenticateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unregisterForRemoteNotifications) name:LYRClientDidDeauthenticateNotification object:nil];
 
-    // Put the view controller on screen.
-    self.window = [UIWindow new];
-    self.window.frame = [[UIScreen mainScreen] bounds];
-    self.window.rootViewController = self.applicationViewController;
-    [self.window makeKeyAndVisible];
     return YES;
 }
 
 
-- (void)initializeLayer
+- (void)initializeEnvironmentsWithCompletion:(void(^)(void))completion
 {
     NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"LayerConfiguration.json" withExtension:nil];
     ATLMConfigurationSet *configuration = [[ATLMConfigurationSet alloc] initWithFileURL:fileURL];
-    
-    ATLMAuthenticationProvider *authenticationProvider = [[ATLMAuthenticationProvider alloc] initWithConfiguration:configuration.configurations.anyObject];
-    
+
+    if (configuration.configurations.count > 1) {
+        self.window.rootViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+        self.window.rootViewController.view.backgroundColor = [UIColor whiteColor];
+        [self.window makeKeyAndVisible];
+
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Choose environment" message:@"This build is configured with multiple possible environments. Please choose one to proceed:" preferredStyle:UIAlertControllerStyleAlert];
+        for (ATLMConfiguration *nextConfig in configuration.configurations) {
+            [alert addAction:[UIAlertAction actionWithTitle:nextConfig.name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self initializeLayerWithConfiguration:nextConfig];
+                completion();
+            }]];
+        }
+        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    }
+    else {
+        [self initializeLayerWithConfiguration:configuration.configurations.anyObject];
+        completion();
+    }
+}
+
+- (void)initializeLayerWithConfiguration:(ATLMConfiguration *)configuration
+{
+    ATLMAuthenticationProvider *authenticationProvider = [[ATLMAuthenticationProvider alloc] initWithConfiguration:configuration];
+
     NSURL *appID = authenticationProvider.layerAppID;
-    
+
     // Configure the Layer Client options.
     LYRClientOptions *clientOptions = [LYRClientOptions new];
     clientOptions.synchronizationPolicy = LYRClientSynchronizationPolicyPartialHistory;
     clientOptions.partialHistoryMessageCount = 20;
-    
+
     // Create the application controller.
     self.layerController = [ATLMLayerController applicationControllerWithLayerAppID:appID clientOptions:clientOptions authenticationProvider:authenticationProvider];
     self.layerController.delegate = self;
-    
+
     self.applicationViewController.layerController = self.layerController;
 }
 
