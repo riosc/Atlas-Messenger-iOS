@@ -1,5 +1,5 @@
 //
-//  ATLMConfiguration.h
+//  ATLMConfigurationSet.h
 //  Atlas Messenger
 //
 //  Created by JP McGlone 01/04/2017
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  }
  @endcode
  */
-@interface ATLMConfiguration : NSObject
+@interface ATLMConfigurationSet : NSObject
 
 /**
  @abstract The optional deserialized value of the `name` found in the input
@@ -60,11 +60,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSURL *identityProviderURL;
 
 /**
- @abstract Initializes an `ATLMConfiguration` instance and loads the values
+ @abstract Initializes an `ATLMConfigurationSet` instance and loads the values
    from the input JSON file (`fileURL`) into the instance properties.
  @param fileURL A file path in a form of an `NSURL` instance pointing to 
    a configuration text file, containing a JSON structure.
- @return Returns an intialized instance of `ATLMConfiguration`.
+ @return Returns an intialized instance of `ATLMConfigurationSet`.
  */
 - (instancetype)initWithFileURL:(nonnull NSURL *)fileURL NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE; 

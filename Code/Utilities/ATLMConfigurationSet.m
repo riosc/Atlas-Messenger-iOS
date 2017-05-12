@@ -1,5 +1,5 @@
 //
-//  ATLMConfiguration.m
+//  ATLMConfigurationSet.m
 //  Atlas Messenger
 //
 //  Created by JP McGlone 01/04/2017
@@ -17,13 +17,13 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-#import "ATLMConfiguration.h"
+#import "ATLMConfigurationSet.h"
 
 NSString *const ATLMConfigurationNameKey = @"name";
 NSString *const ATLMConfigurationAppIDKey = @"app_id";
 NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_url";
 
-@implementation ATLMConfiguration
+@implementation ATLMConfigurationSet
 
 - (instancetype)initWithFileURL:(NSURL *)fileURL
 {
@@ -91,13 +91,13 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
 {
     NSString *string = configuration[key];
     if (string == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file does not have a value set.", self.class, key] userInfo:nil];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file was not set.", self.class, key] userInfo:nil];
     }
-    if ((id)string == [NSNull null]) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key has the explicit value 'null'.", self.class, key] userInfo:nil];
+    else if ((id)string == [NSNull null]) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key value in the input file was `null`.", self.class, key] userInfo:nil];
     }
     else if (![string isKindOfClass:[NSString class]]) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file was not an instance of expected type NSString.", self.class, key] userInfo:nil];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file was not an NSString.", self.class, key] userInfo:nil];
     }
     return string;
 }

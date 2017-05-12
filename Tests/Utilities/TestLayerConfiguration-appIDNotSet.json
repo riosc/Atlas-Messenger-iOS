@@ -1,5 +1,6 @@
 [
   {
+    "name": "test-name",
     "identity_provider_url": "https://foo.bar"
   }
 ]

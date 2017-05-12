@@ -30,7 +30,7 @@
 #import "ATLMConstants.h"
 #import "ATLMAuthenticationProvider.h"
 #import "ATLMApplicationViewController.h"
-#import "ATLMConfiguration.h"
+#import "ATLMConfigurationSet.h"
 
 
 @interface ATLMAppDelegate () <ATLMLayerControllerDelegate>
@@ -69,7 +69,7 @@
 - (void)initializeLayer
 {
     NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"LayerConfiguration.json" withExtension:nil];
-    ATLMConfiguration *configuration = [[ATLMConfiguration alloc] initWithFileURL:fileURL];
+    ATLMConfigurationSet *configuration = [[ATLMConfigurationSet alloc] initWithFileURL:fileURL];
     
     ATLMAuthenticationProvider *authenticationProvider = [[ATLMAuthenticationProvider alloc] initWithConfiguration:configuration];
     

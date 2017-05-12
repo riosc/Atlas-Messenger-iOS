@@ -45,11 +45,11 @@
 		251D8DDA1A9688C50000BFA2 /* ATLMStyleValue1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 251D8DBD1A9688C40000BFA2 /* ATLMStyleValue1TableViewCell.m */; };
 		251D8DDB1A9688C50000BFA2 /* ATLMOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251D8DBF1A9688C40000BFA2 /* ATLMOverlayView.m */; };
 		259A57741950EB83000E27B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259A576E1950EB83000E27B0 /* InfoPlist.strings */; };
-		402A39EE1E68EE020033EEF8 /* ATLMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4085884D1E3C0A1500C7831C /* ATLMConfiguration.m */; };
+		402A39EE1E68EE020033EEF8 /* ATLMConfigurationSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4085884D1E3C0A1500C7831C /* ATLMConfigurationSet.m */; };
 		402A39F11E68FA180033EEF8 /* TestLayerConfiguration-nameNotString.json in Resources */ = {isa = PBXBuildFile; fileRef = 402A39F01E68FA180033EEF8 /* TestLayerConfiguration-nameNotString.json */; };
 		402EC5431E673F96003238BE /* TestLayerConfiguration-notArray.json in Resources */ = {isa = PBXBuildFile; fileRef = 402EC5411E673EA0003238BE /* TestLayerConfiguration-notArray.json */; };
 		408588481E3C097700C7831C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 408588471E3C097700C7831C /* main.m */; };
-		4085884E1E3C0A1500C7831C /* ATLMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4085884D1E3C0A1500C7831C /* ATLMConfiguration.m */; };
+		4085884E1E3C0A1500C7831C /* ATLMConfigurationSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4085884D1E3C0A1500C7831C /* ATLMConfigurationSet.m */; };
 		4085884F1E3C0A9000C7831C /* ATLMAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4085884B1E3C09F800C7831C /* ATLMAuthenticationProvider.m */; };
 		408588511E3C0B7800C7831C /* LayerConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 408588501E3C0B7800C7831C /* LayerConfiguration.json */; };
 		409121181E4511E500CB0BBE /* ATLMConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 409121171E4511E500CB0BBE /* ATLMConfigurationTests.m */; };
@@ -160,8 +160,8 @@
 		408588491E3C09B400C7831C /* ATLMAuthenticating.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATLMAuthenticating.h; sourceTree = "<group>"; };
 		4085884A1E3C09F800C7831C /* ATLMAuthenticationProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATLMAuthenticationProvider.h; sourceTree = "<group>"; };
 		4085884B1E3C09F800C7831C /* ATLMAuthenticationProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATLMAuthenticationProvider.m; sourceTree = "<group>"; };
-		4085884C1E3C0A1500C7831C /* ATLMConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMConfiguration.h; sourceTree = "<group>"; };
-		4085884D1E3C0A1500C7831C /* ATLMConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMConfiguration.m; sourceTree = "<group>"; };
+		4085884C1E3C0A1500C7831C /* ATLMConfigurationSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMConfigurationSet.h; sourceTree = "<group>"; };
+		4085884D1E3C0A1500C7831C /* ATLMConfigurationSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMConfigurationSet.m; sourceTree = "<group>"; };
 		408588501E3C0B7800C7831C /* LayerConfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LayerConfiguration.json; sourceTree = "<group>"; };
 		409121171E4511E500CB0BBE /* ATLMConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMConfigurationTests.m; sourceTree = "<group>"; };
 		409121191E45127200CB0BBE /* TestLayerConfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestLayerConfiguration.json; sourceTree = "<group>"; };
@@ -336,8 +336,8 @@
 		251D8DA41A9688C40000BFA2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				4085884C1E3C0A1500C7831C /* ATLMConfiguration.h */,
-				4085884D1E3C0A1500C7831C /* ATLMConfiguration.m */,
+				4085884C1E3C0A1500C7831C /* ATLMConfigurationSet.h */,
+				4085884D1E3C0A1500C7831C /* ATLMConfigurationSet.m */,
 				251D8DA51A9688C40000BFA2 /* ATLMConstants.h */,
 				251D8DA61A9688C40000BFA2 /* ATLMConstants.m */,
 				251D8DA71A9688C40000BFA2 /* ATLMErrors.h */,
@@ -771,7 +771,7 @@
 				251D8DD01A9688C50000BFA2 /* ATLMErrors.m in Sources */,
 				251D8DD11A9688C50000BFA2 /* ATLMHTTPResponseSerializer.m in Sources */,
 				251D8DD71A9688C50000BFA2 /* ATLMInputTableViewCell.m in Sources */,
-				4085884E1E3C0A1500C7831C /* ATLMConfiguration.m in Sources */,
+				4085884E1E3C0A1500C7831C /* ATLMConfigurationSet.m in Sources */,
 				251D8DDB1A9688C50000BFA2 /* ATLMOverlayView.m in Sources */,
 				251D8DD51A9688C50000BFA2 /* ATLLogoView.m in Sources */,
 				251D8DC71A9688C50000BFA2 /* ATLMNavigationController.m in Sources */,
@@ -783,7 +783,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				402A39EE1E68EE020033EEF8 /* ATLMConfiguration.m in Sources */,
+				402A39EE1E68EE020033EEF8 /* ATLMConfigurationSet.m in Sources */,
 				409121181E4511E500CB0BBE /* ATLMConfigurationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

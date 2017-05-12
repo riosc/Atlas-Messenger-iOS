@@ -22,7 +22,7 @@
 #import "ATLMAuthenticationProvider.h"
 #import "ATLMHTTPResponseSerializer.h"
 #import "ATLMConstants.h"
-#import "ATLMConfiguration.h"
+#import "ATLMConfigurationSet.h"
 #import "ATLMUtilities.h"
 #import "ATLMErrors.h"
 
@@ -47,10 +47,10 @@ NSString *const ATLMListUsersEndpoint = @"/users.json";
     return  [[self alloc] initWithBaseURL:baseURL layerAppID:layerAppID];
 }
 
-- (instancetype)initWithConfiguration:(ATLMConfiguration *)configuration
+- (instancetype)initWithConfigurationSet:(ATLMConfigurationSet *)configurationSet
 {
-    NSURL *appIDURL = configuration.appID;
-    NSURL *identityProviderURL = (configuration.identityProviderURL ?: ATLMRailsBaseURL(ATLMEnvironmentProduction));
+    NSURL *appIDURL = configurationSet.appID;
+    NSURL *identityProviderURL = (configurationSet.identityProviderURL ?: ATLMRailsBaseURL(ATLMEnvironmentProduction));
     
     self = [self initWithBaseURL:identityProviderURL layerAppID:appIDURL];
     return self;

@@ -1,5 +1,6 @@
 [
   {
+    "name": "test-name",
     "app_id": " ",
     "identity_provider_url": "https://foo.bar"
   }

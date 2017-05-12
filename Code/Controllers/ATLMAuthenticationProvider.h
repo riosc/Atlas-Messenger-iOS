@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ATLMAuthenticating.h"
-#import "ATLMConfiguration.h"
+#import "ATLMConfigurationSet.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,9 +42,9 @@ extern NSString * _Nonnull const ATLMPasswordKey;
 @property (nonatomic, copy, readonly) NSURL *layerAppID;
 
 /**
- @abstract Initializes a `ATLMAuthenticationProvider` with a `ATLMConfiguration`
+ @abstract Initializes a `ATLMAuthenticationProvider` with a `ATLMConfigurationSet`
  */
-- (instancetype)initWithConfiguration:(ATLMConfiguration *)configuration;
+- (instancetype)initWithConfigurationSet:(ATLMConfigurationSet *)configurationSet;
 - (instancetype)initWithBaseURL:(nonnull NSURL *)baseURL layerAppID:(NSURL *)layerAppID NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
