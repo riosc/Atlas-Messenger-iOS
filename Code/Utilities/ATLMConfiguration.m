@@ -28,7 +28,7 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
 - (instancetype)initWithFileURL:(NSURL *)fileURL
 {
     if (fileURL == nil) {
-        [NSException raise:NSInvalidArgumentException format:@"Failed to initialize `%@` because the `fileURL` argument was `nil`.", self.class];
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because the `fileURL` argument was `nil`.", self.class] userInfo:nil];
     }
     
     self = [super init];
@@ -36,69 +36,14 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@`.", self.class] userInfo:nil];
     }
 
-    // Load the content of the file in memory.
-    NSError *fileReadError;
-    NSString *configurationsJSON = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&fileReadError];
-    if (configurationsJSON == nil) {
-        // File read failure.
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file could not be read; error=%@", self.class, fileReadError];
-    }
+    NSArray *configurations = [self extractConfigurationsFromFileURL:fileURL];
     
-    // Deserialize the content of the input file.
-    NSError *JSONDeserializationError;
-    NSArray *configurations;
-    configurations = [NSJSONSerialization JSONObjectWithData:[configurationsJSON dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&JSONDeserializationError];
-    if (!configurations) {
-        // Deserialization failure.
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file could not be deserialized; error=%@", self.class, JSONDeserializationError];
-    }
-    
-    if (![configurations isKindOfClass:[NSArray class]]) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file JSON root was not an array", self.class];
-    }
-    
-    if (configurations.count == 0) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because the input file JSON root array was empty", self.class];
-    }
-    
-    // Abstract the first, and for now only, configuration from the array.
+    // Extract the first, and for now only, configuration from the array.
     NSDictionary *configuration = configurations.firstObject;
-    
-    // Extract the name.
-    NSString *name = configuration[ATLMConfigurationNameKey];
-    if ((id)name == [NSNull null]) {
-        _name = nil;
-    } else if (name != nil && ![name isKindOfClass:[NSString class]]) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `name` key in the input file was not an NSString.", self.class];
-    } else {
-        _name = name;
-    }
 
-    // Extract the appID.
-    NSString *appIDString = configuration[ATLMConfigurationAppIDKey];
-    if (!appIDString) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `app_id` key in the input file was not set.", self.class];
-    }
-    if ((id)appIDString == [NSNull null]) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `app_id` key value in the input file was `null`.", self.class];
-    }
-    _appID = [NSURL URLWithString:appIDString];
-    if (!_appID) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `app_id` key value in the input file was not a valid URL. appID='%@'", self.class, appIDString];
-    }
-    
-    // Extract the identity provider URL.
-    NSString *identityProviderURLString = configuration[ATLMConfigurationIdentityProviderURLKey];
-    if (!identityProviderURLString) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `identity_provider_url` key in the input file was not set.", self.class];
-    }
-    if ((id)identityProviderURLString == [NSNull null]) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `identity_provider_url` key value in the input file was `null`.", self.class];
-    }
-    _identityProviderURL = [NSURL URLWithString:identityProviderURLString];
-    if (!_identityProviderURL) {
-        [NSException raise:NSInternalInconsistencyException format:@"Failed to initialize `%@` because `identity_provider_url` key value in the input file was not a valid URL. identityProviderURL='%@'", self.class, identityProviderURLString];
-    }
+    _name = [self extractStringWithKey:ATLMConfigurationNameKey fromConfiguration:configuration];
+    _appID = [self extractURLWithKey:ATLMConfigurationAppIDKey fromConfiguration:configuration];
+    _identityProviderURL = [self extractURLWithKey:ATLMConfigurationIdentityProviderURLKey fromConfiguration:configuration];
     
     return self;
 }
@@ -108,6 +53,63 @@ NSString *const ATLMConfigurationIdentityProviderURLKey = @"identity_provider_ur
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"Failed to call designated initializer. Call the designated initializer '%@' on the `%@` instead.", NSStringFromSelector(@selector(initWithFileURL:)), self.class]
                                  userInfo:nil];
+}
+
+#pragma mark - Helpers
+
+- (NSArray *)extractConfigurationsFromFileURL:(NSURL *)fileURL
+{
+    // Load the content of the file in memory.
+    NSError *fileReadError;
+    NSString *configurationsJSON = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&fileReadError];
+    if (configurationsJSON == nil) {
+        // File read failure.
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because the input file could not be read; error=%@", self.class, fileReadError] userInfo:nil];
+    }
+
+    // Deserialize the content of the input file.
+    NSError *JSONDeserializationError;
+    NSArray *configurations;
+    configurations = [NSJSONSerialization JSONObjectWithData:[configurationsJSON dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&JSONDeserializationError];
+    if (!configurations) {
+        // Deserialization failure.
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because the input file could not be deserialized; error=%@", self.class, JSONDeserializationError] userInfo:nil];
+    }
+
+    if (![configurations isKindOfClass:[NSArray class]]) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because the input file JSON root was not an array", self.class] userInfo:nil];
+    }
+
+    if (configurations.count == 0) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because the input file JSON root array was empty", self.class] userInfo:nil];
+    }
+
+    return configurations;
+}
+
+- (NSString *)extractStringWithKey:(NSString *)key fromConfiguration:(NSDictionary *)configuration
+{
+    NSString *string = configuration[key];
+    if (string == nil) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file does not have a value set.", self.class, key] userInfo:nil];
+    }
+    if ((id)string == [NSNull null]) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key has the explicit value 'null'.", self.class, key] userInfo:nil];
+    }
+    else if (![string isKindOfClass:[NSString class]]) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key in the input file was not an instance of expected type NSString.", self.class, key] userInfo:nil];
+    }
+    return string;
+}
+
+- (NSURL *)extractURLWithKey:(NSString *)key fromConfiguration:(NSDictionary *)configuration
+{
+    NSString *urlString = [self extractStringWithKey:key fromConfiguration:configuration];
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (!url) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Failed to initialize `%@` because `%@` key value (`%@`) in the input file was not a valid URL.", self.class, key, urlString] userInfo:nil];
+    }
+    return url;
 }
 
 @end
