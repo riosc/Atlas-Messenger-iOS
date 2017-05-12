@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) NSSet<ATLMConfiguration *> *configurations;
 
-@property (weak, nonatomic, readonly) ATLMConfiguration *activeConfiguration;
-
 /**
  @abstract Initializes an `ATLMConfigurationSet` instance and deserializes each object into an instance of `ATLMConfiguration`.
  @param fileURL A file path in a form of an `NSURL` instance pointing to a configuration text file, containing a JSON structure.
