@@ -68,7 +68,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.0.1)
   - ApiAI
-  - Atlas (from `./Libraries/Atlas`)
+  - Atlas (from `https://github.com/layerhq/Atlas-iOS`, branch `feature/larry-integration`)
   - ClusterPrePermissions (~> 0.1)
   - Expecta
   - KIF
@@ -85,12 +85,16 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   Atlas:
-    :path: "./Libraries/Atlas"
+    :branch: feature/larry-integration
+    :git: https://github.com/layerhq/Atlas-iOS
   SwiftyHue:
     :branch: swift3
     :git: https://github.com/Spriter/SwiftyHue.git
 
 CHECKOUT OPTIONS:
+  Atlas:
+    :commit: 85c763f4a79681221ec9db21cee0cc8550eb7e2a
+    :git: https://github.com/layerhq/Atlas-iOS
   SwiftyHue:
     :commit: 7bdf6c6ae65402192cb9567df390981764651b70
     :git: https://github.com/Spriter/SwiftyHue.git
@@ -116,6 +120,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   VoxeetSDK: 9545fb44220d96b1759a2ef2728634500a99cc47
 
-PODFILE CHECKSUM: 0bd55e9d2ee1a8506256d56e3a9d41d0b57c2a12
+PODFILE CHECKSUM: 15890a9cc300fe891af8b8e7e65c74d209210a89
 
 COCOAPODS: 1.1.1

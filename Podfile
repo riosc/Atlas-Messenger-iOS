@@ -5,7 +5,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'Atlas Messenger' do
-  pod 'Atlas', path: './Libraries/Atlas'
+  pod 'Atlas', git: 'https://github.com/layerhq/Atlas-iOS', branch: 'feature/larry-integration'
   pod 'LayerKit'
   pod 'LayerKitDiagnostics'
   pod 'SVProgressHUD'
