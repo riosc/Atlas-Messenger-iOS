@@ -24,7 +24,7 @@
 @interface ATLMSettingsHeaderView ()
 
 @property (nonatomic) LYRIdentity *user;
-@property (nonatomic) ATLAvatarImageView *imageView;
+@property (nonatomic) ATLAvatarView *imageView;
 @property (nonatomic) UILabel *nameLabel;
 @property (nonatomic) UILabel *connectionStateLabel;
 @property (nonatomic) UIView *bottomBorder;
@@ -47,7 +47,7 @@ static CGFloat const ATLMAvatarDiameter = 72;
         _user = user;
         self.backgroundColor = [UIColor whiteColor];
 
-        _imageView = [[ATLAvatarImageView alloc] init];
+        _imageView = [[ATLAvatarView alloc] init];
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
         _imageView.initialsFont = ATLLightFont(22);
         _imageView.initialsColor = ATLGrayColor();

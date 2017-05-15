@@ -9,19 +9,24 @@
 import Atlas
 
 class ConversationAvatar: NSObject, ATLAvatarItem {
+    var presenceStatus: LYRIdentityPresenceStatus
     var avatarImageURL: URL?
     var avatarImage: UIImage?
     var avatarInitials: String?
     
-    init(conversationParticipant: ConversationParticipant){
+    init(conversationParticipant: ConversationParticipant) {
+        self.presenceStatus = .available
+        
         if conversationParticipant.userID == Config.larryUserID {
             self.avatarImage = UIImage(named: "larry-avatar")
 //            self.avatarInitials = "LB"
 //            self.avatarImageURL = URL(string: "AppIcon")
+            self.presenceStatus = .available
         } else {
             self.avatarImage = conversationParticipant.avatarImage
             self.avatarInitials = conversationParticipant.avatarInitials
             self.avatarImageURL = conversationParticipant.avatarImageURL
+            self.presenceStatus = conversationParticipant.presenceStatus
         }
         
         if(conversationParticipant.avatarImageURL != nil){

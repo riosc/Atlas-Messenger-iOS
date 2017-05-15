@@ -14,15 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ATLMUserCredentials : NSObject
 
-@property (strong, nonatomic) NSString *email;
-@property (strong, nonatomic) NSString *password;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *deviceID;
 
 /**
  @abstract Designated initializer for `ATLMUserCredentials`
  @param email The user's email
  @param email The user's password
  */
-- (instancetype)initWithEmail:(NSString *)email password:(NSString *)password;
+- (instancetype)initWithName:(NSString *)name deviceID:(NSString *)deviceID;
 
 /**
  @abstract Returns the credentials as an NSDictionary

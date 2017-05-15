@@ -10,7 +10,9 @@ import Foundation
 import SwiftKeychainWrapper
 import Atlas
 
-class User: NSObject, ATLParticipant {    var deviceID: String?
+class User: NSObject, ATLParticipant {
+    var presenceStatus: LYRIdentityPresenceStatus
+    var deviceID: String?
     var firstName: String = ""
     var lastName: String = ""
     var displayName: String = ""
@@ -22,6 +24,11 @@ class User: NSObject, ATLParticipant {    var deviceID: String?
     
     static internal func == (lhs: User, rhs: User) -> Bool {
         return lhs.userID == rhs.userID
+    }
+    
+    override init() {
+        self.presenceStatus = .available
+        super.init()
     }
     
     class func getDeviceID() -> String?{

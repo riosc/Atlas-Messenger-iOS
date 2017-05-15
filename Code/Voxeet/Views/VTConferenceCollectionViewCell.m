@@ -438,12 +438,12 @@ CGFloat const avatarWidth = 35;
         UIView *avatarView = nil;
         LYRIdentity *partIdentity = partData[@"lyrUser"];
         if (partIdentity != nil) {
-            avatarView = [[ATLAvatarImageView alloc] init];
+            avatarView = [[ATLAvatarView alloc] init];
             avatarView.translatesAutoresizingMaskIntoConstraints = NO;
-            ((ATLAvatarImageView *)avatarView).initialsFont = ATLLightFont(17);
-            ((ATLAvatarImageView *)avatarView).initialsColor = ATLGrayColor();
+            ((ATLAvatarView *)avatarView).initialsFont = ATLLightFont(17);
+            ((ATLAvatarView *)avatarView).initialsColor = ATLGrayColor();
             avatarView.backgroundColor = ATLLightGrayColor();
-            ((ATLAvatarImageView *)avatarView).avatarItem = (id<ATLAvatarItem>)partIdentity;
+            ((ATLAvatarView *)avatarView).avatarItem = (id<ATLAvatarItem>)partIdentity;
         }
         else {
             avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, avatarWidth, avatarWidth)];
@@ -489,10 +489,10 @@ CGFloat const avatarWidth = 35;
     
     [NSLayoutConstraint activateConstraints:horizontalConstraints];
     
-    NSArray *verticalCenteringConstraints = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[av1(==%f)]|", avatarWidth] options:NSLayoutFormatAlignAllLeft metrics:nil views:constraintViewsDictionary];
-    
-    
-    [NSLayoutConstraint activateConstraints:verticalCenteringConstraints];
+//    NSArray *verticalCenteringConstraints = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[av1(==%f)]|", avatarWidth] options:NSLayoutFormatAlignAllLeft metrics:nil views:constraintViewsDictionary];
+//    
+//    
+//    [NSLayoutConstraint activateConstraints:verticalCenteringConstraints];
     
     
     NSArray *verticalPositionningConstraints = [NSLayoutConstraint constraintsWithVisualFormat:vFormat options:NSLayoutFormatAlignAllCenterY metrics:nil views:constraintViewsDictionary];

@@ -31,13 +31,14 @@
  */
 @protocol ATLMRegistrationViewControllerDelegate <NSObject>
 
+- (void)registrationViewController:(nonnull ATLMRegistrationViewController *)registrationViewController didSignInWithName:(nonnull NSString *)name deviceID:(nonnull NSString *)deviceID;
+
 /**
  @abstract
  @param registrationViewController The sender that did the delegate invocation.
  @param credentials The Layer appID the scanner detected.
  */
 - (void)registrationViewController:(nonnull ATLMRegistrationViewController *)registrationViewController didSubmitCredentials:(nonnull ATLMUserCredentials *)credentials;
-
 @end
 
 /**

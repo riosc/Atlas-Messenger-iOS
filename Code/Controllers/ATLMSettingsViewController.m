@@ -25,8 +25,11 @@
 #import "ATLMCenterTextTableViewCell.h"
 #import "ATLMStyleValue1TableViewCell.h"
 #import "ATLLogoView.h"
+#import <LayerKitDiagnostics/LayerKitDiagnostics.h>
 
 typedef NS_ENUM(NSInteger, ATLMSettingsTableSection) {
+    ATLMSettingsTableSectionConfig,
+    ATLMSettingsTableSectionDebug,
     ATLMSettingsTableSectionInfo,
     ATLMSettingsTableSectionLegal,
     ATLMSettingsTableSectionLogout,
@@ -47,7 +50,7 @@ typedef NS_ENUM(NSInteger, ATLMLegalTableRow) {
 };
 
 
-@interface ATLMSettingsViewController () <UITextFieldDelegate>
+@interface ATLMSettingsViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic) ATLMSettingsHeaderView *headerView;
 @property (nonatomic) ATLLogoView *logoView;
@@ -161,6 +164,11 @@ NSString *const ATLMConnecting = @"Connecting";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section) {
+        case ATLMSettingsTableSectionConfig:
+            return 2;
+            
+        case ATLMSettingsTableSectionDebug:
+            return 1;
         case ATLMSettingsTableSectionInfo:
             return ATLMInfoTableRowCount;
             
@@ -176,6 +184,14 @@ NSString *const ATLMConnecting = @"Connecting";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
+        case ATLMSettingsTableSectionConfig:
+            
+        case ATLMSettingsTableSectionDebug: {
+            ATLMCenterTextTableViewCell *centerCell = [self.tableView dequeueReusableCellWithIdentifier:ATLMCenterTextCellIdentifier forIndexPath:indexPath];
+            centerCell.centerTextLabel.text = @"Send Layer Diagnostics";
+            centerCell.centerTextLabel.textColor = ATLRedColor();
+            return centerCell;
+        }
         case ATLMSettingsTableSectionInfo: {
             UITableViewCell *cell = [self defaultCellForIndexPath:indexPath];
             switch (indexPath.row) {
@@ -234,6 +250,9 @@ NSString *const ATLMConnecting = @"Connecting";
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     switch (section) {
+        case ATLMSettingsTableSectionDebug:
+            return @"Debug";
+            
         case ATLMSettingsTableSectionInfo:
             return @"Info";
 
@@ -280,6 +299,9 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
+        case ATLMSettingsTableSectionDebug:
+            [self sendLayerDiagnostics];
+            break;
         case ATLMSettingsTableSectionLogout:
             [self logOut];
             break;
@@ -296,6 +318,34 @@ NSString *const ATLMConnecting = @"Connecting";
 - (void)doneTapped:(UIControl *)sender
 {
     [self.settingsDelegate settingsViewControllerDidFinish:self];
+}
+
+- (void)sendLayerDiagnostics
+{
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD show];
+    
+    NSLog(@"Preparing Layer diagnostics");
+    LYRDEmailDiagnosticsViewController *diagnosticsViewController = [[LYRDEmailDiagnosticsViewController alloc] initWithLayerClient:self.layerClient withCcRecipients:nil];
+    diagnosticsViewController.mailComposeDelegate = self;
+    [diagnosticsViewController captureDiagnosticsWithCompletion:^(BOOL success, NSError * _Nonnull error) {
+        [SVProgressHUD dismiss];
+        if (success) {
+            UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+            while (topViewController.presentedViewController) {
+                topViewController = topViewController.presentedViewController;
+            }
+            
+            [topViewController presentViewController:diagnosticsViewController animated:YES completion:nil];
+        } else {
+            NSLog(@"Diagnostics email could not be sent: %@", error);
+        }
+    }];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)logOut

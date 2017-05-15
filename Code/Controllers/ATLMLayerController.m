@@ -29,6 +29,9 @@ NSString *const ATLMConversationMetadataDidChangeNotification = @"LSConversation
 NSString *const ATLMConversationParticipantsDidChangeNotification = @"LSConversationParticipantsDidChangeNotification";
 NSString *const ATLMConversationDeletedNotification = @"LSConversationDeletedNotification";
 NSString *const ATLMLayerControllerErrorDomain = @"ATLMLayerControllerErrorDomain";
+NSString *const LarryDeviceID = @"LARRY-DEVICE-ID";
+NSString *const LarryUserName = @"Larry";
+NSString *const LarryUserID = @"fdfc15db-e66e-4cbc-b780-a95cd0d3628f";
 
 @interface ATLMLayerController ()
 
@@ -50,8 +53,14 @@ NSString *const ATLMLayerControllerErrorDomain = @"ATLMLayerControllerErrorDomai
     self = [super init];
     if (self) {
         _layerClient = [LYRClient clientWithAppID:layerAppID delegate:self options:clientOptions];
-        _layerClient.autodownloadMIMETypes = [NSSet setWithObjects:ATLMIMETypeImageJPEGPreview, ATLMIMETypeTextPlain, nil];
+        _layerClient.backgroundContentTransferEnabled = YES;
+        _layerClient.autodownloadMaximumContentSize = 1024 * 50;
+        _layerClient.diskCapacity = (LYRSize)(1024 * 1024 * 250);
+        _layerClient.debuggingEnabled = YES;
         _authenticationProvider = authenticationProvider;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveLayerClientWillBeginSynchronizationNotification) name:LYRClientWillBeginSynchronizationNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveLayerClientDidFinishSynchronizationNotification) name:LYRClientDidFinishSynchronizationNotification object:nil];
     }
     return self;
 }
@@ -63,22 +72,52 @@ NSString *const ATLMLayerControllerErrorDomain = @"ATLMLayerControllerErrorDomai
 
 - (void)authenticateWithCredentials:(ATLMUserCredentials *)credentials completion:(void (^)(LYRSession *session, NSError *error))completion
 {
+    [self.authenticationProvider loginUserWithName:credentials.name deviceID:credentials.deviceID completion:^(NSString * _Nullable userID, NSError * _Nullable error) {
+        if (!userID) {
+            completion(nil, error);
+            return;
+        }
+        [self.layerClient requestAuthenticationNonceWithCompletion:^(NSString * _Nullable nonce, NSError * _Nullable error) {
+            if (!nonce) {
+                completion(nil, error);
+                return;
+            }
+            [self.authenticationProvider authenticateWithCredentials:[credentials asDictionary] nonce:nonce completion:^(NSString * _Nonnull identityToken, NSError * _Nonnull error) {
+                if (!identityToken) {
+                    completion(nil, error);
+                    return;
+                }
+                [self.layerClient authenticateWithIdentityToken:identityToken completion:^(LYRIdentity * _Nullable authenticatedUser, NSError * _Nullable error) {
+                    if (authenticatedUser) {
+                        completion(self.layerClient.currentSession, nil);
+                    } else {
+                        completion(nil, error);
+                    }
+                }];
+            }];
+        }];
+    }];
+}
+
+- (void)setupLarryWithCompletion:(void (^)(NSString *sessionToken, NSError *error))completion
+{
     [self.layerClient requestAuthenticationNonceWithCompletion:^(NSString * _Nullable nonce, NSError * _Nullable error) {
         if (!nonce) {
             completion(nil, error);
             return;
         }
-        [self.authenticationProvider authenticateWithCredentials:[credentials asDictionary] nonce:nonce completion:^(NSString * _Nonnull identityToken, NSError * _Nonnull error) {
+        ATLMUserCredentials *larryCredentials = [[ATLMUserCredentials alloc] initWithName:LarryUserName deviceID:LarryDeviceID];
+        [self.authenticationProvider authenticateWithCredentials:[larryCredentials asDictionary] nonce:nonce completion:^(NSString * _Nonnull identityToken, NSError * _Nonnull error) {
             if (!identityToken) {
                 completion(nil, error);
                 return;
             }
-            [self.layerClient authenticateWithIdentityToken:identityToken completion:^(LYRIdentity * _Nullable authenticatedUser, NSError * _Nullable error) {
-                if (authenticatedUser) {
-                    completion(self.layerClient.currentSession, nil);
-                } else {
+            [self.authenticationProvider getSessionForIdentityToken:identityToken completion:^(NSString *sessionToken, NSError *error) {
+                if (!sessionToken) {
                     completion(nil, error);
+                    return;
                 }
+                completion(sessionToken, nil);
             }];
         }];
     }];
@@ -233,12 +272,12 @@ NSString *const ATLMLayerControllerErrorDomain = @"ATLMLayerControllerErrorDomai
 
 #pragma mark - Notification Handlers
 
-- (void)didReceiveLayerClientWillBeginSynchronizationNotification:(NSNotification *)notification
+- (void)didReceiveLayerClientWillBeginSynchronizationNotification
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
-- (void)didReceiveLayerClientDidFinishSynchronizationNotification:(NSNotification *)notification
+- (void)didReceiveLayerClientDidFinishSynchronizationNotification
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }

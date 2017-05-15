@@ -13,7 +13,7 @@
 @interface VTConferenceViewControllerAvatarCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet VideoRenderer *videoView;
-@property (weak, nonatomic) IBOutlet ATLAvatarImageView *avatarImage;
+@property (weak, nonatomic) IBOutlet ATLAvatarView *avatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 //@property (nonatomic, strong) MediaStream *currentStream;

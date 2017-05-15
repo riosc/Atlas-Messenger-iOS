@@ -19,6 +19,9 @@
 //
 
 @import Atlas.ATLParticipantPresenting;
+@import VoxeetSDK;
+@import VoxeetConferenceKit;
+#import "Atlas_Messenger-Swift.h"
 #import "ATLMConversationViewController.h"
 #import "ATLMConversationDetailViewController.h"
 #import "ATLMMediaViewController.h"
@@ -26,6 +29,10 @@
 #import "ATLMUtilities.h"
 #import "ATLMParticipantTableViewController.h"
 #import "LYRIdentity+ATLParticipant.h"
+#import "VTConferenceCollectionViewCell.h"
+
+NSString *const VTMIMETypeConference = @"vt/conference";
+NSString *const VTConferenceCollectionViewCellIdentifier = @"VTConferenceCollectionViewCell";
 
 static NSDateFormatter *ATLMShortTimeFormatter()
 {
@@ -44,6 +51,7 @@ static NSDateFormatter *ATLMDayOfWeekDateFormatter()
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"EEEE"; // Tuesday
     }
+    
     return dateFormatter;
 }
 
@@ -128,9 +136,33 @@ static ATLMDateProximity ATLMProximityToDate(NSDate *date)
 
 @interface ATLMConversationViewController () <ATLMConversationDetailViewControllerDelegate, ATLParticipantTableViewControllerDelegate>
 
+@property(nonatomic,strong) LYRMessage* voxeetLayerMessage;
+@property(nonatomic, strong) NSString *conversationAlias;
+@property(nonatomic, strong) NSString *currentLiveConferenceId;
+@property(nonatomic, strong) NSMutableDictionary *currentLiveConferenceData;
+
+@property(nonatomic, strong) NSMutableDictionary *conferenceDataCache;
+
+@property(nonatomic,strong) NSArray<NSLayoutConstraint *>* conferenceVC_vertical_constraints;
+@property(nonatomic,strong) NSArray<NSLayoutConstraint *>* conferenceVC_horizontal_constraints;
+@property(nonatomic,strong) NSString *conferenceVCVerticalConstraintsMinimize;
+@property(nonatomic,strong) NSString *conferenceVCHorizontalConstraintsMinimize;
+
+@property(nonatomic) ATLConversationDataSource *conversationDataSource;
+
+@property(nonatomic, strong) UITapGestureRecognizer *tap;
+@property(nonatomic, assign) BOOL isRegisterToAliasEvents;
+
+@property(nonatomic, assign) BOOL isProcessingRequest;
+@property(nonatomic, assign) BOOL keyboardOpen;
+@property(nonatomic, assign) BOOL keyboardResignBug;
+
 @end
 
 @implementation ATLMConversationViewController
+
+@synthesize voxeetLayerMessage;
+@synthesize conferenceDataCache;
 
 NSString *const ATLMConversationViewControllerAccessibilityLabel = @"Conversation View Controller";
 NSString *const ATLMDetailsButtonAccessibilityLabel = @"Details Button";
@@ -158,10 +190,12 @@ NSString *const ATLMDetailsButtonLabel = @"Details";
     self.view.accessibilityLabel = ATLMConversationViewControllerAccessibilityLabel;
     self.dataSource = self;
     self.delegate = self;
-   
+    
     if (self.conversation) {
         [self addDetailsButton];
     }
+    
+    [self.collectionView registerNib:([UINib nibWithNibName:@"VTConferenceCollectionViewCell" bundle:nil]) forCellWithReuseIdentifier:@"VTConferenceCollectionViewCell"];
     
     [self configureUserInterfaceAttributes];
     [self registerNotificationObservers];
@@ -184,6 +218,31 @@ NSString *const ATLMDetailsButtonLabel = @"Details";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - UI Configuration methods
+
+- (NSString *)conversationViewController:(ATLConversationViewController *)conversationViewController reuseIdentifierForMessage:(nonnull LYRMessage *)message
+{
+    NSString *reuseIdentifier;
+    if ([message.parts.firstObject.MIMEType isEqualToString:VTMIMETypeConference]) {
+        reuseIdentifier = VTConferenceCollectionViewCellIdentifier;
+    } else if ([self.layerClient.authenticatedUser.userID isEqualToString:message.sender.userID]) {
+        reuseIdentifier = ATLOutgoingMessageCellIdentifier;
+    } else {
+        reuseIdentifier = ATLIncomingMessageCellIdentifier;
+    }
+    
+    return reuseIdentifier;
+}
+
+#pragma mark - Voxeet Configuration
+
+- (void)configureVoxeet
+{
+    [self.collectionView registerNib:[UINib nibWithNibName:VTConferenceCollectionViewCellIdentifier bundle:nil] forCellWithReuseIdentifier:VTConferenceCollectionViewCellIdentifier];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conferenceActionButtonTapped:) name:<#(nullable NSNotificationName)#> object:<#(nullable id)#>
 }
 
 #pragma mark - Accessors
@@ -281,6 +340,18 @@ NSString *const ATLMDetailsButtonLabel = @"Details";
     } else {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
         [sender presentViewController:navigationController animated:true completion:nil];
+    }
+}
+
+- (void)conversationViewController:(ATLConversationViewController *)viewController didSelectCardsActionSheetIndex:(NSInteger)index
+{
+    switch (index) {
+        case 4:
+            [self sendVoxeetCard];
+            break;
+            
+        default:
+            break;
     }
 }
 
@@ -538,6 +609,420 @@ NSString *const ATLMDetailsButtonLabel = @"Details";
     [self configureTitle];
 }
 
+- (void)conferenceActionButtonTapped:(NSNotification *)notification
+{
+    
+}
+
+#pragma mark - Voxeet methods
+
+- (void)sendVoxeetCard
+{
+    [VoxeetBridge createWithCompletion:^(NSString * _Nullable conferenceID) {
+        if (conferenceID) {
+            NSDictionary *confIdDict = [NSDictionary dictionaryWithObject:conferenceID forKey:@"confId"];
+            NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:confIdDict];
+            LYRMessagePart *messagePart = [LYRMessagePart messagePartWithMIMEType:VTMIMETypeConference data:messageData];
+            
+            LYRPushNotificationConfiguration *defaultConfiguration = [LYRPushNotificationConfiguration new];
+            defaultConfiguration.alert = @"You have a call";
+            defaultConfiguration.sound = @"layerbell.caf";
+            defaultConfiguration.category = ATLUserNotificationDefaultActionsCategoryIdentifier;
+            
+            LYRMessageOptions *messageOptions = [LYRMessageOptions new];
+            messageOptions.pushNotificationConfiguration = defaultConfiguration;
+            
+            LYRMessage *messageLayer = [self.layerClient newMessageWithParts:@[ messagePart ] options:messageOptions error:nil];
+            
+            NSError *error = nil;
+            BOOL success = [self.conversation sendMessage:messageLayer error:&error];
+            if (success) {
+                NSLog(@"Message enqueued for delivery");
+            } else {
+                NSLog(@"Message send failed with error: %@", error);
+            }
+        }
+    }];
+}
+
+#pragma mark - Voxeet delegate methods
+
+- (CGFloat)conversationViewController:(ATLConversationViewController *)viewController heightForMessage:(LYRMessage *)message withCellWidth:(CGFloat)cellWidth {
+    if ([message.parts.firstObject.MIMEType isEqual: VTMIMETypeConference]) {
+        NSString *confId = [self conferenceIdWithMessage:message];
+        
+        if ([confId isEqualToString:self.currentLiveConferenceId]) {
+            NSDictionary *cachedConfData = self.currentLiveConferenceData;
+            NSNumber *confState = cachedConfData[@"isLive"];
+            NSArray *participants = cachedConfData[@"participants"];
+            
+            CGFloat cellHeight = 193;
+            if (confState != nil && participants != nil) {
+                cellHeight = [VTConferenceCollectionViewCell heightOfCellForConfWithState:confState.boolValue andParticipantsCount:self.conversation.participants.count];
+            }
+            
+            return cellHeight;
+        }
+        else {
+            return 193.0;
+        }
+    }
+    return 0;
+}
+- (BOOL)updateLiveParticipantsState:(NSArray *)participantsData {
+    if (self.currentLiveConferenceData != nil) {
+        // Live conference is live and we have live cached data
+        // Compare cached participants state to updated data
+        
+        NSMutableDictionary *userStateBuffer = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *userIdsBuffer = [[NSMutableDictionary alloc] init];
+        
+        
+        if (participantsData != nil && participantsData.count > 0) {
+            for (NSDictionary *part in participantsData) {
+                NSString *userId = nil;
+                NSDictionary *metaData = part[@"metadata"];
+                if (metaData != nil) {
+                    userId = [metaData objectForKey:@"AtlasId"];
+                }
+                
+                NSString *status = part[@"status"];
+                
+                if (userId != nil && status != nil) {
+                    [userStateBuffer setObject:status forKey:userId];
+                }
+                
+                NSString *voxeetId = part[@"userId"];
+                if (userId != nil && voxeetId != nil) {
+                    [userIdsBuffer setObject:voxeetId forKey:userId];
+                }
+            }
+        }
+        
+        NSArray *currentParticipants = [self.currentLiveConferenceData objectForKey:@"participants"];
+        if (currentParticipants != nil && currentParticipants.count > 0) {
+            for (NSMutableDictionary *part in currentParticipants) {
+                NSString *status = part[@"status"];
+                NSString *userId = part[@"id"];
+                NSString *bufferStatus = userStateBuffer[userId];
+                if (bufferStatus != nil && ![status isEqualToString:bufferStatus]) {
+                    [part setObject:bufferStatus forKey:@"status"];
+                    if ([userId isEqualToString:self.layerClient.authenticatedUser.userID]) {
+                        [self.currentLiveConferenceData setObject:bufferStatus forKey:@"ownStatus"];
+                    }
+                }
+                
+                NSString *voxeetId = userIdsBuffer[userId];
+                if (voxeetId != nil) {
+                    [part setObject:voxeetId forKey:@"voxeetId"];
+                }
+            }
+        }
+        
+        // Update conference view participants states
+//        [_conferenceVC updateParticipants:currentParticipants];
+        return YES;
+    }
+    return NO;
+}
+
+- (void)conversationViewController:(ATLConversationViewController *)conversationViewController configureCell:(UICollectionViewCell<ATLMessagePresenting> *)cell forMessage:(LYRMessage *)message {
+    
+    NSString *conferenceId = [self conferenceIdWithMessage:message];
+    if (conferenceId != nil) {
+        
+        ((VTConferenceCollectionViewCell *)cell).conferenceId = conferenceId;
+        if ([message.sender.userID isEqualToString:self.layerClient.authenticatedUser.userID]) {
+            [((VTConferenceCollectionViewCell *)cell) configureCellForType:ATLOutgoingCellType];
+        }
+        else {
+            [((VTConferenceCollectionViewCell *)cell) configureCellForType:ATLIncomingCellType];
+        }
+        
+        // Checking cache for history info
+        NSDictionary *cachedConfData = [self getCachedDataForConferenceId:conferenceId];
+        if (cachedConfData == nil) {
+            [VoxeetBridge statusWithConferenceID:conferenceId success:^(id json) {
+                NSDictionary *jsonDict = (NSDictionary *)json;
+                NSMutableDictionary *confData = [self confDataWithStatusData:jsonDict];
+                NSNumber *isLive = [confData objectForKey:@"isLive"];
+                
+                if (isLive != nil && [isLive intValue] == 0) {
+                    // If not live, check if previous conference state
+                    if ([conferenceId isEqualToString:self.currentLiveConferenceId]) {
+                        //                        [self clearCurrentLiveConference];
+                    }
+                    
+                    [self loadHistoryDataForConfId:conferenceId completion:^(NSDictionary *data) {
+                        if ([((VTConferenceCollectionViewCell *)cell).conferenceId isEqualToString:conferenceId]) {
+                            [self refreshCell:(VTConferenceCollectionViewCell *)cell withConferenceData:data];
+                            [self.collectionView.collectionViewLayout invalidateLayout];
+                        }
+                    }];
+                } else {
+                    self.currentLiveConferenceId = conferenceId;
+                    self.messageInputToolbar.rightAccessoryImage = [UIImage imageNamed:@"AddCall"];
+                    
+//                    NSArray *participantsArray = confData[@"participants"];
+                    //                    [_conferenceVC updateParticipants:participantsArray];
+                    
+                    self.currentLiveConferenceData = confData;
+                    
+                    [self refreshCell:(VTConferenceCollectionViewCell *)cell withConferenceData:confData];
+                    [self.collectionView.collectionViewLayout invalidateLayout];
+                }
+
+            }];
+        }
+        else {
+            [self refreshCell:(VTConferenceCollectionViewCell *)cell withConferenceData:cachedConfData];
+        }
+    }
+}
+
+- (NSMutableDictionary *)confDataWithStatusData:(NSDictionary *)rawData {
+    NSMutableDictionary *confData = [[NSMutableDictionary alloc]init];
+    
+    NSString *conferenceId = rawData[@"conferenceId"];
+    [confData setValue:conferenceId forKey:@"confId"];
+    
+    // Status message extraction
+    NSNumber *isLive = [rawData objectForKey:@"isLive"];
+    [confData setValue:isLive forKey:@"isLive"];
+    
+    
+    if (isLive != nil && [isLive intValue] == 1) {
+        NSString *ownStatus = nil;
+        NSMutableArray *participantsArray = [[NSMutableArray alloc] init];
+        [confData setObject:participantsArray forKey:@"participants"];
+        
+        // Creation of 2 buffers dictionary for VoxeetId and currentStatus
+        NSMutableDictionary *userStateBuffer = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *userIdsBuffer = [[NSMutableDictionary alloc] init];
+        NSArray *participants = [rawData objectForKey:@"participants"];
+        if (participants != nil && participants.count > 0) {
+            for (NSDictionary *part in participants) {
+                NSString *userId = nil;
+                NSDictionary *metaData = part[@"metadata"];
+                if (metaData != nil) {
+                    userId = [metaData objectForKey:@"AtlasId"];
+                }
+                NSString *voxeetId = part[@"userId"];
+                if (userId != nil && voxeetId != nil) {
+                    [userIdsBuffer setObject:voxeetId forKey:userId];
+                }
+                
+                NSString *status = part[@"status"];
+                
+                if (userId != nil && status != nil) {
+                    [userStateBuffer setObject:status forKey:userId];
+                }
+            }
+        }
+        
+        // Creating a dictionary for each conference participant with buffered data
+        for (LYRIdentity *lyrPart in self.conversation.participants) {
+            NSString *status = userStateBuffer[lyrPart.userID];
+            
+            if (status == nil) {
+                status = @"OUT";
+            }
+            
+            NSString *voxeetId = userIdsBuffer[lyrPart.userID];
+            
+            NSMutableDictionary *userDict = [[NSMutableDictionary alloc] init];
+            [userDict setObject:lyrPart.userID forKey:@"id"];
+            [userDict setObject:lyrPart.displayName forKey:@"name"];
+            [userDict setObject:status forKey:@"status"];
+            [userDict setObject:lyrPart forKey:@"lyrUser"];
+            if (voxeetId != nil) {
+                [userDict setObject:voxeetId forKey:@"voxeetId"];
+            }
+            [participantsArray addObject:userDict];
+            
+            if ([lyrPart.userID isEqualToString:self.layerClient.authenticatedUser.userID]) {
+                ownStatus = status;
+            }
+        }
+        
+        [confData setObject:ownStatus forKey:@"ownStatus"];
+        
+        // Starting timestamp management
+        NSNumber *startTimestamp = rawData[@"startTimestamp"];
+        if (startTimestamp != nil) {
+            NSNumber *secondsStart = [NSNumber numberWithDouble:[startTimestamp doubleValue] / 1000.0];
+            [confData setObject:secondsStart forKey:@"startTime"];
+//            [_conferenceVC startTimestamp:[secondsStart doubleValue]];
+        }
+    }
+    return confData;
+}
+
+- (void)loadHistoryDataForConfId:(NSString *)confId completion:(void (^ _Nullable)(NSDictionary *_Nonnull))completion {
+    [VoxeetBridge historyWithConferenceID:confId success:^(id json) {
+        NSMutableDictionary *confData = [[NSMutableDictionary alloc]init];
+        confData[@"confId"] = confId;
+        confData[@"isLive"] = [NSNumber numberWithBool:NO];
+        
+        NSArray *historyArray = (NSArray *)json;
+        
+        for (NSDictionary *userDict in historyArray) {
+            NSNumber *duration = [userDict objectForKey:@"conferenceDuration"];
+            if (duration != nil && [confData objectForKey:@"duration"] == nil) {
+                [confData setValue:duration forKey:@"duration"];
+            }
+            
+            NSDictionary *metaData = [userDict objectForKey:@"metadata"];
+            if (metaData != nil) {
+                NSString *userName = [metaData objectForKey:@"AtlasDisplayName"];
+                if (userName != nil) {
+                    NSMutableArray *users = [confData objectForKey:@"participants"];
+                    
+                    if (users == nil) {
+                        users = [[NSMutableArray alloc]init];
+                        [confData setObject:users forKey:@"participants"];
+                    }
+                    
+                    [users addObject:userName];
+                }
+            }
+        }
+        
+        [self cacheConferenceData:confData];
+        completion(confData);
+    }];
+}
+
+#pragma mark - Voxeet Error AlertView
+- (void)callButtonAlert
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Something went wrong with the call." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:ok];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)refreshCell:(VTConferenceCollectionViewCell *)cell withConferenceData:(NSDictionary *)confData {
+    [cell loadConferenceData:confData];
+}
+
+#pragma mark - Voxeet Data cache
+- (void)cacheConferenceData:(NSDictionary *)conferenceData {
+    if (conferenceData[@"confId"] == nil) {
+        return;
+    }
+    
+    if (self.conferenceDataCache == nil) {
+        self.conferenceDataCache = [[NSMutableDictionary alloc] init];
+    }
+    
+    [self.conferenceDataCache setObject:conferenceData forKey:conferenceData[@"confId"]];
+}
+
+- (NSDictionary *)getCachedDataForConferenceId:(NSString *)confId {
+    return conferenceDataCache[confId];
+}
+
+- (void)clearCurrentLiveConference {
+    self.currentLiveConferenceId = nil;
+    self.currentLiveConferenceData = nil;
+    self.messageInputToolbar.rightAccessoryImage = [UIImage imageNamed:@"AddCallOn"];
+}
+
+#pragma mark - Voxeet Conference updated event
+- (void)conferenceStatusUpdated:(NSNotification *)notification
+{
+    NSData *jsonData = notification.userInfo.allValues.firstObject;
+    NSError *error = nil;
+    
+    id object = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                options:0
+                                                  error:&error];
+    
+    if (error == nil && [object isKindOfClass:[NSDictionary class]]) {
+        id rawConfId = object[@"conferenceId"];
+        NSLog(@"conf status updated : %@", object);
+        if (rawConfId != nil && rawConfId != [NSNull null]) {
+            NSString *confId = (NSString *)rawConfId;
+            if (confId != nil && [confId isEqualToString:self.currentLiveConferenceId]) {
+                
+                // We have a conferenceId and it's the current live conference id
+                VTConferenceCollectionViewCell *cell = [self cellForConferenceId:confId];
+                
+                NSNumber *isLive = object[@"isLive"];
+                if (isLive != nil && [isLive boolValue] == NO) {
+                    // If conference is no longer alive, clear and load / cache conference history
+                    [self clearCurrentLiveConference];
+                    
+                    [self loadHistoryDataForConfId:confId completion:^(NSDictionary *confData) {
+                        [self refreshCell:cell withConferenceData:confData];
+                        [self.collectionView.collectionViewLayout invalidateLayout];
+                    }];
+                }
+                else {
+                    [self updateLiveParticipantsState:[object objectForKey:@"participants"]];
+                    
+                    if (cell != nil && self.currentLiveConferenceData != nil) {
+                        [self refreshCell:cell withConferenceData:self.currentLiveConferenceData];
+                    }
+                }
+            }
+            else {
+                NSLog(@"Error : no conferenceId provided on live conference status updated");
+            }
+        }
+    } else {
+        // Error.
+        [self callButtonAlert];
+    }
+}
+
+#pragma mark - Voxeet Helper methods
+
+- (NSString *)confIdAtIndexPath:(NSIndexPath *)indexPath {
+    LYRMessage *message = [self.conversationDataSource messageAtCollectionViewIndexPath:indexPath];
+    if ([message.parts.firstObject.MIMEType isEqual: VTMIMETypeConference]) {
+        NSData *messageData = message.parts.firstObject.data;
+        if (messageData != nil) {
+            NSDictionary *messageDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:messageData];
+            if (messageDictionary.allKeys.count > 0) {
+                NSString *confId = messageDictionary[@"confId"];
+                return confId;
+            }
+        }
+    }
+    return nil;
+}
+
+- (VTConferenceCollectionViewCell *)cellForConferenceId:(NSString *)conferenceId {
+    NSArray *visibleCells = self.collectionView.visibleCells;
+    
+    for (UICollectionViewCell *cell in visibleCells) {
+        if ([cell isKindOfClass:[VTConferenceCollectionViewCell class]]) {
+            if ([((VTConferenceCollectionViewCell *)cell).conferenceId isEqualToString:conferenceId]) {
+                return (VTConferenceCollectionViewCell *)cell;
+            }
+        }
+    }
+    
+    return nil;
+}
+
+- (NSString *)conferenceIdWithMessage:(LYRMessage *)message {
+    if ([message.parts.firstObject.MIMEType isEqual: VTMIMETypeConference]) {
+        NSData *messageData = message.parts.firstObject.data;
+        if (messageData != nil) {
+            NSDictionary *messageDictionary = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:messageData];
+            if (messageDictionary.allKeys.count > 0) {
+                return messageDictionary[@"confId"];
+            }
+        }
+    }
+    
+    return nil;
+}
+
 #pragma mark - Helpers
 
 - (void)configureTitle
@@ -611,6 +1096,9 @@ NSString *const ATLMDetailsButtonLabel = @"Details";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidTapLink:) name:ATLUserDidTapLinkNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conversationMetadataDidChange:) name:ATLMConversationMetadataDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    // Voxeet Notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conferenceActionButtonTapped:) name:@"VTConferenceActionButtonTapped" object:nil];
 }
 
 #pragma mark - Device Orientation

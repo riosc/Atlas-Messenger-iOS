@@ -8,17 +8,17 @@
 
 #import "ATLMUserCredentials.h"
 
-static NSString *defaultsEmailKey = @"DEFAULTS_EMAIL";
-static NSString *defaultsPasswordKey = @"DEFAULTS_PASSWORD";
+static NSString *defaultsNameKey = @"DEFAULTS_NAME";
+static NSString *defaultsDeviceIDKey = @"DEFAULTS_DEVICEID";
 // https://xkcd.com/221/
 
 @implementation ATLMUserCredentials
 
-- (instancetype)initWithEmail:(NSString *)email password:(NSString *)password
+- (instancetype)initWithName:(NSString *)name deviceID:(nonnull NSString *)deviceID
 {
     self = [super init];
-    self.email = email;
-    self.password = password;
+    self.name = name;
+    self.deviceID = deviceID;
     return self;
 }
 
@@ -30,6 +30,6 @@ static NSString *defaultsPasswordKey = @"DEFAULTS_PASSWORD";
 }
 
 - (NSDictionary *)asDictionary {
-    return @{@"email": self.email, @"password": self.password};
+    return @{@"name": self.name, @"deviceID": self.deviceID};
 }
 @end

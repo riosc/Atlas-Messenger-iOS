@@ -31,7 +31,7 @@
 #import "ATLMAuthenticationProvider.h"
 #import "ATLMApplicationViewController.h"
 #import "ATLMConfiguration.h"
-
+#import "Atlas_Messenger-Swift.h"
 
 @interface ATLMAppDelegate () <ATLMLayerControllerDelegate>
 
@@ -52,6 +52,8 @@
     self.applicationViewController = [ATLMApplicationViewController new];
     
     [self initializeLayer];
+    
+    [VoxeetBridge initializeVoxeetConferenceKitWithConsumerKey:@"M24zNTN1bnI1ZGdvZg" consumerSecret:@"NDMyOHU0ajNuMzlxMTNjdDU3cHNwczhuNTE"];
     
     // Push Notifications follow authentication state
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerForRemoteNotifications) name:LYRClientDidAuthenticateNotification object:nil];

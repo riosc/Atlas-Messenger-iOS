@@ -94,7 +94,9 @@ typedef NS_ENUM(NSUInteger, ATLMLayerControllerError) {
  @param credentials An `NSDictionary` containing authetication credentials. 
  @param completions A block to be called upon completion of the operation.
  */
-- (void)authenticateWithCredentials:(nonnull ATLMUserCredentials *)credentials completion:(nonnull void (^)(LYRSession * _Nonnull session, NSError *_Nullable error))completion;
+- (void)authenticateWithCredentials:(nonnull ATLMUserCredentials *)credentials completion:(nullable void (^)(LYRSession * _Nullable session, NSError *_Nullable error))completion;
+
+- (void)setupLarryWithCompletion:(nullable void (^)(NSString * _Nullable sessionToken, NSError *_Nullable error))completion;
 
 /**
  @abstract Updates the remote notification device token on the underlying `LYRClient` insance.

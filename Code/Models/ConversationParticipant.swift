@@ -9,7 +9,7 @@
 import Atlas
 
 class ConversationParticipant: NSObject, ATLParticipant, ATLAvatarItem {
-    
+    var presenceStatus: LYRIdentityPresenceStatus
     var firstName: String = ""
     var lastName: String = ""
     var displayName: String = ""
@@ -18,7 +18,7 @@ class ConversationParticipant: NSObject, ATLParticipant, ATLAvatarItem {
     var avatarImage: UIImage?
     var avatarInitials: String?
     
-    init(layerIdentity: LYRIdentity){
+    init(layerIdentity: LYRIdentity) {
         if(layerIdentity.displayName != nil){
             self.displayName = layerIdentity.displayName!
         }
@@ -34,6 +34,7 @@ class ConversationParticipant: NSObject, ATLParticipant, ATLAvatarItem {
         self.userID = layerIdentity.userID
         self.avatarImage = layerIdentity.avatarImage
         self.avatarInitials = layerIdentity.avatarInitials
+        self.presenceStatus = layerIdentity.presenceStatus
         
         if (self.userID == Config.larryUserID) {
             self.avatarImage = UIImage(named: "larry-avatar")

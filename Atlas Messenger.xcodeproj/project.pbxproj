@@ -57,6 +57,40 @@
 		94659349D388E71A781C94F1 /* Pods_Atlas_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BF955CF4F1A14162C00D1E /* Pods_Atlas_MessengerTests.framework */; };
 		AA1DC2791E3C05060034CFD5 /* ATLMLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1DC2781E3C05060034CFD5 /* ATLMLocationViewController.m */; };
 		AA441A931DD4D94D00F93295 /* ATLMUserCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = AA441A921DD4D94D00F93295 /* ATLMUserCredentials.m */; };
+		AA650EFE1E970B2B002942DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA650EFD1E970B2B002942DD /* Assets.xcassets */; };
+		AA650F0B1E9717B3002942DD /* VTConferenceBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA650F041E9717B3002942DD /* VTConferenceBubbleView.m */; };
+		AA650F0C1E9717B3002942DD /* VTConferenceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA650F061E9717B3002942DD /* VTConferenceCollectionViewCell.m */; };
+		AA650F0D1E9717B3002942DD /* VTConferenceCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA650F071E9717B3002942DD /* VTConferenceCollectionViewCell.xib */; };
+		AA650F0E1E9717B3002942DD /* VTConferenceViewControllerAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA650F091E9717B3002942DD /* VTConferenceViewControllerAvatarCell.m */; };
+		AA650F0F1E9717B3002942DD /* VTConferenceViewControllerAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA650F0A1E9717B3002942DD /* VTConferenceViewControllerAvatarCell.xib */; };
+		AA65153A1E9723F1002942DD /* VoxeetConferenceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA6515391E9723F1002942DD /* VoxeetConferenceKit.framework */; };
+		AA6515431E9CA5C5002942DD /* VoxeetConferenceKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA6515351E972252002942DD /* VoxeetConferenceKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AAADF2801EC3B14C00C92487 /* VoxeetSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA650F101E971D36002942DD /* VoxeetSDK.framework */; };
+		AAADF28A1EC3C28700C92487 /* ATLMLarryController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAADF2891EC3C28700C92487 /* ATLMLarryController.m */; };
+		AABE9C6B1E9D8F76001314E7 /* VoxeetBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9C6A1E9D8F76001314E7 /* VoxeetBridge.swift */; };
+		AABE9CDE1E9DAC78001314E7 /* AlexaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CD41E9DAC78001314E7 /* AlexaViewController.swift */; };
+		AABE9CDF1E9DAC78001314E7 /* BridgeLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CD61E9DAC78001314E7 /* BridgeLinkViewController.swift */; };
+		AABE9CE01E9DAC78001314E7 /* BridgeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CD71E9DAC78001314E7 /* BridgeTableViewController.swift */; };
+		AABE9CE11E9DAC78001314E7 /* Lights.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AABE9CD81E9DAC78001314E7 /* Lights.storyboard */; };
+		AABE9CE21E9DAC78001314E7 /* LightSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CD91E9DAC78001314E7 /* LightSettingsTableViewController.swift */; };
+		AABE9CE31E9DAC78001314E7 /* LightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CDA1E9DAC78001314E7 /* LightTableViewCell.swift */; };
+		AABE9CE41E9DAC78001314E7 /* LightTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CDB1E9DAC78001314E7 /* LightTableViewController.swift */; };
+		AABE9CEE1E9DAE1F001314E7 /* ErrorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CEA1E9DAE1F001314E7 /* ErrorService.swift */; };
+		AABE9CEF1E9DAE1F001314E7 /* LayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CEB1E9DAE1F001314E7 /* LayerService.swift */; };
+		AABE9CF01E9DAE1F001314E7 /* LightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CEC1E9DAE1F001314E7 /* LightService.swift */; };
+		AABE9CF11E9DAE1F001314E7 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CED1E9DAE1F001314E7 /* UserService.swift */; };
+		AABE9CF71E9DAEB1001314E7 /* ConversationAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CF31E9DAEB1001314E7 /* ConversationAvatar.swift */; };
+		AABE9CF81E9DAEB1001314E7 /* ConversationParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CF41E9DAEB1001314E7 /* ConversationParticipant.swift */; };
+		AABE9CF91E9DAEB1001314E7 /* StatusError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CF51E9DAEB1001314E7 /* StatusError.swift */; };
+		AABE9CFA1E9DAEB1001314E7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CF61E9DAEB1001314E7 /* User.swift */; };
+		AABE9D051E9DAF37001314E7 /* AIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CFD1E9DAF37001314E7 /* AIManager.swift */; };
+		AABE9D061E9DAF37001314E7 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CFE1E9DAF37001314E7 /* AppData.swift */; };
+		AABE9D071E9DAF37001314E7 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9CFF1E9DAF37001314E7 /* Colors.swift */; };
+		AABE9D081E9DAF37001314E7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9D001E9DAF37001314E7 /* Config.swift */; };
+		AABE9D091E9DAF37001314E7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9D011E9DAF37001314E7 /* Extensions.swift */; };
+		AABE9D0A1E9DAF37001314E7 /* LayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9D021E9DAF37001314E7 /* LayerManager.swift */; };
+		AABE9D0B1E9DAF37001314E7 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9D031E9DAF37001314E7 /* NotificationNames.swift */; };
+		AABE9D0C1E9DAF37001314E7 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE9D041E9DAF37001314E7 /* NotificationView.swift */; };
 		D016D0FC1D20D9D900D9AA4F /* ATLMApplicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D016D0FB1D20D9D900D9AA4F /* ATLMApplicationViewController.m */; };
 		D0C483D81E553F8D00DB02CF /* TestLayerConfiguration-invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = D0C483D61E553E5300DB02CF /* TestLayerConfiguration-invalid.json */; };
 		D0C483DA1E55408100DB02CF /* TestLayerConfiguration-appIDNotSet.json in Resources */ = {isa = PBXBuildFile; fileRef = D0C483D91E55408100DB02CF /* TestLayerConfiguration-appIDNotSet.json */; };
@@ -88,7 +122,35 @@
 			remoteGlobalIDString = 0A0C242219477D8F00401B74;
 			remoteInfo = LayerSample;
 		};
+		AA6515341E972252002942DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA6515301E972252002942DD /* VoxeetConferenceKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC2B28B11E54501E00E3EB57;
+			remoteInfo = VoxeetConferenceKit;
+		};
+		AA6515441E9CA5C5002942DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA6515301E972252002942DD /* VoxeetConferenceKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CC2B28B01E54501E00E3EB57;
+			remoteInfo = VoxeetConferenceKit;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA6515461E9CA5C5002942DD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA6515431E9CA5C5002942DD /* VoxeetConferenceKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A0C242319477D8F00401B74 /* Atlas Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Atlas Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +234,45 @@
 		AA1DC2781E3C05060034CFD5 /* ATLMLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMLocationViewController.m; sourceTree = "<group>"; };
 		AA441A921DD4D94D00F93295 /* ATLMUserCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMUserCredentials.m; sourceTree = "<group>"; };
 		AA441A941DD4D96900F93295 /* ATLMUserCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATLMUserCredentials.h; sourceTree = "<group>"; };
+		AA650EFD1E970B2B002942DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA650F031E9717B3002942DD /* VTConferenceBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTConferenceBubbleView.h; sourceTree = "<group>"; };
+		AA650F041E9717B3002942DD /* VTConferenceBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTConferenceBubbleView.m; sourceTree = "<group>"; };
+		AA650F051E9717B3002942DD /* VTConferenceCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTConferenceCollectionViewCell.h; sourceTree = "<group>"; };
+		AA650F061E9717B3002942DD /* VTConferenceCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTConferenceCollectionViewCell.m; sourceTree = "<group>"; };
+		AA650F071E9717B3002942DD /* VTConferenceCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VTConferenceCollectionViewCell.xib; sourceTree = "<group>"; };
+		AA650F081E9717B3002942DD /* VTConferenceViewControllerAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTConferenceViewControllerAvatarCell.h; sourceTree = "<group>"; };
+		AA650F091E9717B3002942DD /* VTConferenceViewControllerAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTConferenceViewControllerAvatarCell.m; sourceTree = "<group>"; };
+		AA650F0A1E9717B3002942DD /* VTConferenceViewControllerAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VTConferenceViewControllerAvatarCell.xib; sourceTree = "<group>"; };
+		AA650F101E971D36002942DD /* VoxeetSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VoxeetSDK.framework; sourceTree = "<group>"; };
+		AA65152D1E971F70002942DD /* Atlas Messenger-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlas Messenger-Bridging-Header.h"; sourceTree = "<group>"; };
+		AA6515301E972252002942DD /* VoxeetConferenceKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VoxeetConferenceKit.xcodeproj; path = VoxeetConferenceKit/VoxeetConferenceKit.xcodeproj; sourceTree = "<group>"; };
+		AA6515391E9723F1002942DD /* VoxeetConferenceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VoxeetConferenceKit.framework; sourceTree = "<group>"; };
+		AAADF2881EC3C27600C92487 /* ATLMLarryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATLMLarryController.h; sourceTree = "<group>"; };
+		AAADF2891EC3C28700C92487 /* ATLMLarryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMLarryController.m; sourceTree = "<group>"; };
+		AABE9C6A1E9D8F76001314E7 /* VoxeetBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoxeetBridge.swift; sourceTree = "<group>"; };
+		AABE9CD41E9DAC78001314E7 /* AlexaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlexaViewController.swift; sourceTree = "<group>"; };
+		AABE9CD61E9DAC78001314E7 /* BridgeLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeLinkViewController.swift; sourceTree = "<group>"; };
+		AABE9CD71E9DAC78001314E7 /* BridgeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeTableViewController.swift; sourceTree = "<group>"; };
+		AABE9CD81E9DAC78001314E7 /* Lights.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Lights.storyboard; sourceTree = "<group>"; };
+		AABE9CD91E9DAC78001314E7 /* LightSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightSettingsTableViewController.swift; sourceTree = "<group>"; };
+		AABE9CDA1E9DAC78001314E7 /* LightTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightTableViewCell.swift; sourceTree = "<group>"; };
+		AABE9CDB1E9DAC78001314E7 /* LightTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightTableViewController.swift; sourceTree = "<group>"; };
+		AABE9CEA1E9DAE1F001314E7 /* ErrorService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorService.swift; sourceTree = "<group>"; };
+		AABE9CEB1E9DAE1F001314E7 /* LayerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerService.swift; sourceTree = "<group>"; };
+		AABE9CEC1E9DAE1F001314E7 /* LightService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightService.swift; sourceTree = "<group>"; };
+		AABE9CED1E9DAE1F001314E7 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		AABE9CF31E9DAEB1001314E7 /* ConversationAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationAvatar.swift; sourceTree = "<group>"; };
+		AABE9CF41E9DAEB1001314E7 /* ConversationParticipant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationParticipant.swift; sourceTree = "<group>"; };
+		AABE9CF51E9DAEB1001314E7 /* StatusError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusError.swift; sourceTree = "<group>"; };
+		AABE9CF61E9DAEB1001314E7 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AABE9CFD1E9DAF37001314E7 /* AIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIManager.swift; sourceTree = "<group>"; };
+		AABE9CFE1E9DAF37001314E7 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		AABE9CFF1E9DAF37001314E7 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		AABE9D001E9DAF37001314E7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		AABE9D011E9DAF37001314E7 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		AABE9D021E9DAF37001314E7 /* LayerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerManager.swift; sourceTree = "<group>"; };
+		AABE9D031E9DAF37001314E7 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+		AABE9D041E9DAF37001314E7 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B53937831A24F6AF00DE60F9 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		CA1D93E68E9105BA0139B1C2 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D016D0FA1D20D9D900D9AA4F /* ATLMApplicationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMApplicationViewController.h; sourceTree = "<group>"; };
@@ -219,6 +320,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAADF2801EC3B14C00C92487 /* VoxeetSDK.framework in Frameworks */,
+				AA65153A1E9723F1002942DD /* VoxeetConferenceKit.framework in Frameworks */,
 				0AADB5D41947C88B0083732B /* SystemConfiguration.framework in Frameworks */,
 				0AADB5D01947C8800083732B /* Security.framework in Frameworks */,
 				0AADB5CE1947C87C0083732B /* QuartzCore.framework in Frameworks */,
@@ -315,6 +418,8 @@
 				251D8D8E1A9688C40000BFA2 /* ATLMConversationListViewController.m */,
 				251D8D8F1A9688C40000BFA2 /* ATLMConversationViewController.h */,
 				251D8D901A9688C40000BFA2 /* ATLMConversationViewController.m */,
+				AAADF2881EC3C27600C92487 /* ATLMLarryController.h */,
+				AAADF2891EC3C28700C92487 /* ATLMLarryController.m */,
 				251D8D891A9688C40000BFA2 /* ATLMLayerController.h */,
 				251D8D8A1A9688C40000BFA2 /* ATLMLayerController.m */,
 				AA1DC2771E3C05060034CFD5 /* ATLMLocationViewController.h */,
@@ -329,6 +434,7 @@
 				251D8D9E1A9688C40000BFA2 /* ATLMRegistrationViewController.m */,
 				251D8D991A9688C40000BFA2 /* ATLMSettingsViewController.h */,
 				251D8D9A1A9688C40000BFA2 /* ATLMSettingsViewController.m */,
+				AA65152D1E971F70002942DD /* Atlas Messenger-Bridging-Header.h */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -374,6 +480,10 @@
 		259A57111950EB76000E27B0 /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				AABE9CFC1E9DAF37001314E7 /* Helpers */,
+				AABE9CE91E9DAE1F001314E7 /* Services */,
+				AABE9CD31E9DAC78001314E7 /* Settings */,
+				AA650F011E9717B3002942DD /* Voxeet */,
 				251D8D861A9688C40000BFA2 /* Controllers */,
 				0A0C242519477D8F00401B74 /* Frameworks */,
 				AA441A911DD4D90300F93295 /* Models */,
@@ -389,8 +499,9 @@
 		259A576B1950EB83000E27B0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0AD6C4B419BD4CD6005142ED /* Icons */,
+				AA650EFD1E970B2B002942DD /* Assets.xcassets */,
 				D62D17341A9C22E100E0EFAF /* Images.xcassets */,
+				0AD6C4B419BD4CD6005142ED /* Icons */,
 				D62D17321A9C0D6700E0EFAF /* Info.plist */,
 				259A576E1950EB83000E27B0 /* InfoPlist.strings */,
 				D62D17361A9C267C00E0EFAF /* Launch Screen.xib */,
@@ -434,6 +545,9 @@
 		A334F9884EFAF9CDD4FC26FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA6515391E9723F1002942DD /* VoxeetConferenceKit.framework */,
+				AA6515301E972252002942DD /* VoxeetConferenceKit.xcodeproj */,
+				AA650F101E971D36002942DD /* VoxeetSDK.framework */,
 				CA1D93E68E9105BA0139B1C2 /* Pods.framework */,
 				EDE95477196DD12FC7934517 /* Pods_Atlas_Messenger.framework */,
 				43BF955CF4F1A14162C00D1E /* Pods_Atlas_MessengerTests.framework */,
@@ -444,10 +558,94 @@
 		AA441A911DD4D90300F93295 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AABE9CF31E9DAEB1001314E7 /* ConversationAvatar.swift */,
+				AABE9CF41E9DAEB1001314E7 /* ConversationParticipant.swift */,
+				AABE9CF51E9DAEB1001314E7 /* StatusError.swift */,
+				AABE9CF61E9DAEB1001314E7 /* User.swift */,
 				AA441A941DD4D96900F93295 /* ATLMUserCredentials.h */,
 				AA441A921DD4D94D00F93295 /* ATLMUserCredentials.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AA650F011E9717B3002942DD /* Voxeet */ = {
+			isa = PBXGroup;
+			children = (
+				AA650F021E9717B3002942DD /* Views */,
+				AABE9C6A1E9D8F76001314E7 /* VoxeetBridge.swift */,
+			);
+			path = Voxeet;
+			sourceTree = "<group>";
+		};
+		AA650F021E9717B3002942DD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA650F031E9717B3002942DD /* VTConferenceBubbleView.h */,
+				AA650F041E9717B3002942DD /* VTConferenceBubbleView.m */,
+				AA650F051E9717B3002942DD /* VTConferenceCollectionViewCell.h */,
+				AA650F061E9717B3002942DD /* VTConferenceCollectionViewCell.m */,
+				AA650F071E9717B3002942DD /* VTConferenceCollectionViewCell.xib */,
+				AA650F081E9717B3002942DD /* VTConferenceViewControllerAvatarCell.h */,
+				AA650F091E9717B3002942DD /* VTConferenceViewControllerAvatarCell.m */,
+				AA650F0A1E9717B3002942DD /* VTConferenceViewControllerAvatarCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AA6515311E972252002942DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA6515351E972252002942DD /* VoxeetConferenceKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AABE9CD31E9DAC78001314E7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AABE9CD41E9DAC78001314E7 /* AlexaViewController.swift */,
+				AABE9CD51E9DAC78001314E7 /* Lights */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		AABE9CD51E9DAC78001314E7 /* Lights */ = {
+			isa = PBXGroup;
+			children = (
+				AABE9CD61E9DAC78001314E7 /* BridgeLinkViewController.swift */,
+				AABE9CD71E9DAC78001314E7 /* BridgeTableViewController.swift */,
+				AABE9CD81E9DAC78001314E7 /* Lights.storyboard */,
+				AABE9CD91E9DAC78001314E7 /* LightSettingsTableViewController.swift */,
+				AABE9CDA1E9DAC78001314E7 /* LightTableViewCell.swift */,
+				AABE9CDB1E9DAC78001314E7 /* LightTableViewController.swift */,
+			);
+			path = Lights;
+			sourceTree = "<group>";
+		};
+		AABE9CE91E9DAE1F001314E7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AABE9CEA1E9DAE1F001314E7 /* ErrorService.swift */,
+				AABE9CEB1E9DAE1F001314E7 /* LayerService.swift */,
+				AABE9CEC1E9DAE1F001314E7 /* LightService.swift */,
+				AABE9CED1E9DAE1F001314E7 /* UserService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		AABE9CFC1E9DAF37001314E7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AABE9CFD1E9DAF37001314E7 /* AIManager.swift */,
+				AABE9CFE1E9DAF37001314E7 /* AppData.swift */,
+				AABE9CFF1E9DAF37001314E7 /* Colors.swift */,
+				AABE9D001E9DAF37001314E7 /* Config.swift */,
+				AABE9D011E9DAF37001314E7 /* Extensions.swift */,
+				AABE9D021E9DAF37001314E7 /* LayerManager.swift */,
+				AABE9D031E9DAF37001314E7 /* NotificationNames.swift */,
+				AABE9D041E9DAF37001314E7 /* NotificationView.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		D61B10981A6F2DA1009BFA9C /* Controllers */ = {
@@ -525,10 +723,12 @@
 				0A0C242119477D8F00401B74 /* Resources */,
 				794893A33FCDDB1C7369F738 /* [CP] Embed Pods Frameworks */,
 				04CB55D11C09A3C30D75245E /* [CP] Copy Pods Resources */,
+				AA6515461E9CA5C5002942DD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA6515451E9CA5C5002942DD /* PBXTargetDependency */,
 			);
 			name = "Atlas Messenger";
 			productName = LayerSample;
@@ -567,9 +767,10 @@
 				ORGANIZATIONNAME = "Layer, Inc.";
 				TargetAttributes = {
 					0A0C242219477D8F00401B74 = {
+						DevelopmentTeam = U46UP347QQ;
 						DevelopmentTeamName = "Layer, Inc.";
-						LastSwiftMigration = 0820;
-						ProvisioningStyle = Manual;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -601,6 +802,12 @@
 			mainGroup = 0A0C241A19477D8F00401B74;
 			productRefGroup = 0A0C242419477D8F00401B74 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AA6515311E972252002942DD /* Products */;
+					ProjectRef = AA6515301E972252002942DD /* VoxeetConferenceKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				0A0C242219477D8F00401B74 /* Atlas Messenger */,
@@ -609,17 +816,30 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		AA6515351E972252002942DD /* VoxeetConferenceKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = VoxeetConferenceKit.framework;
+			remoteRef = AA6515341E972252002942DD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		0A0C242119477D8F00401B74 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA650F0D1E9717B3002942DD /* VTConferenceCollectionViewCell.xib in Resources */,
 				D63368511A9D614900FBFCD3 /* atlas-splashscreen-2208.png in Resources */,
 				D633684E1A9D614900FBFCD3 /* atlas-splashscreen-960.png in Resources */,
 				D62611691A98091800F6E707 /* layer-logo@2x.png in Resources */,
+				AABE9CE11E9DAC78001314E7 /* Lights.storyboard in Resources */,
 				D62611711A98153C00F6E707 /* layer-logo-gray.png in Resources */,
 				408588511E3C0B7800C7831C /* LayerConfiguration.json in Resources */,
 				D633684F1A9D614900FBFCD3 /* atlas-splashscreen-1334.png in Resources */,
+				AA650F0F1E9717B3002942DD /* VTConferenceViewControllerAvatarCell.xib in Resources */,
 				D62611721A98153C00F6E707 /* layer-logo-gray@3x.png in Resources */,
 				0ABEFFAF196B7686006FFFF3 /* logo@2x.png in Resources */,
 				D62D17371A9C267C00E0EFAF /* Launch Screen.xib in Resources */,
@@ -628,6 +848,7 @@
 				D626116A1A98091800F6E707 /* layer-logo.png in Resources */,
 				259A57741950EB83000E27B0 /* InfoPlist.strings in Resources */,
 				D62611731A98153C00F6E707 /* layer-logo-gray@2x.png in Resources */,
+				AA650EFE1E970B2B002942DD /* Assets.xcassets in Resources */,
 				D626116B1A98091800F6E707 /* layer-logo@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -749,32 +970,59 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA650F0B1E9717B3002942DD /* VTConferenceBubbleView.m in Sources */,
+				AABE9D061E9DAF37001314E7 /* AppData.swift in Sources */,
+				AABE9CDF1E9DAC78001314E7 /* BridgeLinkViewController.swift in Sources */,
+				AABE9D081E9DAF37001314E7 /* Config.swift in Sources */,
 				4085884F1E3C0A9000C7831C /* ATLMAuthenticationProvider.m in Sources */,
+				AABE9CF71E9DAEB1001314E7 /* ConversationAvatar.swift in Sources */,
 				D016D0FC1D20D9D900D9AA4F /* ATLMApplicationViewController.m in Sources */,
 				251D8DC21A9688C50000BFA2 /* ATLMLayerController.m in Sources */,
 				251D8DCA1A9688C50000BFA2 /* ATLMSettingsViewController.m in Sources */,
 				251D8DCC1A9688C50000BFA2 /* ATLMRegistrationViewController.m in Sources */,
 				251D8DC31A9688C50000BFA2 /* ATLMConversationDetailViewController.m in Sources */,
 				251D8DC51A9688C50000BFA2 /* ATLMConversationViewController.m in Sources */,
+				AABE9D0A1E9DAF37001314E7 /* LayerManager.swift in Sources */,
 				251D8DD91A9688C50000BFA2 /* ATLMSplashView.m in Sources */,
 				251D8DC01A9688C50000BFA2 /* ATLMAppDelegate.m in Sources */,
+				AABE9CEF1E9DAE1F001314E7 /* LayerService.swift in Sources */,
+				AAADF28A1EC3C28700C92487 /* ATLMLarryController.m in Sources */,
+				AABE9D0C1E9DAF37001314E7 /* NotificationView.swift in Sources */,
 				251D8DC61A9688C50000BFA2 /* ATLMMediaViewController.m in Sources */,
 				251D8DCF1A9688C50000BFA2 /* ATLMConstants.m in Sources */,
 				AA1DC2791E3C05060034CFD5 /* ATLMLocationViewController.m in Sources */,
+				AA650F0C1E9717B3002942DD /* VTConferenceCollectionViewCell.m in Sources */,
 				251D8DDA1A9688C50000BFA2 /* ATLMStyleValue1TableViewCell.m in Sources */,
+				AABE9CF81E9DAEB1001314E7 /* ConversationParticipant.swift in Sources */,
+				AABE9CE41E9DAC78001314E7 /* LightTableViewController.swift in Sources */,
 				251D8DC81A9688C50000BFA2 /* ATLMParticipantTableViewController.m in Sources */,
+				AABE9C6B1E9D8F76001314E7 /* VoxeetBridge.swift in Sources */,
+				AABE9CF91E9DAEB1001314E7 /* StatusError.swift in Sources */,
+				AABE9CFA1E9DAEB1001314E7 /* User.swift in Sources */,
+				AABE9D071E9DAF37001314E7 /* Colors.swift in Sources */,
+				AABE9CE01E9DAC78001314E7 /* BridgeTableViewController.swift in Sources */,
+				AABE9D0B1E9DAF37001314E7 /* NotificationNames.swift in Sources */,
 				251D8DC41A9688C50000BFA2 /* ATLMConversationListViewController.m in Sources */,
+				AABE9CF01E9DAE1F001314E7 /* LightService.swift in Sources */,
 				251D8DD81A9688C50000BFA2 /* ATLMSettingsHeaderView.m in Sources */,
 				408588481E3C097700C7831C /* main.m in Sources */,
+				AABE9CE31E9DAC78001314E7 /* LightTableViewCell.swift in Sources */,
 				251D8DD41A9688C50000BFA2 /* ATLMUtilities.m in Sources */,
+				AABE9D051E9DAF37001314E7 /* AIManager.swift in Sources */,
 				AA441A931DD4D94D00F93295 /* ATLMUserCredentials.m in Sources */,
 				251D8DD01A9688C50000BFA2 /* ATLMErrors.m in Sources */,
 				251D8DD11A9688C50000BFA2 /* ATLMHTTPResponseSerializer.m in Sources */,
+				AA650F0E1E9717B3002942DD /* VTConferenceViewControllerAvatarCell.m in Sources */,
 				251D8DD71A9688C50000BFA2 /* ATLMInputTableViewCell.m in Sources */,
 				4085884E1E3C0A1500C7831C /* ATLMConfiguration.m in Sources */,
 				251D8DDB1A9688C50000BFA2 /* ATLMOverlayView.m in Sources */,
+				AABE9CE21E9DAC78001314E7 /* LightSettingsTableViewController.swift in Sources */,
 				251D8DD51A9688C50000BFA2 /* ATLLogoView.m in Sources */,
+				AABE9CEE1E9DAE1F001314E7 /* ErrorService.swift in Sources */,
+				AABE9D091E9DAF37001314E7 /* Extensions.swift in Sources */,
 				251D8DC71A9688C50000BFA2 /* ATLMNavigationController.m in Sources */,
+				AABE9CDE1E9DAC78001314E7 /* AlexaViewController.swift in Sources */,
+				AABE9CF11E9DAE1F001314E7 /* UserService.swift in Sources */,
 				251D8DD61A9688C50000BFA2 /* ATLMCenterTextTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -796,6 +1044,11 @@
 			target = 0A0C242219477D8F00401B74 /* Atlas Messenger */;
 			targetProxy = 0A0C244919477D8F00401B74 /* PBXContainerItemProxy */;
 		};
+		AA6515451E9CA5C5002942DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VoxeetConferenceKit;
+			targetProxy = AA6515441E9CA5C5002942DD /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -814,6 +1067,7 @@
 		0A0C245319477D8F00401B74 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -831,6 +1085,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -857,6 +1112,7 @@
 		0A0C245419477D8F00401B74 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -874,6 +1130,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -894,6 +1151,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E283E1105A58132996879C01 /* Pods-Atlas Messenger.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
@@ -901,10 +1159,21 @@
 				CODE_SIGN_ENTITLEMENTS = "Atlas Messenger.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = U46UP347QQ;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Libraries",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/tvOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/watchOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/tvOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/watchOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/VoxeetConferenceKit",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
@@ -913,15 +1182,18 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.layer.Atlas-Messenger";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.layer.Atlas-Messenger.larry";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Code/Controllers/Atlas Messenger-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -931,6 +1203,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 32F8ECB5C359B9ED2B2D3DD3 /* Pods-Atlas Messenger.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
@@ -938,10 +1211,21 @@
 				CODE_SIGN_ENTITLEMENTS = "Atlas Messenger.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = U46UP347QQ;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Libraries",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/tvOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Build/watchOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/tvOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/Carthage/Checkouts/Kingfisher/Carthage/Build/watchOS",
+					"$(PROJECT_DIR)/VoxeetConferenceKit/VoxeetConferenceKit",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
@@ -950,15 +1234,17 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.layer.Atlas-Messenger";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.layer.Atlas-Messenger.larry";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Code/Controllers/Atlas Messenger-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -968,6 +1254,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9F6E0263378540FD98CB9AC6 /* Pods-Atlas MessengerTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -992,6 +1279,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 65FCD7A52CE01ADCCBE0E151 /* Pods-Atlas MessengerTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

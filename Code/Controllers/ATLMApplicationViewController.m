@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, ATLMApplicationState) {
 
 static NSString *const ATLMPushNotificationSoundName = @"layerbell.caf";
 static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationViewControllerObservationContext;
+static NSString *const LarrySessionTokenKey = @"LarrySessionToken";
 
 @interface ATLMApplicationViewController () <ATLMRegistrationViewControllerDelegate, ATLMConversationListViewControllerPresentationDelegate>
 
@@ -286,6 +287,14 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
 
 - (void)handleLayerClientDidAuthenticateNotification:(NSNotification *)notification
 {
+    [self.layerController setupLarryWithCompletion:^(NSString * _Nullable sessionToken, NSError * _Nullable error) {
+        if (sessionToken) {
+            [[NSUserDefaults standardUserDefaults] setObject:sessionToken forKey:LarrySessionTokenKey];
+            NSLog(@"Larry setup complete");
+        } else {
+            NSLog(@"Failed to setup Larry with error: %@", error);
+        }
+    }];
     self.state = ATLMApplicationStateAuthenticated;
 }
 

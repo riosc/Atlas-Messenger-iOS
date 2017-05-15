@@ -35,6 +35,10 @@
  */
 - (void)authenticateWithCredentials:(nonnull NSDictionary *)credentials nonce:(nonnull NSString *)nonce completion:(nonnull void (^)(NSString * _Nullable identityToken, NSError * _Nullable error))completion;
 
+- (void)loginUserWithName:(nonnull NSString *)name deviceID:(nonnull NSString *)deviceID completion:(nonnull void (^)(NSString * _Nullable userID, NSError * _Nullable error))completion;
+
+- (void)getSessionForIdentityToken:(NSString *)identityToken completion:(void (^)(NSString *sessionToken, NSError *error))completion;
+
 /**
  @abstract Requests a new identity token with the supplied nonce.
  @param nonce A nonce required for the identity token.

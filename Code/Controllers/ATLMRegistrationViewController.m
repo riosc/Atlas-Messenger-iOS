@@ -19,19 +19,19 @@
 @interface ATLMRegistrationViewController () <UITextFieldDelegate>
 
 @property (nonatomic) ATLLogoView *logoView;
-@property (nonatomic) UITextField *emailTextField;
-@property (nonatomic) UITextField *passwordTextField;
-@property (nonatomic) NSLayoutConstraint *emailTextFieldBottomConstraint;
-@property (nonatomic) NSLayoutConstraint *passwordTextFieldBottomConstraint;
+@property (nonatomic) UITextField *nameTextField;
+@property (nonatomic) UIButton *loginButton;
+@property (nonatomic) NSLayoutConstraint *nameTextFieldBottomConstraint;
+@property (nonatomic) NSLayoutConstraint *loginButtonBottomConstraint;
 
 @end
 
 @implementation ATLMRegistrationViewController
 
 CGFloat const ATLMLogoViewBCenterYOffset = 184;
-CGFloat const ATLMEmailTextFieldWidthRatio = 0.8;
-CGFloat const ATLMEmailTextFieldHeight = 52;
-CGFloat const ATLMEmailTextFieldBottomPadding = 20;
+CGFloat const ATLMNameTextFieldWidthRatio = 0.8;
+CGFloat const ATLMNameTextFieldHeight = 52;
+CGFloat const ATLMNameTextFieldBottomPadding = 20;
 
 - (void)viewDidLoad
 {
@@ -42,33 +42,32 @@ CGFloat const ATLMEmailTextFieldBottomPadding = 20;
     self.logoView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.logoView];
     
-    self.emailTextField = [[UITextField alloc] init];
-    self.emailTextField.translatesAutoresizingMaskIntoConstraints = NO;
-    self.emailTextField.delegate = self;
-    self.emailTextField.placeholder = @"Email Address";
-    self.emailTextField.textAlignment = NSTextAlignmentCenter;
-    self.emailTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.emailTextField.layer.borderWidth = 0.5;
-    self.emailTextField.layer.cornerRadius = 2;
-    self.emailTextField.font = [UIFont systemFontOfSize:22];
-    self.emailTextField.returnKeyType = UIReturnKeyNext;
-    self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
-    self.emailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    [self.view addSubview:self.emailTextField ];
+    self.nameTextField = [[UITextField alloc] init];
+    self.nameTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    self.nameTextField.delegate = self;
+    self.nameTextField.placeholder = @"Name";
+    self.nameTextField.textAlignment = NSTextAlignmentCenter;
+    self.nameTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.nameTextField.layer.borderWidth = 0.5;
+    self.nameTextField.layer.cornerRadius = 2;
+    self.nameTextField.font = [UIFont systemFontOfSize:20];
+    self.nameTextField.returnKeyType = UIReturnKeyNext;
+    self.nameTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    self.nameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    [self.view addSubview:self.nameTextField ];
     
-    self.passwordTextField = [[UITextField alloc] init];
-    self.passwordTextField.translatesAutoresizingMaskIntoConstraints = NO;
-    self.passwordTextField.delegate = self;
-    self.passwordTextField.placeholder = @"Password";
-    self.passwordTextField.textAlignment = NSTextAlignmentCenter;
-    self.passwordTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.passwordTextField.layer.borderWidth = 0.5;
-    self.passwordTextField.layer.cornerRadius = 2;
-    self.passwordTextField.font = [UIFont systemFontOfSize:22];
-    self.passwordTextField.returnKeyType = UIReturnKeyGo;
-    self.passwordTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    self.passwordTextField.secureTextEntry = YES;
-    [self.view addSubview:self.passwordTextField ];
+    self.loginButton = [[UIButton alloc] init];
+    self.loginButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.loginButton setTitle:@"Start Messaging" forState:UIControlStateNormal];
+    self.loginButton.titleLabel.textColor = UIColor.whiteColor;
+    self.loginButton.titleLabel.font = [UIFont systemFontOfSize:20];
+    self.loginButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.loginButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.loginButton.layer.borderWidth = 0.5;
+    self.loginButton.layer.cornerRadius = 2;
+    self.loginButton.backgroundColor = ATLBlueColor();
+    [self.loginButton addTarget:self action:@selector(didTapLoginButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.loginButton ];
     
     [self configureLayoutConstraints];
     
@@ -78,13 +77,13 @@ CGFloat const ATLMEmailTextFieldBottomPadding = 20;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.emailTextField becomeFirstResponder];
+    [self.nameTextField becomeFirstResponder];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     CGRect rect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.passwordTextFieldBottomConstraint.constant = -rect.size.height - ATLMEmailTextFieldBottomPadding;
+    self.loginButtonBottomConstraint.constant = -rect.size.height - ATLMNameTextFieldBottomPadding;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
     [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
@@ -95,25 +94,27 @@ CGFloat const ATLMEmailTextFieldBottomPadding = 20;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == self.passwordTextField) {
-        NSString *email = self.emailTextField.text;
-        NSString *password = self.passwordTextField.text;
-        [self registerAndAuthenticateUserWithEmail:email password:password];
-    } else {
-        [self.passwordTextField becomeFirstResponder];
-    }
+    [self registerAndAuthenticateUser];
+    
     return YES;
 }
 
-- (void)registerAndAuthenticateUserWithEmail:(NSString *)email password:(NSString *)password
+- (void)registerAndAuthenticateUser
 {
     [self.view endEditing:YES];
-
-    // Gather and send the credentials to the delegate.
-    ATLMUserCredentials *credentials = [[ATLMUserCredentials alloc] initWithEmail:email password:password];
+    
+    NSString *name = self.nameTextField.text;
+    NSString *deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
+    ATLMUserCredentials *credentials = [[ATLMUserCredentials alloc] initWithName:name deviceID:deviceID];
+    
     if ([self.delegate respondsToSelector:@selector(registrationViewController:didSubmitCredentials:)]) {
         [self.delegate registrationViewController:self didSubmitCredentials:credentials];
     }
+}
+
+- (void)didTapLoginButton:(id)sender
+{
+    [self registerAndAuthenticateUser];
 }
 
 - (void)configureLayoutConstraints
@@ -122,17 +123,17 @@ CGFloat const ATLMEmailTextFieldBottomPadding = 20;
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.logoView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:-ATLMLogoViewBCenterYOffset]];
     
-    // Registration View
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.emailTextField attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.emailTextField attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:ATLMEmailTextFieldWidthRatio constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.emailTextField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMEmailTextFieldHeight]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.emailTextField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.passwordTextField attribute:NSLayoutAttributeTop multiplier:1.0 constant:-ATLMEmailTextFieldBottomPadding]];
+    // Registration View    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.nameTextField attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.nameTextField attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:ATLMNameTextFieldWidthRatio constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.nameTextField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMNameTextFieldHeight]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.nameTextField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.loginButton attribute:NSLayoutAttributeTop multiplier:1.0 constant:-ATLMNameTextFieldBottomPadding]];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:ATLMEmailTextFieldWidthRatio constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMEmailTextFieldHeight]];
-    self.passwordTextFieldBottomConstraint = [NSLayoutConstraint constraintWithItem:self.passwordTextField attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-ATLMEmailTextFieldBottomPadding];
-    [self.view addConstraint:self.passwordTextFieldBottomConstraint];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.loginButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.loginButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:ATLMNameTextFieldWidthRatio constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.loginButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLMNameTextFieldHeight]];
+    self.loginButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:self.loginButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-ATLMNameTextFieldBottomPadding];
+    [self.view addConstraint:self.loginButtonBottomConstraint];
 }
 
 @end
