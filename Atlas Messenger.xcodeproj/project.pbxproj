@@ -58,6 +58,7 @@
 		49CED6921EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */; };
 		49CED6951EC63DB400A18AFD /* ATLMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CED6941EC63DB400A18AFD /* ATLMConfiguration.m */; };
 		49CED6961EC6414F00A18AFD /* ATLMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CED6941EC63DB400A18AFD /* ATLMConfiguration.m */; };
+		49CED6981EC65B8F00A18AFD /* TestLayerConfiguration-withEndpoints.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CED6971EC65B8F00A18AFD /* TestLayerConfiguration-withEndpoints.json */; };
 		94659349D388E71A781C94F1 /* Pods_Atlas_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BF955CF4F1A14162C00D1E /* Pods_Atlas_MessengerTests.framework */; };
 		AA1DC2791E3C05060034CFD5 /* ATLMLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1DC2781E3C05060034CFD5 /* ATLMLocationViewController.m */; };
 		AA441A931DD4D94D00F93295 /* ATLMUserCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = AA441A921DD4D94D00F93295 /* ATLMUserCredentials.m */; };
@@ -174,6 +175,7 @@
 		49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TestLayerConfiguration-nameNull.json"; sourceTree = "<group>"; };
 		49CED6931EC63DB400A18AFD /* ATLMConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMConfiguration.h; sourceTree = "<group>"; };
 		49CED6941EC63DB400A18AFD /* ATLMConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATLMConfiguration.m; sourceTree = "<group>"; };
+		49CED6971EC65B8F00A18AFD /* TestLayerConfiguration-withEndpoints.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TestLayerConfiguration-withEndpoints.json"; sourceTree = "<group>"; };
 		65FCD7A52CE01ADCCBE0E151 /* Pods-Atlas MessengerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Atlas MessengerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Atlas MessengerTests/Pods-Atlas MessengerTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F6E0263378540FD98CB9AC6 /* Pods-Atlas MessengerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Atlas MessengerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Atlas MessengerTests/Pods-Atlas MessengerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AA1DC2771E3C05060034CFD5 /* ATLMLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATLMLocationViewController.h; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 				402A39F01E68FA180033EEF8 /* TestLayerConfiguration-nameNotString.json */,
 				49CED6911EC63D1100A18AFD /* TestLayerConfiguration-nameNull.json */,
 				402EC5411E673EA0003238BE /* TestLayerConfiguration-notArray.json */,
+				49CED6971EC65B8F00A18AFD /* TestLayerConfiguration-withEndpoints.json */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -656,6 +659,7 @@
 				D0C483D81E553F8D00DB02CF /* TestLayerConfiguration-invalid.json in Resources */,
 				D0C483E31E55428000DB02CF /* TestLayerConfiguration-identityProviderURLNull.json in Resources */,
 				D0C483E21E55428000DB02CF /* TestLayerConfiguration-identityProviderURLInvalid.json in Resources */,
+				49CED6981EC65B8F00A18AFD /* TestLayerConfiguration-withEndpoints.json in Resources */,
 				D0C483E11E55428000DB02CF /* TestLayerConfiguration-appIDInvalid.json in Resources */,
 				49CED6901EC63C6000A18AFD /* TestLayerConfiguration-nameMissing.json in Resources */,
 				402A39F11E68FA180033EEF8 /* TestLayerConfiguration-nameNotString.json in Resources */,
