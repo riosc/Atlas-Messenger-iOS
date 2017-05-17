@@ -100,6 +100,20 @@ namespace :configure do
   end
 end
 
+desc "Create an archived build for deploying via e.g. Hockeyapp. To export the .ipa, provide a path to a .plist with the desired options as plist=/path/to/.../plist (shared via Google Drive). The path must be absolute, not relative or canonical. Requires that a signing key (shared via 1Password) exists on the local machine, findable by codesign."
+task :archive do
+  date = Time.now.to_s.gsub(':','_')
+  archive_name = "Atlas Messenger archive #{date}"
+  archive_cmd = "xcodebuild -workspace \"Atlas Messenger.xcworkspace\" -scheme \"Atlas Messenger\" -configuration Release -archivePath \"#{archive_name}.xcarchive\" archive | xcpretty"
+  puts green(archive_cmd)
+  system archive_cmd
+  
+  plist_path = ENV['plist']
+  export_cmd = "xcodebuild -exportArchive -archivePath \"#{archive_name}.xcarchive\" -exportOptionsPlist \"#{plist_path}\" -exportPath \"#{archive_name}\""
+  puts green(export_cmd)
+  system export_cmd
+end
+
 def green(string)
  "\033[1;32m* #{string}\033[0m"
 end
