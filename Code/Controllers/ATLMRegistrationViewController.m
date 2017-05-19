@@ -54,6 +54,7 @@ CGFloat const ATLMEmailTextFieldBottomPadding = 20;
     self.emailTextField.returnKeyType = UIReturnKeyNext;
     self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     self.emailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.emailTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     [self.view addSubview:self.emailTextField ];
     
     self.passwordTextField = [[UITextField alloc] init];
