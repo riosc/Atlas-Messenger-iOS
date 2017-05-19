@@ -48,14 +48,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [SVProgressHUD setMinimumDismissTimeInterval:3.0f];
-    
-    // Create the view controller that will also be the root view controller of the app.
-    self.applicationViewController = [ATLMApplicationViewController new];
 
     self.window = [UIWindow new];
     self.window.frame = [[UIScreen mainScreen] bounds];
 
     [self initializeEnvironmentsWithCompletion:^{
+        self.applicationViewController = [[ATLMApplicationViewController alloc] initWithNibName:nil bundle:nil];
         self.window.rootViewController = self.applicationViewController;
         [self.window makeKeyAndVisible];
     }];
