@@ -52,12 +52,7 @@
     self.window = [UIWindow new];
     self.window.frame = [[UIScreen mainScreen] bounds];
 
-    [self initializeEnvironmentsWithCompletion:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.window.rootViewController = self.applicationViewController;
-            [self.window makeKeyAndVisible];
-        });
-    }];
+    [self initializeEnvironments];
     
     // Push Notifications follow authentication state
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerForRemoteNotifications) name:LYRClientDidAuthenticateNotification object:nil];
@@ -67,7 +62,7 @@
 }
 
 
-- (void)initializeEnvironmentsWithCompletion:(void(^)(void))completion
+- (void)initializeEnvironments
 {
     NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"LayerConfiguration.json" withExtension:nil];
     ATLMConfigurationSet *configuration = [[ATLMConfigurationSet alloc] initWithFileURL:fileURL];
@@ -81,14 +76,12 @@
         for (ATLMConfiguration *nextConfig in configuration.configurations) {
             [alert addAction:[UIAlertAction actionWithTitle:nextConfig.name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [self initializeLayerWithConfiguration:nextConfig];
-                completion();
             }]];
         }
         [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
     }
     else {
         [self initializeLayerWithConfiguration:configuration.configurations.anyObject];
-        completion();
     }
 }
 
@@ -113,6 +106,9 @@
 
     self.applicationViewController = [[ATLMApplicationViewController alloc] initWithNibName:nil bundle:nil];
     self.applicationViewController.layerController = self.layerController;
+
+    self.window.rootViewController = self.applicationViewController;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

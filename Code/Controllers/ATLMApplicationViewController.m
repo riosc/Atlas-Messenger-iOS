@@ -50,9 +50,9 @@ static void *ATLMApplicationViewControllerObservationContext = &ATLMApplicationV
 
 @implementation ATLMApplicationViewController
 
-- (nonnull id)init
+- (nonnull id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super init];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         _state = ATLMApplicationStateIndeterminate;
         [self addObserver:self forKeyPath:@"state" options:0 context:ATLMApplicationViewControllerObservationContext];
