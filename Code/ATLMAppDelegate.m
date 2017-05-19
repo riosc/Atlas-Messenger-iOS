@@ -53,9 +53,10 @@
     self.window.frame = [[UIScreen mainScreen] bounds];
 
     [self initializeEnvironmentsWithCompletion:^{
-        self.applicationViewController = [[ATLMApplicationViewController alloc] initWithNibName:nil bundle:nil];
-        self.window.rootViewController = self.applicationViewController;
-        [self.window makeKeyAndVisible];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.window.rootViewController = self.applicationViewController;
+            [self.window makeKeyAndVisible];
+        });
     }];
     
     // Push Notifications follow authentication state
@@ -110,6 +111,7 @@
     self.layerController = [ATLMLayerController applicationControllerWithLayerAppID:appID clientOptions:clientOptions authenticationProvider:authenticationProvider];
     self.layerController.delegate = self;
 
+    self.applicationViewController = [[ATLMApplicationViewController alloc] initWithNibName:nil bundle:nil];
     self.applicationViewController.layerController = self.layerController;
 }
 
