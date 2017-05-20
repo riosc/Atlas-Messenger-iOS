@@ -21,7 +21,7 @@
 
 #import <Foundation/Foundation.h>
 #import <LayerKit/LYRClient.h>
-#import "ATLMAuthenticationProvider.h"
+#import "ATLMAuthenticating.h"
 
 @class ATLMUserCredentials;
 
